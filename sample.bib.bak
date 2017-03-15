@@ -1,0 +1,444 @@
+@article{good1953population,
+  title={The population frequencies of species and the estimation of population parameters},
+  author={Good, Irving J},
+  journal={Biometrika},
+  volume={40},
+  number={3-4},
+  pages={237--264},
+  year={1953},
+  publisher={Biometrika Trust}
+}
+
+@article{kuhn1990cache,
+  title={A cache-based natural language model for speech recognition},
+  author={Kuhn, Roland and De Mori, Renato},
+  journal={Pattern Analysis and Machine Intelligence, IEEE Transactions on},
+  volume={12},
+  number={6},
+  pages={570--583},
+  year={1990},
+  publisher={IEEE}
+}
+
+@article{brown1993mathematics,
+  title={The mathematics of statistical machine translation: Parameter estimation},
+  author={Brown, Peter F and Pietra, Vincent J Della and Pietra, Stephen A Della and Mercer, Robert L},
+  journal={Computational linguistics},
+  volume={19},
+  number={2},
+  pages={263--311},
+  year={1993},
+  publisher={MIT Press}
+}
+@book{arnold1994machine,
+  title={Machine translation: an introductory guide},
+  author={Arnold, Doug},
+  year={1994},
+  publisher={Blackwell Pub}
+}
+@inproceedings{foster1996word,
+  title={Word completion: A first step toward target-text mediated IMT},
+  author={Foster, George and Isabelle, Pierre and Plamondon, Pierre},
+  booktitle={Proceedings of the 16th conference on Computational linguistics-Volume 1},
+  pages={394--399},
+  year={1996},
+  organization={Association for Computational Linguistics}
+}
+
+@article{foster1997target,
+  title={Target-text mediated interactive machine translation},
+  author={Foster, George and Isabelle, Pierre and Plamondon, Pierre},
+  journal={Machine Translation},
+  volume={12},
+  number={1-2},
+  pages={175--194},
+  year={1997},
+  publisher={Springer}
+}
+
+@book{manning1999foundations,
+  title={Foundations of statistical natural language processing},
+  author={Manning, Christopher D and Sch{\"u}tze, Hinrich},
+  volume={999},
+  year={1999},
+  publisher={MIT Press}
+}
+
+@article{chen1999empirical,
+  title={An empirical study of smoothing techniques for language modeling},
+  author={Chen, Stanley F and Goodman, Joshua},
+  journal={Computer Speech \& Language},
+  volume={13},
+  number={4},
+  pages={359--393},
+  year={1999},
+  publisher={Elsevier}
+}
+
+@article{knight1999decoding,
+  title={Decoding complexity in word-replacement translation models},
+  author={Knight, Kevin},
+  journal={Computational Linguistics},
+  volume={25},
+  number={4},
+  pages={607--615},
+  year={1999},
+  publisher={MIT Press}
+}
+
+@inproceedings{langlais2000transtype,
+  title={TransType: a computer-aided translation typing system},
+  author={Langlais, Philippe and Foster, George and Lapalme, Guy},
+  booktitle={Proceedings of the 2000 NAACL-ANLP Workshop on Embedded machine translation systems-Volume 5},
+  pages={46--51},
+  year={2000},
+  organization={Association for Computational Linguistics}
+}
+
+@inproceedings{foster2002user,
+  title={User-friendly text prediction for translators},
+  author={Foster, George and Langlais, Philippe and Lapalme, Guy},
+  booktitle={Proceedings of the ACL-02 conference on Empirical methods in natural language processing-Volume 10},
+  pages={148--155},
+  year={2002},
+  organization={Association for Computational Linguistics}
+}
+
+@inproceedings{papineni2002bleu,
+  title={BLEU: a method for automatic evaluation of machine translation},
+  author={Papineni, Kishore and Roukos, Salim and Ward, Todd and Zhu, Wei-Jing},
+  booktitle={Proceedings of the 40th annual meeting on association for computational linguistics},
+  pages={311--318},
+  year={2002},
+  organization={Association for Computational Linguistics}
+}
+
+@inproceedings{marcu2002phrase,
+  title={A phrase-based, joint probability model for statistical machine translation},
+  author={Marcu, Daniel and Wong, William},
+  booktitle={Proceedings of the ACL-02 conference on Empirical methods in natural language processing-Volume 10},
+  pages={133--139},
+  year={2002},
+  organization={Association for Computational Linguistics}
+}
+
+@inproceedings{och2002discriminative,
+  title={Discriminative training and maximum entropy models for statistical machine translation},
+  author={Och, Franz Josef and Ney, Hermann},
+  booktitle={Proceedings of the 40th Annual Meeting on Association for Computational Linguistics},
+  pages={295--302},
+  year={2002},
+  organization={Association for Computational Linguistics}
+}
+
+@article{zhang2002ictclas,
+  title={ICTCLAS},
+  author={Zhang, Hua Ping and Liu, Qun},
+  journal={Institute of Computing Technology, Chinese Academy of Sciences: http://www. ict. ac. cn/freeware/003\_ictclas. asp},
+  year={2002}
+}
+
+@ARTICLE{och03:asc,
+AUTHOR = {Franz Josef Och and Hermann Ney},
+TITLE = {A Systematic Comparison of Various Statistical Alignment Models},
+JOURNAL= {Computational Linguistics},
+NUMBER = 1,
+VOLUME = 29,
+YEAR = 2003,
+PAGES = {19--51}}
+@inproceedings{och2003efficient,
+  title={Efficient search for interactive statistical machine translation},
+  author={Och, Franz Josef and Zens, Richard and Ney, Hermann},
+  booktitle={Proceedings of the tenth conference on European chapter of the Association for Computational Linguistics-Volume 1},
+  pages={387--393},
+  year={2003},
+  organization={Association for Computational Linguistics}
+}
+@inproceedings{zhang2003hhmm,
+  title={HHMM-based Chinese lexical analyzer ICTCLAS},
+  author={Zhang, Hua-Ping and Yu, Hong-Kui and Xiong, De-Yi and Liu, Qun},
+  booktitle={Proceedings of the second SIGHAN workshop on Chinese language processing-Volume 17},
+  pages={184--187},
+  year={2003},
+  organization={Association for Computational Linguistics}
+}
+@inproceedings{ueffing2003confidence,
+  title={Confidence measures for statistical machine translation},
+  author={Ueffing, Nicola and Macherey, Klaus and Ney, Hermann},
+  booktitle={In Proc. MT Summit IX},
+  year={2003},
+  organization={Citeseer}
+}
+
+@inproceedings{och2003minimum,
+  title={Minimum error rate training in statistical machine translation},
+  author={Och, Franz Josef},
+  booktitle={Proceedings of the 41st Annual Meeting on Association for Computational Linguistics-Volume 1},
+  pages={160--167},
+  year={2003},
+  organization={Association for Computational Linguistics}
+}
+@article{allen2003post,
+  title={Post-editing},
+  author={Allen, Jeffrey},
+  journal={Benjamins Translation Library},
+  volume={35},
+  pages={297--318},
+  year={2003},
+  publisher={JOHN BENJAMINS BV}
+}
+@inproceedings{cheng2000primt,
+  title={PRIMT: A Pick-Revise Framework for Interactive Machine Translation},
+  author={Shanbo, Cheng and Shujian, Huang and Huadong, Chen and Xinyu, Dai and Jiajun, Chen},
+  booktitle={The 15th Annual Conference of the North American Chapter of Association for Computational Linguistics: Human Language Technologies},
+  year={2016},
+  organization={Association for Computational Linguistics}
+}
+@inproceedings{koehn2003statistical,
+  title={Statistical phrase-based translation},
+  author={Koehn, Philipp and Och, Franz Josef and Marcu, Daniel},
+  booktitle={Proceedings of the 2003 Conference of the North American Chapter of the Association for Computational Linguistics on Human Language Technology-Volume 1},
+  pages={48--54},
+  year={2003},
+  organization={Association for Computational Linguistics}
+}
+
+@inproceedings{civera2004machine,
+  title={From Machine Translation to Computer Assisted Translation using Finite-State Models.},
+  author={Civera, Jorge and Cubel, Elsa and Lagarda, Antonio L and Pic{\'o}, David and Gonz{\'a}lez, Jorge and Vidal, Enrique and Casacuberta, Francisco and Vilar, Juan Miguel and Barrachina, Sergio},
+  booktitle={EMNLP},
+  pages={349--356},
+  year={2004}
+}
+
+@article{zhang2004maximum,
+  title={Maximum entropy modeling toolkit for python and c++},
+  author={Zhang, Le},
+  year={2004}
+}
+@inproceedings{tillmann2004unigram,
+  title={A unigram orientation model for statistical machine translation},
+  author={Tillmann, Christoph},
+  booktitle={Proceedings of HLT-NAACL 2004: Short Papers},
+  pages={101--104},
+  year={2004},
+  organization={Association for Computational Linguistics}
+}
+@inproceedings{bender2005comparison,
+  title={Comparison of generation strategies for interactive machine translation},
+  author={Bender, Oliver and Hasan, Sa{\v{s}}a and Vilar, David and Zens, Richard and Ney, Hermann},
+  booktitle={Proceedings of the 10th Annual Conference of the European Association for Machine Translation (EAMT 05)},
+  pages={33--40},
+  year={2005}
+}
+
+@inproceedings{zens2007efficient,
+  title={Efficient Phrase-Table Representation for Machine Translation with Applications to Online MT and Speech Translation.},
+  author={Zens, Richard and Ney, Hermann},
+  booktitle={HLT-NAACL},
+  pages={492--499},
+  year={2007}
+}
+@inproceedings{mohit2007localization,
+  title={Localization of difficult-to-translate phrases},
+  author={Mohit, Behrang and Hwa, Rebecca},
+  booktitle={Proceedings of the Second Workshop on Statistical Machine Translation},
+  pages={248--255},
+  year={2007},
+  organization={Association for Computational Linguistics}
+}
+
+@inproceedings{mohit2009language,
+  title={Language Model Adaptation for Difficult to Translate Phrases},
+  author={Mohit, Behrang and Liberato, Frank and Hwa, Rebecca},
+  booktitle={Proceedings of the 13th Annual Conference of the EAMT},
+  pages={160--167},
+  year={2009}
+}
+
+@article{barrachina2009statistical,
+  title={Statistical approaches to computer-assisted translation},
+  author={Barrachina, Sergio and Bender, Oliver and Casacuberta, Francisco and Civera, Jorge and Cubel, Elsa and Khadivi, Shahram and Lagarda, Antonio and Ney, Hermann and Tom{\'a}s, Jes{\'u}s and Vidal, Enrique and others},
+  journal={Computational Linguistics},
+  volume={35},
+  number={1},
+  pages={3--28},
+  year={2009},
+  publisher={MIT Press}
+}
+@book{koehn2009statistical,
+  title={Statistical machine translation},
+  author={Koehn, Philipp},
+  year={2009},
+  publisher={Cambridge University Press}
+}
+
+@inproceedings{koehn2009web,
+  title={A web-based interactive computer aided translation tool},
+  author={Koehn, Philipp},
+  booktitle={Proceedings of the ACL-IJCNLP 2009 Software Demonstrations},
+  pages={17--20},
+  year={2009},
+  organization={Association for Computational Linguistics}
+}
+
+@inproceedings{ortiz2010online,
+  title={Online learning for interactive statistical machine translation},
+  author={Ortiz-Martinez, Daniel and Garcia-Varea, Ismael and Casacuberta, Francisco},
+  booktitle={Human Language Technologies: The 2010 Annual Conference of the North American Chapter of the Association for Computational Linguistics},
+  pages={546--554},
+  year={2010},
+  organization={Association for Computational Linguistics}
+}
+
+@article{petrov2010berkeley,
+  title={Berkeley parser},
+  author={Petrov, Slav and Barrett, Leon and Thibaux, Romain and Klein, Dan},
+  journal={GNU General Public License},
+  volume={2},
+  year={2010}
+}
+@phdthesis{ortiz2011advances,
+  title={Advances in fully-automatic and interactive phrase-based statistical machine translation},
+  author={Ortiz, Daniel},
+  year={2011},
+  school={Universitat Polit{\`e}cnica de Val{\`e}ncia}
+}
+
+@inproceedings{alabau2011improving,
+  title={Improving on-line handwritten recognition using translation models in multimodal interactive machine translation},
+  author={Alabau, Vicent and Sanchis, Alberto and Casacuberta, Francisco},
+  booktitle={Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies: short papers-Volume 2},
+  pages={389--394},
+  year={2011},
+  organization={Association for Computational Linguistics}
+}
+
+@article{chang2011libsvm,
+  title={LIBSVM: a library for support vector machines},
+  author={Chang, Chih-Chung and Lin, Chih-Jen},
+  journal={ACM Transactions on Intelligent Systems and Technology (TIST)},
+  volume={2},
+  number={3},
+  pages={27},
+  year={2011},
+  publisher={ACM}
+}
+
+@incollection{toselli2011interactive,
+  title={Interactive Machine Translation},
+  author={Toselli, Alejandro H{\'e}ctor and Vidal, Enrique and Casacuberta, Francisco},
+  booktitle={Multimodal Interactive Pattern Recognition and Applications},
+  pages={135--152},
+  year={2011},
+  publisher={Springer}
+}
+
+@inproceedings{mikolov2013distributed,
+  title={Distributed representations of words and phrases and their compositionality},
+  author={Mikolov, Tomas and Sutskever, Ilya and Chen, Kai and Corrado, Greg S and Dean, Jeff},
+  booktitle={Advances in neural information processing systems},
+  pages={3111--3119},
+  year={2013}
+}
+
+@inproceedings{gonzalez2013interactive,
+  title={Interactive Machine Translation using Hierarchical Translation Models.},
+  author={Gonz{\'a}lez-Rubio, Jes{\'u}s and Ortiz-Mart{\'\i}nez, Daniel and Bened{\'\i}, Jos{\'e}-Miguel and Casacuberta, Francisco},
+  booktitle={EMNLP},
+  pages={244--254},
+  year={2013}
+}
+
+@inproceedings{green2014human,
+  title={Human Effort and Machine Learnability in Computer Aided Translation.},
+  author={Green, Spence and Wang, Sida I and Chuang, Jason and Heer, Jeffrey and Schuster, Sebastian and Manning, Christopher D},
+  booktitle={EMNLP},
+  pages={1225--1236},
+  year={2014}
+}
+
+
+@article{koehnrefinements,
+  title={Refinements to Interactive Translation Prediction Based on Search Graphs},
+  author={Koehn, Philipp and Tsoukala, Chara and Saint-Amand, Herve},
+  year={2014}
+}
+@inproceedings{germann2014dynamic,
+  title={Dynamic Phrase Tables for Machine Translation in an Interactive Post-editing Scenario},
+  author={Germann, Ulrich},
+  booktitle={AMTA 2014 Workshop on Interactive and Adaptive Machine Translation, Vancouver, BC, Canada},
+  pages={20--31},
+  year={2014}
+}
+
+@inproceedings{alabau2014casmacat,
+  title={Casmacat: A computer-assisted translation workbench},
+  author={Alabau, Vicent and Buck, Christian and Carl, Michael and Casacuberta, Francisco and Garc{\i}a-Mart{\i}nez, M and Germann, Ulrich and Gonz{\'a}lez-Rubio, Jes{\'u}s and Hill, Robin and Koehn, Philipp and Leiva, LA and others},
+  booktitle={Proceedings of the 14th Conference of the European Chapter of the Association for Computational Linguistics},
+  pages={25--28},
+  year={2014}
+}
+
+@inproceedings{sanchis2014efficient,
+  title={Efficient wordgraph pruning for interactive translation prediction},
+  author={Sanchis-Trilles, Germ{\'a}n and Ortiz-Mart{\i}nez, Daniel and Casacuberta, Francisco},
+  booktitle={Annual Conference of the European Association for Machine Translation (EAMT)},
+  year={2014}
+}
+
+@TechReport {export:226641,
+abstract     = {<p>We introduce computational network (CN), a unified framework for describing
+                arbitrary learning machines, such as deep neural networks (DNNs), convolutional
+                neural networks (CNNs), recurrent neural networks (RNNs), long short term memory
+                (LSTM), logistic regression, and maximum entropy model, that can be illustrated
+                as a series of computational steps. A CN is a directed graph in which each leaf
+                node represents an input value or a parameter and each non-leaf node represents a
+                matrix operation upon its children. We describe algorithms to carry out forward
+                computation and gradient calculation in CN and introduce most popular computation
+                node types used in a typical CN.
+We further introduce the computational network
+                toolkit (CNTK), an implementation of CN that supports both GPU and CPU. We
+                describe the architecture and the key components of the CNTK, the command line
+                options to use CNTK, and the network definition and model editing language, and
+                provide sample setups for acoustic model, language model, and spoken language
+                understanding. We also describe the Argon speech recognition decoder as an
+                example to integrate with CNTK.</p>},
+author       = {Amit Agarwal and Eldar Akchurin and Chris Basoglu and Guoguo Chen and Scott
+                Cyphers and Jasha Droppo and Adam Eversole and Brian Guenter and Mark Hillebrand
+                and Xuedong Huang and Zhiheng Huang and Vladimir Ivanov and Alexey Kamenev and
+                Philipp Kranen and Oleksii Kuchaiev and Wolfgang Manousek and Avner May and
+                Bhaskar Mitra and Olivier Nano and Gaizka Navarro and Alexey Orlov and Marko
+                Padmilac and Hari Parthasarathi and Baolin Peng and Alexey Reznichenko and Frank
+                Seide and Michael L. Seltzer and Malcolm Slaney and Andreas Stolcke and Huaming
+                Wang and Kaisheng Yao and Dong Yu and Yu Zhang and Geoffrey Zweig},
+month        = {August},
+number       = {MSR-TR-2014-112},
+publisher    = {Microsoft Research},
+title        = {An Introduction to Computational Networks and the Computational Network Toolkit},
+url          = {http://research.microsoft.com/apps/pubs/default.aspx?id=226641},
+year         = {2014},
+}
+
+@inproceedings{green2014predictive,
+  title={Predictive Translation Memory: A mixed-initiative system for human language translation},
+  author={Green, Spence and Chuang, Jason and Heer, Jeffrey and Manning, Christopher D},
+  booktitle={Proceedings of the 27th annual ACM symposium on User interface software and technology},
+  pages={177--187},
+  year={2014},
+  organization={ACM}
+}
+@article{marietouch,
+  title={Touch-Based Pre-Post-Editing of Machine Translation Output},
+  author={Marie, Benjamin and et Machina, Lingua and Max, Aur{\'e}lien},
+  year={2015}
+}
+@article{sanchez2016speaker,
+  title={Speaker-adapted confidence measures for speech recognition of video lectures},
+  author={Sanchez-Cortina, Isaias and Andr{\'e}s-Ferrer, Jes{\'u}s and Sanchis, Alberto and Juan, Alfons},
+  journal={Computer Speech \& Language},
+  volume={37},
+  pages={11--23},
+  year={2016},
+  publisher={Elsevier}
+}
