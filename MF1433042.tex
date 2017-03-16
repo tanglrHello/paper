@@ -159,21 +159,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的中文摘要
 \begin{abstract}
-当今社会，不同国家之间的交流越来越频繁。为了满足不同语言之间的交流需求，跨语言的翻译迫在眉睫。利用人工进行翻译效率相对低下，并且非常昂贵，所以自动化翻译技术（机器翻译技术）的研究已经成为一个非常重要的研究方向。在长期的发展后，统计机器翻译逐渐成为主流。
+人工智能技术正在飞速改变这个世界。在自然语言领域，围绕着自动问答系统(QA)也开展了越来越多的研究。高效、智能的问答系统，致力于为使用者直接提供更直接和更优质的答案，可以自动从大量的知识储备中进行检索、推理，从而将使用者从海量信息的搜索、筛选、抽取答案的过程中解放出来。2011年，IBM的Watson问答系统参加问答类综艺节目Jeopardy，并战胜了人类顶尖选手，自动问答系统再一次吸引了世人的眼光。
 
-虽然经历了飞速发展，但是由于自然语言的复杂性，统计机器翻译的翻译质量仍不完美，用户还需要通过人机交互来进一步提高翻译质量。交互式机器翻译是一种将用户与机器翻译技术相结合，通过人机交互提升翻译质量、提升用户翻译效率的技术。在机器翻译仍不完美的今天，交互式机器翻译技术的需求非常大。当前主流的交互式翻译系统中，用户只能从左到右地修正翻译错误，导致用户可提供的信息相对少。这就限制了机器翻译系统利用用户提供的信息来提高翻译质量的能力。
+本文的项目背景是面向高考地理试题的问答系统，并专注于对选择题的解答。高考作为中国学生最重要的考试，可以看做高水平的问答过程。在解决高考自动问答的过程中，我们面临多项挑战：首先高考题的问答形式与传统自动问答系统的问题存在明显区别；其次，高考题的灵活性远高于传统问答系统处理的问题，这意味着我们很难从现成的文本中直接匹配、抽取得到答案；所以在解题过程中，我们需要进行大量推理。
 
-在本文中，我们针对目前的交互式翻译系统的弱点做出改进。首先，提出了一种新型交互框架及该框架下的限制解码算法，该框架改变自左向右的修正操作，让用户可以修正任意位置的翻译错误；系统结合人机交互信息，使用限制解码算法进行解码，生成更优翻译。其次，提出了基于新型交互框架的自动建议模型，自动为用户的操作提供建议。再次，扩展了新型交互框架，以减少翻译系统的翻译调序错误。最后，将人机交互过程中产生的信息用于模型自适应，提升翻译系统本身的能力。
+作为问答系统的第一步处理，问题理解的作用举足轻重。本文重点关注在地理选择题的问题理解过程。AMR（Abstract Meaning Representation）是一种具有较为强大的表达能力的的新型语义表示方法，本文中我们首次在中文语料上进行AMR的自动分析，并尝试将AMR应用于地理试题的理解上；为了研究各项自然语言处理任务在地理试题处理上的效果、分析地理试题的特点，我们建立一个高质量的地理试题语料库，为此我们构建了一个文本标注工具，可以标注包括试题简化拆分、分词、词性、命名实体、术语、试题模板表示、成分句法、AMR等各项数据；我们还针对选择题选项的特点，提出了将复合的选项拆解成多个简单句子的组合，以简化后续多个步骤的处理。
 
-实验结果表明，本文提出的交互框架相比传统的交互框架能够更快地提升翻译质量，显著降低用户交互代价；自动建议模型可以进一步降低用户交互代价；基于新型交互框架的扩展交互方法能够根据用户提供的信息一定程度上减少翻译系统的调序错误；模型自适应方法能够根据用户历史信息更新翻译系统，提高翻译系统能力。
+由于围绕AMR的研究才刚刚起步，目前已有的AMR自动分析效果并不尽如人意。此外，中文AMR的标注语料仍未达到一定规模，尚在进展中，所以关于AMR的中文应用研究几乎还是空白。本文基于AMR的工作仍然比较初步，在试题理解上的应用也带有探索性质。
 
-\keywords{短语机器翻译；交互框架；解码；自动建议；框架扩展；模型自适应}
+\keywords{问题理解；语义分析；AMR；地理试题；标注工具；句子简化}
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的英文摘要
 \begin{englishabstract}
-In current society, the communication between countries is becoming more and more frequent. The demands for translation between different languages become urgent. Due to the fact that human translation is relatively inefficient and expensive, automatic translation technology (machine translation) has become an important research area. After a long period of development, statistical machine translation has been mainstreamed.
+Artificial intelligence is changing this world rapid. In the field of natural language processing, more researches around automatic question-answering system(QA) have been conducted. 
 
 Despite the rapid development of statistical machine translation, the translation quality of statistical machine translation is still not perfect due to the complexity of natural languages. Users still need to improve translation quality through human-computer interactions. Interactive machine translation is such a technology that improves the quality of machine translation by human-computer interactions. The demand for interactive machine translation is very large because machine translation is not perfect nowadays. Users can only perform left-to-right correction when using current interactive machine translation systems, so the information provided by users is relatively few. It will limit the ability of interactive machine translation system.
 
