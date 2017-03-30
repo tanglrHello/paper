@@ -89,7 +89,7 @@
 % 论文作者所在学校或机构的名称。此属性可选，默认值为``南京大学''。
 \institute{南京大学}
 % 论文的提交日期，需设置年、月、日。
-\submitdate{2017年4月10日}
+\submitdate{2017年5月20日}
 % 论文的答辩日期，需设置年、月、日。
 \defenddate{2017年5月30日}
 % 论文的定稿日期，需设置年、月、日。此属性可选，默认值为最后一次编译时的日期，精确到日。
@@ -161,11 +161,13 @@
 \begin{abstract}
 人工智能技术正在飞速改变这个世界。在自然语言领域，围绕着自动问答系统(QA)也开展了越来越多的研究。高效、智能的问答系统，致力于为使用者直接提供更直接和更优质的答案，可以自动从大量的知识储备中进行检索、推理，从而将使用者从海量信息的搜索、筛选、抽取答案的过程中解放出来。2011年，IBM的Watson问答机器人参加问答类综艺节目“Jeopardy!”，并战胜了人类顶尖选手赢得冠军，自动问答系统再一次吸引了世人的眼光。
 
-本文的项目背景是面向中国高考地理试题的问答系统，并专注于对选择题的解答。从某种程度上来说，高考作为中国大多数中学生最重要的考试，可以看做高水平的问答过程。在解决高考自动问答的过程中，我们面临多项挑战：首先高考题的问答形式与传统自动问答系统的问题存在明显区别；其次，高考题的灵活性远高于传统问答系统处理的问题，这意味着我们很难从现成的文本中直接匹配、抽取得到答案，所以在解题过程中，我们需要进行大量推理。
+从某种程度上来说，高考作为中国大多数中学生最重要的考试，可以看做高水平的问答过程。本文的项目背景是面向中国高考地理试题的问答系统，并专注于对选择题的解答。在解决高考自动问答的过程中，我们面临多项挑战：首先高考题的问答形式与传统自动问答系统的问题存在明显区别；其次，高考题的灵活性远高于传统问答系统处理的问题，这意味着我们很难从现成的文本中直接匹配、抽取得到答案，所以在解题过程中，我们面临着与传统问答系统不同的挑战。
 
-作为问答系统的第一步处理，问题理解的作用举足轻重。本文重点关注在地理选择题的问题理解过程。AMR（Abstract Meaning Representation）是一种具有较为强大的表达能力的的新型语义表示方法。本文中我们首次在中文语料上进行AMR的自动分析，并尝试将AMR应用于地理试题的理解上；为了研究各项自然语言处理任务在地理试题处理上的效果、分析地理试题的特点，我们建立一个高质量的地理试题语料库，为此我们构建了一个文本标注工具，可以标注包括试题简化拆分、分词、词性、命名实体、地理术语、试题模板表示、成分句法、AMR等各项数据；我们还针对选择题选项的特点，提出了将复合的选项拆解成多个简单句子的组合的处理方法，以简化后续多个步骤的处理。
+为了研究各项自然语言处理任务在地理试题处理上的效果、分析地理试题的特点，我们建立一个高质量的地理试题语料库，为此我们构建了一个文本标注工具，可以标注和存储包括试题简化拆分、分词、词性、命名实体、地理术语、试题模板表示、成分句法、AMR等各项数据；
 
-由于围绕AMR的研究才刚刚起步，目前已有的AMR自动分析效果并不尽如人意。此外，中文AMR的标注语料仍未达到一定规模，尚在进展中，所以关于AMR的中文应用研究几乎还是空白。本文基于AMR的工作仍然比较初步，在试题理解上的应用也带有探索性质。
+作为问答系统的第一步处理，问题理解的作用举足轻重。本文重点关注在地理选择题的问题理解过程。针对地理选择题的特点，我们提出了对选择题的选项进行拆分，将符合的句子转换成语义等价的多个简单句，从而简化后续的处理步骤的输入，提高后续步骤的处理能力。我们使用了最大熵分类器和一些基于规则的启发式方法来实现这个过程。
+
+AMR（Abstract Meaning Representation）是一种具有较为强大的表达能力的的新型语义表示方法，它可以将一句话的语义用单根的、有向的连通图表示出来，更强调句子的抽象语义，而非具象的语法表达方式。由于围绕AMR的研究才刚刚起步，目前已有的AMR自动分析效果并不尽如人意。此外，中文AMR的标注语料仍未达到一定规模，尚在进展中，所以关于AMR的中文应用研究几乎还是空白。本文在AMR方面工作主要是对现有AMR分析算法进行一些实验分析，并首次验证AMR标注体系及自动解析算法在中文上的性能。针对地理试题，我们标注了一个小样本的AMR语料，并用现有算法来验证AMR在特定领域文本上的处理能力。
 
 \keywords{问题理解；语义分析；AMR；地理试题；标注工具；句子简化}
 \end{abstract}
@@ -173,9 +175,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的英文摘要
 \begin{englishabstract}
-Artificial intelligence is changing this world rapidly. In the field of natural language processing, more and more researches on automatic question-answering system(QA) have been conducted. Highly efficient and intelligent QA system is aimed at providing more direct answers to users with high quality. They can retrieve information from the ocean of knowledge and do inference automatically. Therefore, they can free users from searching, filtering texts from the large quantity of information, as well as extracting the answers finally by themselves. In 2011, the QA robot Watson from IBM took part in a question-answering show named Jeopardy! on TV, beat the top human anticipants and became the champion. QA system attracted the attention of the world once again.
+Artificial intelligence is changing the world rapidly. Recent years, more and more research on automatic question-answering is carried out in the field of natural language process. A highly efficient and intelligent QA system aims to provide more direct answers to users with high quality, which can retrieve information from large-scale knowledge and make deductions automatically. Therefore, it free users from searching, filtering texts from the large quantity of information, as well as finally extracting the answers by themselves. In 2011, the QA robot Watson from IBM took part in a quiz show named Jeopardy! on TV, beat the top human players and became the champion. Once again, QA system attracted the attention of the world.
 
-The background of this paper is a question answering system focused on the geography part of the Chinese college entrance examination. And we paid more attention to answering the choice questions of test paper. To some extent, the college entrance examination is the most importance examination for almost all the Chinese middle school student, which can be seemed as a high-level question answering situation. In the process of accomplishing the QA system for college entrance examination, we are faced with many challenges. Firstly, the question form is different from those for traditional QA systems. Secondly, the questions are much more flexible, which means we can hardly match the question to the original texts in the knowledge base directly. Therefore, the answer extraction is harder. We need to rely on automatic inference to generate answer from the those texts.
+To some extent, the college entrance examination is the most importance examination for almost all the Chinese middle school student, which can be seemed as a high-level question answering situation. The background of this paper is a question answering system focused on the geography part of the Chinese college entrance examination. And we paid more attention to answering the choice questions of test paper.  In the process of accomplishing the QA system for college entrance examination, we are faced with many challenges. Firstly, the question form is different from those for traditional QA systems. Secondly, the questions are much more flexible, which means we can hardly match the question to the original texts in the knowledge base directly. Therefore, the answer extraction is harder. We need to rely on automatic inference to generate answer from the those texts.
 
 As the first stage of automatic question-answering, question comprehension plays a key role for the whole system. This paper focuses mainly on some issues on the understanding of geography choice questions. AMR(Abstract Meaning Representation) is a new and powerful semantic representation for sentences. In this paper, we parse the Chinese sentences into AMR. As far as we know, this is the first work about Chinese AMR parsing. Then we tried to apply AMR on the understanding of geography questions. Besides, in order to research the performance of a variety of natural language processing tasks on geography question data, we build a tool for tagging various data on question texts, including question splitting, Chinese word segmentation, part-of-speech, named entities, geographical terms, template representation for questions, syntactic tree, and AMR. According to the feature of choice questions, we present a question simplification approach, which splitting a composed sentence into multiple simple sentences by commas. In this way, we can simplify the input for the following processing stages.
 
@@ -219,13 +221,11 @@ The research on AMR has just started. The performance of state-of-the-art approa
 % 学位论文的正文应以《绪论》作为第一章
 \chapter{绪论}\label{chapter_introduction}
 \section{研究背景}
-在全球交流日益频繁的今天，人们之间的交流不可避免地需要对各种语言进行互相翻译。人工翻译成本高，效率较低，难以满足大规模的翻译需求，使得人们对自动翻译技术的需求与日俱增，机器翻译技术的发展是大势所趋。
+在人工智能技术日新月异的今天，人们对人工智能技术寄予了越来越多的期待。在各个领域，人们都在不断试图突破人工智能目前的极限。在自动问答领域，已经有很多商业化的系统为企业提供高效的解决方案，为用户提供更加快捷、准确的服务。在自动问答出现以前，我们获取知识的方式通常是在搜索引擎中搜索关键字，在得到的网页文本中一个个去搜寻是否包含了我们想要的答案。问答系统的出现是对搜索引擎功能的一次升级。问答系统希望不但能够从海量数据中找到与用户问题相关的文本，还能够从文本中直接准确地找出答案，免去使用者自己去从搜索结果中进一步寻找答案的过程。
 
-机器翻译（Machine Translation）是自然语言处理领域，以及人工智能领域中非常重要的研究方向。经过长期的发展，目前主流的机器翻译方法是统计机器翻译（Statistical Machine Translation, SMT），其中，基于短语的统计机器翻译，或简称为短语机器翻译 （Phrase-based SMT, PBMT），的翻译效率高，在对时效性要求较高的翻译环境下扮演着重要的角色。
+通常，问答系统是能够
 
-虽然机器翻译技术在不断发展与成熟，但是由于自然语言内在的复杂性，机器翻译的翻译质量仍然不完美，难以在对翻译质量要求高的情况下被用户直接使用。针对这样的问题，研究人员一方面致力于提升机器翻译模型的自身能力，从而提高机器翻译的质量；另一方面，通过将用户与机器翻译结合起来，利用人机交互来提高翻译质量，降低人工翻译成本。
-
-交互式机器翻译 （Interactive Machine Translation, IMT），是一种利用机器翻译与人机交互方法，提高自然语言之间的翻译效率的技术。虽然目前的交互式机器翻译取得了一定的成功，但仍然存在一些弱点。本文主要对基于短语翻译系统的交互式机器翻译系统中的交互框架、解码算法、交互框架的扩展、模型自适应等问题进行了研究，以克服当前的交互式机器翻译中存在的弱点，从而提高交互式翻译系统的能力，降低用户翻译的代价。
+从某种角度来说，考试的过程就是一种问答过程，而高考作为中国学生进入高等教育的关键考试，其试题更具有难度和代表性，高考是对考试者的知识积累、推理能力、判断能力的一种综合考察。为了探索问答系统的潜力，基于863项目《开放域知识集成、推理与检索关键技术及系统》，我们对地理试题的自动解答进行了研究。
 
 \section{交互式机器翻译研究现状}
 \label{section:imtnow}
