@@ -258,7 +258,7 @@ L Banarescu等人\cite{banarescu2012abstract}在2012年提出了第一个版本�
 
 有了AMR语料库之后，陆续出现了一些AMR自动解析的算法。最早的公开工作是来自Flanigan等人\cite{Flanigan2014}在2014年提出的一种两阶段的图算法，将AMR解析分成概念节点识别和概念节点间的边预测两个步骤，对于边的预测，采用了一种类似最大生成树算法的方式，得到所有概念节点间相互连接形成的连通图。随后在2015年，Wang Chuan\cite{Wang2015}等人发现AMR的表示方法有一部分与句法分析的结果比较相似，受到基于转换的句法分析算法的启发，他们提出了一种基于转换的AMR解析算法，并设计了一套使用于AMR图生成的转换方法：在句子的依存句法分析结果的基础上，每次预测一种转换动作，一步步将句法分析的结果转换成AMR的表示。Pust等人\cite{Pust2015}于同年提出了使用基于语法的机器翻译的方法来做AMR的解析，这篇研究将英文句子到AMR表示的转换看成是一种string到tree的翻译过程，并设计了一种AMR表示下的语言模型。
 
-AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性能，目前已发表的研究中，有将AMR用于提高事件检测任务的性能\cite{kai2015improving}，Xiang Li等人利用现有的性能最好的AMR自动分析算法，对待检测事件的文件进行AMR解析，然后将AMR结果中的一些数据加入到特征模板中，实验结果证明这样的做法可以在原来的基础上提高2.1\%的F值。还有研究将AMR用于无监督的实体链接任务\cite{Pan2015}，结果表明使用了AMR信息的无监督实体链接的性能可以和有监督的实体链接性能相当。
+AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性能，目前已发表的研究中，有将AMR用于提高事件检测任务的性能\cite{kai2015improving}，Xiang Li等人利用现有的性能最好的AMR自动分析算法，对待检测事件的文件进行AMR解析，然后将AMR结果中的一些数据作为特征加入，实验结果证明这样的做法可以在原来的基础上提高2.1\%的F值。还有研究将AMR用于无监督的实体链接任务\cite{Pan2015}，结果表明使用了AMR信息的无监督实体链接的性能可以和有监督的实体链接性能相当。
 
 目前已知的AMR英文语料规模达到了4万多句，中文的大规模语料库预计也将于不久之后公开，随着更多可用语料的出现，对AMR自动解析和将AMR应用于其他自然语言处理任务的研究会越来越多，因此AMR是一种具有潜力的语义表示方法，尽管目前在中英文上的AMR自动解析效果还不尽如人意，但是AMR的出现为语义分析和自然语言理解提供了一个全新的研究方向。
 
@@ -288,67 +288,41 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 \chapter{背景知识}
 \section{引言}
-本章是本文主要工作展开的基础，主要介绍短语机器翻译相关的关键内容。
+本章是本文主要工作展开的基础。本文对于高考地理试题中的问题理解主要从两方面展开：一方面是逗号在句子分割简化中的作用，由此将长句拆解成多个等价的短句，降低问题理解的难度；另一方面是考虑从新型的语义表示方法AMR出发，对问题的深层语义进行解析。所以本文的背景知识由两方面组成，一方面是关于逗号在中文长句中的作用及相关研究进展，另一方面是AMR的知识体系及研究进展。
 
-机器翻译的目标是要从大规模双语平行语料中学习出翻译知识用于自动化翻译。双语平行语料是源端语言与目标端语言的句对集合，每个句对的两个句子互为翻译。我们首先介绍短语机器翻译的整体流程：搭建一个短语翻译系统，首先需要利用双语平行语料训练词对齐（Word Alignment），进而在词对齐的基础上抽取翻译模型（Translation Model, TM）、词汇化调序模型（Lexical Reordering Model, LRM）等；另外，还需要在目标语言的单语语料上训练语言模型（Language Model, LM）；在模型训练结束后，使用这些模型进行参数调节（Parameter Tuning），获得最优参数后进行解码测试（Decoding）和自动评价。需要注意的是，由于参数调节需要进行解码，并进行自动评价，所以这两个步骤实际上也包含在训练过程中。
+对于逗号相关的中文长句处理，我们主要介绍中文中逗号的功能分类体系；对于AMR，我们将从AMR表示体系的定义、标注规范及语料建设、自动对齐、解析算法、自动评价等方面详细介绍。通过对以上内容的分析介绍，可以对本文的工作有更清晰的认识，也为我们的工作打下了基础。
 
-我们将在下文中从建模方法、参数训练方法、解码算法、自动评价指标等方面详细介绍短语机器翻译中的重要内容。通过对以上内容的分析介绍，我们可以更清晰地理解基于短语的统计机器翻译的工作原理，为我们的工作打下基础。
 
-\section{建模方法}\label{section:modeling}
-给定源语言句子$s$，统计机器翻译的目标是找到一个目标语言句子$t$，使得条件概率$p(t|s)$（即给定源语言句子$s$，目标语言为$t$的概率）最大。短语机器翻译的建模方法是使用对数线性模型进行建模\cite{och2002discriminative}。在对数线性模型中，条件概率$p(t|s)$ 可用公式\ref{equation:loglinear}来表示。
+\section{中文逗号在长句中的功能}\label{section:modeling}
+中文长句通常是一个复句，《现代汉语》对复句的定义为：复句是由两个或几个意义上紧密相关、结构上互不包含的分句构成的句子\cite{zhou2008}。这样的几个分句之间往往是由逗号分隔开的，因此根据上述定义，我们可以利用逗号在复句中的作用，将句子拆解成一些更简短的句子，从而降低句法分析、机器翻译、语义理解等等任务的难度。但是逗号除了可以分隔从句或是分句，在中文中也可以用来分隔并列的词语等等。
 
-\begin{equation}
-  \label{equation:loglinear}
-    p(t|s) = \frac{exp[\sum_{m=1}^M \lambda_mh_m(s, t)]}{\sum_{t'}exp[\sum_{m=1}^M\lambda_mh_m(s, t')]}
-\end{equation}
+\subsection{逗号功能分类}
+。。。。。。。。
 
-其中，$M$为特征维度，$\lambda$和$h$分别为特征值（模型得分）和其对应的权重。在基于短语的统计机器翻译系统中，主要使用了翻译模型特征、语言模型特征、词汇化调序模型特征、计数特征、翻译扭曲特征等。
+\section{抽象语义表示（AMR）}
+AMR是一种以有向的、简单的、类似树结构的（树出现环变成图的比例比较小）、边和节点有标记的图\cite{Banarescu2013Abstract}，可以将句子中的语义概念和概念之间的语义关系以节点和边的形式表现出来。
 
-在此基础上，机器翻译求解最佳翻译的目标可以写成公式\ref{equation:argmaxlog}，其中$t'$即要求解的最佳译文。
-\begin{equation}\label{equation:argmaxlog}
-  t'=\arg\max_tp(t|s)=\arg\max_texp[\sum_{m=1}^M \lambda_mh_m(s, t)]
-\end{equation}
+AMR有多种表现形式，根据定义可以以一个图的方式呈现出来；为了便于程序读取，也可以以类似树的方式将图转换成文本形式，对于有环的情况，则让有两条及以上入边的节点在树结构中出现多次，这种方式也是AMR标注语料中采取的方式；还可以用逻辑三元组的方式呈现，如图\label{figure:amrexample}所示。
 
-\subsection{词对齐}
-训练词对齐是构建统计机器翻译系统的第一步，翻译模型、词汇化调序模型的抽取都需要依赖词对齐的结果。给定双语平行语料，词对齐的任务是通过无监督学习算法学得源语言词和目标语言词之间的翻译概率\cite{och03:asc}。如果源端词与目标端词之间的翻译概率大于一定阈值，我们认为这两个词之间有对齐关系。
-
-图\ref{figure:wordalign}给出了一个词对齐的示例，在该示例中，源语言词（汉语）与目标语言词（英语）的对齐关系由连线表示，例如“他”与"he" 有对齐关系，“一家”与"a"有对齐关系等。
-
-\tikzstyle{block} = [rectangle, draw, text centered, minimum height=1.6em]
-\tikzstyle{line} = [draw, -latex'] \tikzstyle{cloud} = [draw, ellipse, node distance=3cm,
-    minimum height=2em]
-\tikzstyle{nline} = [draw] \tikzstyle{cloud} = [draw, ellipse, node distance=3cm,
-    minimum height=2em]
-\begin {figure}[ht]
-\centering
-\begin{tikzpicture}[auto, swap]
-    % Place nodes
-    \node [block] (s1) {他};
-    \node [block, right of=s1] (s2) {去了};
-    \node [block, right of=s2, node distance=1.2cm] (s3) {一家};
-    \node [block, right of=s3, node distance=1.5cm] (s4) {大公司};
-    \node [block, right of=s4, node distance=1.5cm] (s5) {上班};
-    \node [block, below left of=s1, node distance=2cm] (t1) {he};
-    \node [block, right of=t1, node distance=1cm] (t2) {got};
-    \node [block, right of=t2, node distance=1cm] (t3) {a};
-    \node [block, right of=t3, node distance=1cm] (t4) {job};
-    \node [block, right of=t4, node distance=1cm] (t5) {in};
-    \node [block, right of=t5, node distance=1cm] (t6) {a};
-    \node [block, right of=t6, node distance=1cm] (t7) {big};
-    \node [block, right of=t7, node distance=1.5cm] (t8) {company};
-    % Draw edges
-    %\small
-    \path [nline] (s1) -- (t1);
-    \path [nline] (s5) -- (t2);
-    \path [nline] (s5) -- (t3);
-    \path [nline] (s5) -- (t4);
-    \path [nline] (s3) -- (t6);
-    \path [nline] (s4) -- (t7);
-    \path [nline] (s4) -- (t8);
-    \path [nline] (s2) -- (t5);
-\end{tikzpicture}
-\caption {\label{figure:wordalign} 词对齐示例}
+\begin {figure}
+	\centering
+	\begin{minipage}
+		\includegraphics{graph_amr.png}
+		\caption{图方式}
+		\label{graph_format}
+	\end{minipage}
+   	\begin{minipage}
+		\includegraphics{text_amr.png}
+		\caption{AMR文本方式}
+		\label{graph_format}
+	\end{minipage}
+	\begin{minipage}
+		\includegraphics{logic_amr.png}
+		\caption{逻辑三元组方式}
+		\label{graph_format}
+	\end{minipage}
 \end{figure}
+
 \subsection{翻译模型}\label{section:tmextract}
 翻译模型，又叫短语表。短语表中存储的是双语短语对以及各个短语对之间的翻译概率\cite{marcu2002phrase}。在统计机器翻译中，短语指源语言句子或目标语言句子中连续的词序列，该词序列并不一定是语法意义上的短语。短语表是一个集合，该集合中每一个元素包括：源语言、目标语言短语对$(s,t)$、 短语对之间的短语翻译概率、词汇化翻译概率。
 
