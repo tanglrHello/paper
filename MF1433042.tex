@@ -302,22 +302,22 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 \section{抽象语义表示（AMR）}
 AMR是一种以有向的、简单的、类似树结构的（树出现环变成图的比例比较小）、边和节点有标记的图\cite{Banarescu2013Abstract}，可以将句子中的语义概念和概念之间的语义关系以节点和边的形式表现出来。
 
-AMR有多种表现形式，根据定义可以以一个图的方式呈现出来；为了便于程序读取，也可以以类似树的方式将图转换成文本形式，对于有环的情况，则让有两条及以上入边的节点在树结构中出现多次，这种方式也是AMR标注语料中采取的方式；还可以用逻辑三元组的方式呈现，如图\label{figure:amrexample}所示。
+AMR有多种表现形式，根据定义可以以一个图的方式呈现出来；为了便于程序读取，也可以以类似树的方式将图转换成文本形式，对于有环的情况，则让有两条及以上入边的节点在树结构中出现多次，这种方式也是AMR标注语料中采取的方式；还可以用逻辑三元组的方式呈现，如图\label{figure:graph_format}所示。
 
 \begin {figure}
 	\centering
-	\begin{minipage}
-		\includegraphics{graph_amr.png}
+	\begin{minipage}[c][2.2in][t]{.45\linewidth}
+		\includegraphics[width=\linewidth]{{graph_amr}.png}
 		\caption{图方式}
 		\label{graph_format}
 	\end{minipage}
-   	\begin{minipage}
-		\includegraphics{text_amr.png}
+   	\begin{minipage}[c][2.2in][t]{.45\linewidth}
+		\includegraphics[width=\linewidth]{{text_amr}.png}
 		\caption{AMR文本方式}
 		\label{graph_format}
 	\end{minipage}
-	\begin{minipage}
-		\includegraphics{logic_amr.png}
+	\begin{minipage}[c][2.2in][t]{.45\linewidth}
+		\includegraphics[width=\linewidth]{{logic_amr}.png}
 		\caption{逻辑三元组方式}
 		\label{graph_format}
 	\end{minipage}
