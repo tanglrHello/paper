@@ -309,7 +309,7 @@ AMR是一种以有向的、简单的、类似树结构的（树出现环变成�
 	\label{graph_format}
 \end{figure}
 
-AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如\lable{figure:graph_format}；在图表示方法中，没有入边的节点就是根节点，在上图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，实际上就是节点对应的概念。根节点是“want-01”对应的节点，后缀“-01”实际上是指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，在这里就有arg0和arg1这两个论元。
+AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如\ref{figure:graph_format}；在图表示方法中，没有入边的节点就是根节点，在上图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，实际上就是节点对应的概念。根节点是“want-01”对应的节点，后缀“-01”实际上是指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，在这里就有arg0和arg1这两个论元。
 
 这句话中有一个“want”动作，它的arg0（谁在want）是“boy”，它的arg1（want的是什么）是一个“believe”的动作；“believe”动作的arg0（谁在believe）是“girl”，它的arg1（believe什么）是“boy”。在这里“boy”有两个作用，一是作为“want-01”的arg0，一是作为“belive-01”的arg1，这个节点有两条入边，因此AMR图上出现了一个环。
 
@@ -351,11 +351,10 @@ ARG1(b2, b)                 /* b 是被believe的人 */
 由此可以看出，AMR更加强调句子表达的逻辑语义，并将表层的语法表达方式抽象出去。
 
 \subsection{标注体系}
-通过上文的介绍可知，AMR主要有三个部分组成：概念（节点）、概念间的关系（边）、根节点。下面将从这三个方面介绍AMR的标注体系。
+通过上文的介绍可知，AMR主要有三个部分组成：概念（节点）、概念间的关系（边）、根节点。此外在AMR中还有概念重入、概念共指这两个现象。下面将从这几个方面介绍AMR的标注体系。
 
 \subsubsection{概念（concept）}
 
-\subsubsection{关系（relation）}
 AMR的concept主要有三种来源：句中词语（例如\ref{figure:graph_format}中的“boy”）、propbank中的语义框架（例如\label{figure:graph_format}中的“want-01”）、抽象的关键字。
 
 从之前举的例子可以看出，AMR试图对不同的表达方式甚至是相同语义的不同词语做出统一的标注方式。因此英文AMR对常见的concept制定了一个实体类型的标准列表，首先需要从这些实体名称中找出和想要描述的实体最相近的一个（例如有人会说“person”，有人会说“woman”，则可以通过这个列表统一起来）:
@@ -392,8 +391,26 @@ AMR的concept主要有三种来源：句中词语（例如\ref{figure:graph_form
 	\item phone-number-entity（电话号码）
 	\item email-address-entity（电子邮箱）
 	\item url-entity（url）
-\end{enumerate}
+\end{enumerate}
+
+\subsubsection{关系（relation）}
+AMR在英文标注中大约有100种关系，比较常见的可以大致分成以下5个类型：
+\begin{enumerate}
+	\item 框架论元 :arg0,:arg1,:arg2,:arg3,:arg4,:arg5.
+	\item 通用语义关系 :accompanier, :age, :bene ciary, :cause, :compared-to, :concession, :condition, :consist-of, :degree, :destination, :direction, :domain, :duration,:employed-by, :example, :extent, :frequency, :instrument, :li, :location, :manner, :medium, :mod, :mode, :name, :part, :path, :polarity, :poss, :purpose, :source, :subevent, :subset, :time, :topic, :value.
+	\item 数量相关的关系 :quant, :unit, :scale
+	\item 时间实体相关的关系 :day, :month, :year, :weekday, :time, :timezone, :quarter, :dayperiod, :season, :year2, :decade, :century, :calendar, :era.
+	\item 列举关系 :op1, :op2, :op3, :op4, :op5, :op6, :op7, :op8, :op9,:op10.
+\end{enumerate}
+
+对于所有的关系，AMR还允许这些关系的反转形式也作为关系标签，例如:arg0的反转形式为:arg0-of，:location的反转形式为:location-of。
+除了上面列举的，还有一些其他的关系标签，不再一一列举。
 \subsubsection{根节点（focus）}
+
+\subsubsection{概念重入（reentrancy）}
+
+
+\subsubsection{概念共指（coreference）}
 
 \subsection{语料建设}
 
