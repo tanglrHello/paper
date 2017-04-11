@@ -315,16 +315,16 @@ AMR有多种表现形式，根据定义可以以一个图的方式呈现出来�
 
 上图这样的表示方法看起来稍有点复杂，AMR还可以以一种文本方式表达出来：  (w / want-01     :ARG0 (b / boy)     :ARG1 (b2 / believe-01               :ARG0 (g / girl)               :ARG1 b))
 
-这里的第一行就是AMR的根节点，冒号后面的标签表示节点之间边的标记，也就是节点之间的关系。每个节点由变量名（斜杠前的部分）和概念（斜杠后的部分）组成（除了多次出现的同一个节点），如果一个节点出现多次，则通过让该节点的变量名多次出现来表示，如该例中的节点b。
+这里的第一行就是AMR的根节点，冒号后面的标签表示节点之间边的标记，也就是节点之间的关系。每个节点由变量名（斜杠前的部分）和概念（斜杠后的部分）组成（除了多次出现的同一个节点），如果一个节点出现多次，则通过让该节点的变量名多次出现来表示，如该例中的节点b。这里概念里的斜杠也可以看做是图表示方法中instance的简化表示。
 
 AMR也可以用逻辑三元组的来表示，上面的例子可以表示成：
-instance(w, want-01) ^      /* w 是want的实例 */ 
-instance(b, boy) ^          /* b 是boy的实例 */ 
-instance(b2, believe-01) ^  /* b2 是believing的实例 */ 
-instance(g, girl) ^         /* g 是girl的实例 */ 
-ARG0(w, b) ^                /* b 是want的发起者 */ 
-ARG1(w, b2) ^               /* b2 是被want的东西 */ 
-ARG0(b2, g) ^               /* g 是believe的人 */ 
+instance(w, want-01) \^      /* w 是want的实例 */ 
+instance(b, boy) \^          /* b 是boy的实例 */ 
+instance(b2, believe-01) \^  /* b2 是believing的实例 */ 
+instance(g, girl) \^         /* g 是girl的实例 */ 
+ARG0(w, b) \^                /* b 是want的发起者 */ 
+ARG1(w, b2) \^               /* b2 是被want的东西 */ 
+ARG0(b2, g) \^               /* g 是believe的人 */ 
 ARG1(b2, b)                 /* b 是被believe的人 */
 
 上面例子中的这句话在英文中还可以有很多种不同的表示方法，例如：
@@ -351,11 +351,49 @@ ARG1(b2, b)                 /* b 是被believe的人 */
 由此可以看出，AMR更加强调句子表达的逻辑语义，并将表层的语法表达方式抽象出去。
 
 \subsection{标注体系}
+通过上文的介绍可知，AMR主要有三个部分组成：概念（节点）、概念间的关系（边）、根节点。下面将从这三个方面介绍AMR的标注体系。
 
 \subsubsection{概念（concept）}
 
 \subsubsection{关系（relation）}
+AMR的concept主要有三种来源：句中词语（例如\ref{figure:graph_format}中的“boy”）、propbank中的语义框架（例如\label{figure:graph_format}中的“want-01”）、抽象的关键字。
 
+从之前举的例子可以看出，AMR试图对不同的表达方式甚至是相同语义的不同词语做出统一的标注方式。因此英文AMR对常见的concept制定了一个实体类型的标准列表，首先需要从这些实体名称中找出和想要描述的实体最相近的一个（例如有人会说“person”，有人会说“woman”，则可以通过这个列表统一起来）:
+\begin{enumerate}
+  \item person, family, animal, language, nationality, ethnic-group, regional-group, religious-group
+  \item organization, company, government-organization, military, criminal-organization, political-party, school, university, research institute, team, league
+  \item location, city, city-district, county, local-region, state, province, country, country-region, world-region, continent, ocean, sea, lake, river, gulf, bay, strait, canal, peninsula, mountain, volcano, valley, canyon, island, desert, forest, moon, planet, star, constellation
+  \item facility, airport, station, port, tunnel, bridge, road, railway-line, canal, building, theater, museum, palace, hotel, worship-place, market, sports-facility, park, zoo, amusement-park
+  \item event, incident, natural-disaster, earthquake, war, conference, game, festival
+  \item product, vehicle, ship, aircraft, aircraft-type, spaceship, car-make, work-of-art, picture, music, show, broadcast-program
+  \item publication, book, newspaper, magazine, journal
+  \item natural-object
+  \item law, treaty, award, food-dish, disease
+\end{enumerate}有时候句子中也会有单词指示该实体的类型，如果这个词比上述方式选择的类型更具体，则使用这个词代替，例如对于“the poet William Shakespeare”，可以用：(p / poet	:name (n / name :op1 "William" :op2 "Shakespeare"))
+
+如果上述列表中所有实体名都没有合适的，句子中也没有明确指明实体的类型名称，就可以用“thing”来表示这个实体。例如对于“Words are the source of misunderstandings”，AMR中对“understanding”这个添加了“thing”这个concept：
+(s / source-01
+      :ARG1 (t / thing
+            :ARG0-of (m / misunderstand-01))
+      :ARG2 (w / word))
+如果一个实体有多个类型，例如著名诗人、画家XXX，虽然同一种关系可以多次出现，但是:instance是AMR中唯一一种只能出现一次的关系，这时候可以使用:mod关系来修饰，例如对于“the poet Dr. Seuss”：(d / doctor 
+	 :name (n / name 
+	 	    :op1 "Seuss")	 :mod (p / poet))
+
+还有一类概念用来表示数量：monetary-quantity , distance-quantity , area-quantity , volume-quantity , temporal-quantity , frequency-quantity , speed-quantity , acceleration-quantity , mass-quantity , force-quantity , pressure-quantity , energy-quantity , power-quantity , voltage-quantity (zap!-, charge-quantity , potential-quantity , resistance-quantity , inductance-quantity , magnetic-field-quantity , magnetic-flux-quantity , radiation-quantity , concentration-quantity , temperature-quantity ,score-quantity ,fuel-consumption-quantity , seismic-quantity。通常这类概念后面都会有一个quant关系指向表示具体数值的节点。
+
+此外还有一些常见的concept列举如下：
+\begin{enumerate}
+	\item relative-position（相对位置）
+	\item product-of和sum-of（数学运算）
+	\item date-entity（时间）
+	\item date-interval（时间区间）
+	\item percentage-entity（百分比）
+	\item phone-number-entity（电话号码）
+	\item email-address-entity（电子邮箱）
+	\item url-entity（url）
+\end{enumerate}
+\subsubsection{根节点（focus）}
 
 \subsection{语料建设}
 
