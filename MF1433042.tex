@@ -304,7 +304,7 @@ AMR是一种以有向的、简单的、类似树结构的（树出现环变成�
 
 \begin {figure}
 	\centering
-	\includegraphics[width=\linewidth]{{graph_amr}.png}
+	\includegraphics[width=0.5\linewidth]{{graph_amr}.png}
 	\caption{图方式}
 	\label{graph_format}
 \end{figure}
@@ -313,7 +313,12 @@ AMR有多种表现形式，根据定义可以以一个图的方式呈现出来�
 
 这句话中有一个“want”动作，它的arg0（谁在want）是“boy”，它的arg1（want的是什么）是一个“believe”的动作；“believe”动作的arg0（谁在believe）是“girl”，它的arg1（believe什么）是“boy”。在这里“boy”有两个作用，一是作为“want-01”的arg0，一是作为“belive-01”的arg1，这个节点有两条入边，因此AMR图上出现了一个环，这在AMR中也叫做“重入”（reentrancy）。也正是因为“重入”现象的存在，使得AMR是一种图表示方法，而不是树表示方法。
 
-上图这样的表示方法看起来稍有点复杂，AMR还可以以一种文本方式表达出来：\\  (w / want-01 \\     :ARG0 (b / boy)\\     :ARG1 (b2 / believe-01\\               :ARG0 (g / girl)\\               :ARG1 b))\\
+上图这样的表示方法看起来稍有点复杂，AMR还可以以一种文本方式表达出来：\\
+  (w / want-01 \\
+     :ARG0 (b / boy)\\
+     :ARG1 (b2 / believe-01\\
+               :ARG0 (g / girl)\\
+               :ARG1 b))\\
 
 这里的第一行就是AMR的根节点，冒号后面的标签表示节点之间边的标记，也就是节点之间的关系。每个节点由变量名（斜杠前的部分）和概念（斜杠后的部分）组成（除了多次出现的同一个节点），如果一个节点出现多次，则通过让该节点的变量名多次出现来表示，如该例中的节点b。这里概念里的斜杠也可以看做是图表示方法中instance的简化表示。
 
@@ -338,7 +343,10 @@ ARG1(b2, b)                 /* b 是被believe的人 */
 概念want-01可以在句子中用动词want、名词desire或者形容词desirous来表达。
 
 再比如下面这个AMR表示：\\
-(p / permit-01 \\     :ARG1 (g / go-02\\              :ARG0 (b / boy))\\     :polarity ))\\
+(p / permit-01 \\
+     :ARG1 (g / go-02\\
+              :ARG0 (b / boy))\\
+     :polarity ))\\
 
 也有很多种英文表达方式：
 \begin{enumerate}
@@ -376,16 +384,23 @@ AMR的concept主要有三种来源：句中词语（例如\ref{figure:graph_form
   \item publication, book, newspaper, magazine, journal
   \item natural-object
   \item law, treaty, award, food-dish, disease
-\end{enumerate}有时候句子中也会有单词指示该实体的类型，如果这个词比上述方式选择的类型更具体，则使用这个词代替，例如对于“the poet William Shakespeare”，可以用：(p / poet\\	:name (n / name :op1 "William" :op2 "Shakespeare"))\\
+\end{enumerate}
+
+有时候句子中也会有单词指示该实体的类型，如果这个词比上述方式选择的类型更具体，则使用这个词代替，例如对于“the poet William Shakespeare”，可以用：
+(p / poet\\
+	:name (n / name :op1 "William" :op2 "Shakespeare"))\\
 
 如果上述列表中所有实体名都没有合适的，句子中也没有明确指明实体的类型名称，就可以用“thing”来表示这个实体。例如对于“Words are the source of misunderstandings”，AMR中对“understanding”这个添加了“thing”这个concept：\\
 (s / source-01\\
       :ARG1 (t / thing\\
             :ARG0-of (m / misunderstand-01))\\
       :ARG2 (w / word))\\
-如果一个实体有多个类型，例如著名诗人、画家XXX，虽然同一种关系可以多次出现，但是:instance是AMR中唯一一种只能出现一次的关系，这时候可以使用:mod关系来修饰，例如对于“the poet Dr. Seuss”：\\(d / doctor \\
+
+如果一个实体有多个类型，例如著名诗人、画家XXX，虽然同一种关系可以多次出现，但是:instance是AMR中唯一一种只能出现一次的关系，这时候可以使用:mod关系来修饰，例如对于“the poet Dr. Seuss”：\\
+(d / doctor \\
 	 :name (n / name \\
-	 	    :op1 "Seuss")\\	 :mod (p / poet))
+	 	    :op1 "Seuss")\\
+	 :mod (p / poet))
 
 还有一类概念用来表示数量：monetary-quantity , distance-quantity , area-quantity , volume-quantity , temporal-quantity , frequency-quantity , speed-quantity , acceleration-quantity , mass-quantity , force-quantity , pressure-quantity , energy-quantity , power-quantity , voltage-quantity (zap!-, charge-quantity , potential-quantity , resistance-quantity , inductance-quantity , magnetic-field-quantity , magnetic-flux-quantity , radiation-quantity , concentration-quantity , temperature-quantity ,score-quantity ,fuel-consumption-quantity , seismic-quantity。通常这类概念后面都会有一个quant关系指向表示具体数值的节点。
 
@@ -402,7 +417,9 @@ AMR的concept主要有三种来源：句中词语（例如\ref{figure:graph_form
 \end{enumerate}
 
 对于特殊疑问句，AMR还对被提问的部分设计了一个amr-unknown概念。例如“What did the girl find?”:\\
-  (f / find-01\\    :arg0 (g / girl)\\    :arg1 (a / amr-unknown))\\
+  (f / find-01\\
+    :arg0 (g / girl)\\
+    :arg1 (a / amr-unknown))
 
 \subsubsection{关系（relation）}
 AMR在英文标注中大约有100种关系，比较常见的可以大致分成以下5个类型：
@@ -411,7 +428,8 @@ AMR在英文标注中大约有100种关系，比较常见的可以大致分成�
 	\item 通用语义关系 :accompanier, :age, :bene ciary, :cause, :compared-to, :concession, :condition, :consist-of, :degree, :destination, :direction, :domain, :duration,:employed-by, :example, :extent, :frequency, :instrument, :li, :location, :manner, :medium, :mod, :mode, :name, :part, :path, :polarity, :poss, :purpose, :source, :subevent, :subset, :time, :topic, :value.
 	\item 数量相关的关系 :quant, :unit, :scale
 	\item 时间实体相关的关系 :day, :month, :year, :weekday, :time, :timezone, :quarter, :dayperiod, :season, :year2, :decade, :century, :calendar, :era.
-	\item 列举关系 :op1, :op2, :op3, :op4, :op5, :op6, :op7, :op8, :op9,:op10.
+	\item 列举关系 :op1, :op2, :op3, :op4, :op5, :op6, :op7, :op8, :op9,
+:op10.
 \end{enumerate}
 
 对于所有的关系，AMR还允许这些关系的反转形式也作为关系标签，例如:arg0的反转形式为:arg0-of，:location的反转形式为:location-of。
@@ -422,7 +440,7 @@ AMR在英文标注中大约有100种关系，比较常见的可以大致分成�
 
 下面给出同一个中文句子的有对齐标注和无对齐标注两个版本，并进一步说明对齐信息是如何标注的。这个例子是对来自《小王子》语料中的一句话的两种标注，这句话分词的结果是“画 的 是 一 条 蟒蛇 正在 吞食 一 只 大 野兽 。”：
 
-无对齐信息：
+无对齐信息：\\
 (x12 / 吞食-01 \\
       :arg0  (x14 / 蟒蛇\\
             :quant  (x15 / 1)\\
@@ -435,7 +453,7 @@ AMR在英文标注中大约有100种关系，比较常见的可以大致分成�
             :arg1-of  (x20 / 画-01))\\
       :time  (x21 / 正在))\\
 
-有对齐信息：
+有对齐信息：\\
 (x8 / 吞食-01\\
       :arg0  (x6 / 蟒蛇\\
             :quant  (x4 / 1)\\
@@ -457,8 +475,8 @@ AMR在英文标注中大约有100种关系，比较常见的可以大致分成�
 在中文的对齐标注中，根据概念与句子分词结果中的对齐方式分类，有这几种情况：
 \begin{enumerate}
 	\item 对应一个词语：例如上面的“(x11 / 大)”，表示“大”这个概念对齐到句子的第11个词
-	\item 对应多个词语：例如“ 那么 刺 有 什么 用 呢 ？ ”的AMR标注中有一个概念“x4_x6 / 有用-01”，表示“有用-01”这个概念对齐到句子的第4和第6个词上。对于连续的词，也需要逐个写出对应的区间内的每一个词的下标，以免和上面这种跳词现象混淆。需要注意的是，在英文的AMR标注中，几乎没有跳词现象。
-	\item 对应某个词语中的某几个字：例如“我 把 锤子 、 螺钉 、 饥渴 、 死亡 ， 全都 抛在 脑后 。”的AMR标注中有一个概念“x12_1 / 抛-01”，表示“抛-01”这个概念对齐到句子的第12个词的第一个字上（如果是多个字则依次写出每个字在词中的下标，例如“x5_1_2_3”）。
+	\item 对应多个词语：例如“ 那么 刺 有 什么 用 呢 ？ ”的AMR标注中有一个概念“x4\_x6 / 有用-01”，表示“有用-01”这个概念对齐到句子的第4和第6个词上。对于连续的词，也需要逐个写出对应的区间内的每一个词的下标，以免和上面这种跳词现象混淆。需要注意的是，在英文的AMR标注中，几乎没有跳词现象。
+	\item 对应某个词语中的某几个字：例如“我 把 锤子 、 螺钉 、 饥渴 、 死亡 ， 全都 抛在 脑后 。”的AMR标注中有一个概念“x12\_1 / 抛-01”，表示“抛-01”这个概念对齐到句子的第12个词的第一个字上（如果是多个字则依次写出每个字在词中的下标，例如“x5\_1\_2\_3”）。
 \end{enumerate}
 
 
@@ -468,11 +486,11 @@ AMR在英文标注中大约有100种关系，比较常见的可以大致分成�
 \subsubsection{基于图的算法}
 Flanigan等人\cite{Flanigan2014}将AMR解析分成两个阶段：第一个阶段是从句子中识别出概念节点；第二个阶段是预测这些节点之间的边，也就是概念之间的关系。
 
-在概念识别阶段，句子将会被切分成多个连续的片段（span），通过序列标注算法来实现，并将每一个片段对应于一个概念子图（AMR的一个片段，可能包含多个概念节点，例如一个时间实体包括一个date-entity概念和具体的年月日概念等等），这些概念子图都来自于训练语料中这些片段曾经对齐到的概念子图，或者是一个空图（即放弃这个片段到AMR的对应）。通过对一系列连续的句子子串\bn{b}和一系列的概念图片段\bn{c}进行打分（两者的个数均为k），使用公式\ref{\label{concept_iden}}这个线性参数化函数进行优化，其中\bn{f}是句子子串（span）和它可以对应的一个概念子图片段在上下文中的特征向量表示，包括词、长度、命名实体等等这些特征。
+在概念识别阶段，句子将会被切分成多个连续的片段（span），通过序列标注算法来实现，并将每一个片段对应于一个概念子图（AMR的一个片段，可能包含多个概念节点，例如一个时间实体包括一个date-entity概念和具体的年月日概念等等），这些概念子图都来自于训练语料中这些片段曾经对齐到的概念子图，或者是一个空图（即放弃这个片段到AMR的对应）。通过对一系列连续的句子子串\textbf{$b$}和一系列的概念图片段\textbf{$c$}进行打分（两者的个数均为k），使用公式\ref{equation:concept_iden}这个线性参数化函数进行优化，其中\textbf{$f$}是句子子串（span）和它可以对应的一个概念子图片段在上下文中的特征向量表示，包括词、长度、命名实体等等这些特征。
 
 \begin{equation}
 	\label{concept_iden}
-	score(\bm{b}, \bm{c}; \bm{\theta})=\sum_{i=1}^{k}\bn{\theta}^\mathrm{T}f(\bm{w}_{b_i-1\:b_i}, b_{i-1}, b_i, c_i)
+	score(\textbf{b}, \textbf{c}; \textbf{$\theta$})=\sum_{i=1}^{k}\textbf{$\theta$}^\mathrm{T}f(\textbf{w}_{b_i-1\:b_i}, b_{i-1}, b_i, c_i)
 \end{equation}
 
 在关系识别阶段，则是基于第一个阶段识别出来的概念子图片段，在子图之间添加关系得到最终的AMR结果，这个结果需要满足五个条件，其中四个是在本章开头介绍过的AMR的有向图需要满足的四个条件：连通性、简单性、确定性、无环性，另一个就是保持性，即在第一阶段识别出所有概念子图片段应该是最终的AMR结果的子图。首先会对训练语料中的边训练一个线性参数的函数，特征为这条边的一些上下文，在解码的时候根据训练出的参数和函数对候选边进行打分。这个阶段的算法描述如下：边的候选集合为所有概念节点之间两两连接的有向边（两个方向，所有可能的边类型）；首先对于第一阶段识别出来的概念子图中已经存在的边，相应的节点对之间的其它边都不再作为候选边，这些存在的边成为AMR最终结果的组成部分；根据训练出的边打分函数，对未确定关系的节点对之间的所有候选边打分，保留分数最高的一条边，其他的不再作为候选；将所有得分大于0的边选出作为AMR最终结果的组成部分；对剩余的候选边，根据得分从高到底依次判断每条边是否进入最终结果，如果这条边可以将之前未相连的两个子图连接起来，则保留这条边；直至所有的节点之间形成一个弱连通图。根据实验结果，虽然算法未保证无环性，但是在所有测试数据上均未得到有环的结果。此外，上述算法过程可以保证连通性、简单性，但不能保证确定性，因此作者通过应用拉格朗日松弛法来保证确定性。
@@ -482,29 +500,29 @@ Chuan Wang等人\cite{Wang2015}提出了一种基于转换的AMR解析算法。�
 
 为了完成从句法分析到AMR的转换，作者设计了一系列转换的动作，并学习一个模型去决定在每次转换中采取哪个动作。包括如下这些动作：
 \begin{enumerate}
-	\item NEXT-EDGE-l_r：赋予一条边一个标签
-	\item SWAP-l_r：将两个节点之间的边的方向反转，并给这条边赋予一个标签。这条边的新的head取代原head节点的位置，成为别的节点指向的节点。这个动作用于解决AMR和依存句法树对head的选择的差异。
-	\item REATTACK_k-l_r：为一个节点A重新选择一个head节点，即去除该节点原有的一条入边，将其与另一个节点建立一条新的边，这条新边仍是A的入边，同时给这个新边赋予一个标签。这个动作的出发点是，当反转了边之后，有些关联到旧的head节点上的节点应该重新关联到新的head节点上。
+	\item NEXT-EDGE-$l_r$：赋予一条边一个标签
+	\item SWAP-$l_r$：将两个节点之间的边的方向反转，并给这条边赋予一个标签。这条边的新的head取代原head节点的位置，成为别的节点指向的节点。这个动作用于解决AMR和依存句法树对head的选择的差异。
+	\item REATTACK\_k-$l_r$：为一个节点A重新选择一个head节点，即去除该节点原有的一条入边，将其与另一个节点建立一条新的边，这条新边仍是A的入边，同时给这个新边赋予一个标签。这个动作的出发点是，当反转了边之后，有些关联到旧的head节点上的节点应该重新关联到新的head节点上。
 	\item REPLACE-HEAD：将某个节点A删除，然后让A指向的节点B取代被A的位置，也就是使A的head节点成为B的head节点。这个动作用于删除一些AMR中不包含但是依存句法树中包含的节点，例如介词等虚词节点。
-	\item REENTRANCE_k-l_r：	添加重入边，给某个节点和任意一个可能的其他节点之间添加一条新的边，在AMR结果中形成一个环。
+	\item REENTRANCE\_k-$l_r$：	添加重入边，给某个节点和任意一个可能的其他节点之间添加一条新的边，在AMR结果中形成一个环。
 	\item MERGE：将两个节点合并为同一个节点，让新节点继承旧的节点的所有出边和入边。这个动作通常用于为句子中连续的一个词语序列生成一个节点，通常可能对应一个命名实体，比如将一个名字的两个单词合并起来。
-	\item NEXT-NODE-l_c：给某个节点赋予一个概念标签，然后将该节点从待处理节点队列中移除，开始考虑在下一个节点上采取什么动作。
+	\item NEXT-NODE-$l_c$：给某个节点赋予一个概念标签，然后将该节点从待处理节点队列中移除，开始考虑在下一个节点上采取什么动作。
 	\item DELETE-NODE：删除一个节点及与其相关的所有边，这个动作只用于删除没有出边的节点，作用是删除一些功能词节点。
 \end{enumerate}
 
-该转换算法的状态是一个三元组(\sigma,\beta,G)，\sigma 存储所有待处理的节点，初始化成依存句法树中的所有节点，\beta 存储\sigma 中第一个节点的所有出边指向的节点，G存储当前的解析结果，初始化为依存句法树，算法结束后为得到的AMR结果。算法会训练一个在某个状态下对所有动作进行打分的函数，在每次转换前，找出所有动作中得分最高的那个，应用到当前的解析结果G上进行一次转换。打分函数的训练特征包括节点特征、节点对特征、路径特征、动作相关特征四类，涉及到词语、命名实体标签、依存句法等等句法和词法特征。
+该转换算法的状态是一个三元组($\sigma$,$\beta$,G)，$\sigma$存储所有待处理的节点，初始化成依存句法树中的所有节点，$\beta$存储$\sigma$中第一个节点的所有出边指向的节点，G存储当前的解析结果，初始化为依存句法树，算法结束后为得到的AMR结果。算法会训练一个在某个状态下对所有动作进行打分的函数，在每次转换前，找出所有动作中得分最高的那个，应用到当前的解析结果G上进行一次转换。打分函数的训练特征包括节点特征、节点对特征、路径特征、动作相关特征四类，涉及到词语、命名实体标签、依存句法等等句法和词法特征。
 
 \subsection{自动评价}
 目前，AMR最常用的评价方式是计算自动生成的AMR和测试集中的参考AMR的smatch得分\cite{Flanigan2014}\cite{Cai2013Smatch}。
 
 \begin {figure}
 	\centering
-	\includegraphics[width=\linewidth]{{two_amr}.jpg}
+	\includegraphics[width=\linewidth]{{two_amr}.jpeg}
 	\caption{两个待比较的AMR结果}
 	\label{two_amr}
 \end{figure}
 
-在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\label{two_amr}中左边的AMR，可以表示成：
+在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\label{two_amr}中左边的AMR，可以表示成：\\
 instance(a, want-01) \^ \\
 instance(b, boy) \^ \\
 instance(c, go-01) \^ \\
@@ -514,7 +532,7 @@ ARG0(c, b)
 
 三元组有两种形式，一种是relation(variable, concept)，另一种是relation(variable1, variable2)，例如上述前三行就是第一种三元组，后三行为第二种三元组。
 
-对于图\label{two_amr}中右边的AMR，可以表示成：
+对于图\label{two_amr}中右边的AMR，可以表示成：\\
 instance(x, want-01) \^ \\
 instance(y, boy) \^ \\
 instance(z, football) \^ \\
@@ -523,19 +541,18 @@ ARG1(x, z)
 
 smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回率和F值（通过将两个AMR中的变量名映射起来，然后计算两组三元组之间的相同的个数，再根据总的三元组个数计算准确率和召回率）。困难在于两个AMR所使用的变量名并不相同，所以两个AMR之间基于不同的变量映射方式，可以计算得到多种重合结果。smatch则定义为：将两个AMR之间的节点一一对应起来，所能得到的最大的F值。例如针对上面的例子，有六种变量匹配的方式，如表\ref{table:smatch_table}：
 
-\begin{table}[!htb]
+\begin{table}
 \begin{center}
 \begin{tabular}{c|c|c|c|c}
-\hline
-\row{映射方式} & {M} & {P} & {R} & {F} \\
+\hline {映射方式} & {M} & {P} & {R} & {F} \\
 \hline x=a, y=b, z=c & 4 & 4/5 & 4/6 & 0.73 \\
 \hline x=a, y=c, z=b & 1 & 1/5 & 1/6 & 0.18 \\
-\hline x=b, y=a, z=c & 0 & 0/5 &	 0/6 & 0.00 \\
+\hline x=b, y=a, z=c & 0 & 0/5 & 0/6 & 0.00 \\
 \hline x=b, y=c, z=a & 0 & 0/5 & 0/6 & 0.00 \\
 \hline x=c, y=a, z=b & 0 & 0/5 & 0/6 & 0.00 \\
 \hline x=c, y=b, z=a & 2 & 2/5 & 2/6 & 0.36 \\
 \hline
-\hline smatch score & \multicolumn{4}{c|}{0.73}
+\hline smatch score & \multicolumn{4}{r}{0.73}\\
 \hline
 \end{tabular}
 \end{center}
