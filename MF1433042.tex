@@ -316,7 +316,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 \section{相关工作}
 在前期调研中，我们发现还没有一个已发表的研究十分类似于本节所提到的工作，一方面是因为逗号的处理在英文中的重要性要低于中文，因此对于逗号在句子分析和理解中的重视程度并不是很高，另一方面是因为本文所提出的方法是针对高考地理试题中的选择题这种特殊文本类型所提出的，并不十分适用于通用的中文文本。所以我们需要为我们研究的问题寻找一些理论基础，所以在本节中，我们根据Yang Y.Q.等人\cite{Yang2012Chinese}的研究工作，介绍他们在研究中文篇章关系时整理出的逗号在句子中的功能，这个分类与我们对逗号功能的判断和应用比较吻合。
 
-上述工作将逗号的使用方法划分为7类，首先把逗号的使用方法在总体上分为两大类：一类是逗号连接的两个子句之间存在关系，即逗号是子句边界；另一类是两子句之间不存在关系，不能视作是子句或者是篇章的边界。两个子句之间存在的关系又可以分为并列关系和从属关系：并列关系可以分为三种类型（SB、IP_COORD、VP_COORD），从属关系也分为三种类型（ADJ、COMP、SBJ），图\ref{figure:comma_types}展示了这个分类体系。
+上述工作将逗号的使用方法划分为7类，首先把逗号的使用方法在总体上分为两大类：一类是逗号连接的两个子句之间存在关系，即逗号是子句边界；另一类是两子句之间不存在关系，不能视作是子句或者是篇章的边界。两个子句之间存在的关系又可以分为并列关系和从属关系：并列关系可以分为三种类型（SB、IP\_COORD、VP\_COORD），从属关系也分为三种类型（ADJ、COMP、SBJ），图\ref{label:comma_types}展示了这个分类体系。
 
 \begin {figure}
 	\centering
@@ -327,7 +327,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 下面我们详细介绍一下每种类型的逗号的具体作用。
 
-1）SB（Sentence Boundary）：在某些语境下，可以起到分割句子边界作用的逗号。这类逗号要求逗号左右的子句都是IP结构，父节点为根节点，比如在流水句中，如图\ref{figure:sb_comma}所示，该例中的两个逗号都是SB类型。
+1）SB（Sentence Boundary）：在某些语境下，可以起到分割句子边界作用的逗号。这类逗号要求逗号左右的子句都是IP结构，父节点为根节点，比如在流水句中，如图\ref{label:sb_comma}所示，该例中的两个逗号都是SB类型。
 
 \begin {figure}
 	\centering
@@ -336,21 +336,21 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 	\label{sb_comma}
 \end{figure}
 
-2）IP_COORD（IP Coordination）：分割父节点为非根节点的并列IP结构的逗号。如图\ref{figure:ip_coord}所示，其中的P4和P5属于这个类型。
+2）IP\_COORD（IP Coordination）：分割父节点为非根节点的并列IP结构的逗号。如图\ref{label:ip_coord}所示，其中的P4和P5属于这个类型。
 
 \begin {figure}
 	\centering
 	\includegraphics[width=0.5\linewidth]{{ip_coord}.jpeg}
-	\caption{IP_COORD类型的逗号}
+	\caption{IP\_COORD类型的逗号}
 	\label{ip_coord}
 \end{figure}
 
-3）VP_COORD（VP Coordination）：分割并列动宾短语的逗号，这些动宾短语共享同一个主语。如图\ref{figure:vp_coord}所示，其中的P6属于这个类型。
+3）VP\_COORD（VP Coordination）：分割并列动宾短语的逗号，这些动宾短语共享同一个主语。如图\ref{label:vp_coord}所示，其中的P6属于这个类型。
 
 \begin {figure}
 	\centering
 	\includegraphics[width=0.5\linewidth]{{vp_coord}.jpeg}
-	\caption{VP_COORD类型的逗号}
+	\caption{VP\_COORD类型的逗号}
 	\label{vp_coord}
 \end{figure}
 
@@ -386,7 +386,7 @@ AMR是一种以有向的、简单的、类似树结构的（树出现环变成�
 	\label{graph_format}
 \end{figure}
 
-AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如\ref{figure:graph_format}；在图表示方法中，没有入边的节点就是根节点，在上图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，实际上就是节点对应的概念。根节点是“want-01”对应的节点，后缀“-01”实际上是指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，在这里就有arg0和arg1这两个论元。
+AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如\ref{label:graph_format}；在图表示方法中，没有入边的节点就是根节点，在上图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，实际上就是节点对应的概念。根节点是“want-01”对应的节点，后缀“-01”实际上是指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，在这里就有arg0和arg1这两个论元。
 
 这句话中有一个“want”动作，它的arg0（谁在want）是“boy”，它的arg1（want的是什么）是一个“believe”的动作；“believe”动作的arg0（谁在believe）是“girl”，它的arg1（believe什么）是“boy”。在这里“boy”有两个作用，一是作为“want-01”的arg0，一是作为“belive-01”的arg1，这个节点有两条入边，因此AMR图上出现了一个环，这在AMR中也叫做“重入”（reentrancy）。也正是因为“重入”现象的存在，使得AMR是一种图表示方法，而不是树表示方法。
 
@@ -448,7 +448,7 @@ AMR虽然是一种有向图表示，但是对于图的边和节点的关系仍�
 通过上文的介绍可知，AMR主要有两个部分组成：概念（节点）、概念间的关系（边）。下面将从这两个方面介绍AMR的标注体系。
 
 \subsubsection{概念（concept）}
-AMR的concept主要有三种来源：句中词语（例如\ref{figure:graph_format}中的“boy”）、propbank中的语义框架（例如\label{figure:graph_format}中的“want-01”）、抽象的关键字。
+AMR的concept主要有三种来源：句中词语（例如\ref{label:graph_format}中的“boy”）、propbank中的语义框架（例如\label{label:graph_format}中的“want-01”）、抽象的关键字。
 
 从之前举的例子可以看出，AMR试图对不同的表达方式甚至是相同语义的不同词语做出统一的标注方式。因此英文AMR对常见的concept制定了一个实体类型的标准列表，首先需要从这些实体名称中找出和想要描述的实体最相近的一个（例如有人会说“person”，有人会说“woman”，则可以通过这个列表统一起来）:
 \begin{enumerate}
@@ -517,7 +517,7 @@ AMR的语料对齐，即是将原句中的词语、词组与AMR图中的一个�
 
 \begin {figure}
 	\centering
-	\includegraphics[width=0.5\linewidth]{{align}.jpeg}
+	\includegraphics[width=1.0\linewidth]{{align}.jpeg}
 	\caption{AMR对齐}
 	\label{amr_align}
 \end{figure}
