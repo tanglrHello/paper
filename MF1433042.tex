@@ -405,7 +405,7 @@ C 德雷克海峡   D 直布罗陀海峡
 一个包含小选项的选择题如下：\\
 （题面）岛内最大零售商业点位于甲村，主要形成原因是该村 \\
 \textcircled{1} 地形平坦，交通便利   \textcircled{2} 商业从业人口多\\
-\textcircled{3} 商业组织形式复杂     \textcircled{4} 人口数量大
+\textcircled{3} 商业组织形式复杂     \textcircled{4} 人口数量大  \\
 A \textcircled{1}\textcircled{2}  B \textcircled{1}\textcircled{4}\\
 C \textcircled{2}\textcircled{3}  D \textcircled{3}\textcircled{4}\\
 
@@ -417,7 +417,7 @@ C \textcircled{2}\textcircled{3}  D \textcircled{3}\textcircled{4}\\
 
 我们提出的对地理选择题选项进行拆分的方法，就是将这样拼接出来的完整的一句话作为分类对象，在本文中我们称之为“试题文本”。拆分方法的提出主要基于选项中一个常见的现象，即选项经常是包含了由逗号隔开的几个短语或者动宾结构等等组成的部分，我们可以将这些部分拆分开来，分别与逗号两侧的IP或者VP等结构之前的公共部分拼接起来，使一个选项或者一个小选项对应的句子，拆分为多个更加简短的句子，这样得到的句子我们称为“拆分后试题文本”。举个直观的例子如下：
 
-（题面）该海域沿岸
+（题面）该海域沿岸 \\
 A 存在上升流，为热带雨林气候   B 有暖流经过，为热带草原气候\\
 C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风气候\\
 
@@ -484,7 +484,7 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 \label{splitdata}
 为了给试题文本拆分提供标注数据，我们用第\ref{chapter:tagger}章中介绍的标注系统，对55套试卷、共859道选择题进行了拆分的标注，包括是否可拆分的二分类标注，以及公共部分右边界的标注。除了拆分标注本身，我们还用到了这些试卷人工标注的词性、分词、时间的实体识别等数据。包括拆分标注在内，这些数据的标注将在\ref{chapter:tagger}中详细介绍。
 
-\begin{table}
+\begin{table}[!htbp]
 \begin{center}
 \begin{tabular}{c|c}
 \hline {数据类型} & {数量}\\
@@ -588,10 +588,10 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 
 \begin{algorithm}
 \begin{algorithmic}[1]
-\STATE 输入：选项中逗号左边部分的词与词性${S_1}=\{w_1, w_2, ..., w_m\}$，${P_1}=\{p_1, p_2, ..., p_m\}$；选项中逗号右边部分的词与词性${S_2}=\{w_{m+2}, ..., w_n\}$，$\{P_2}={p_{m+2}, ..., p_n\}$
+\STATE 输入：选项中逗号左边部分的词与词性$S_1=\{w_1, w_2, ..., w_m\}$，$P_1=\{p_1, p_2, ..., p_m\}$；选项中逗号右边部分的词与词性$S_2=\{w_{m+2}, ..., w_n\}$，$\P_2=\{p_{m+2}, ..., p_n\}$
 \STATE 输出：边界右边第一个词的下标k
 \STATE 初始化：k = 0
-\FOR{$w_i$ in ${S_1}$}
+\FOR{$w_i$ in $S_1$}
 	\IF{$w_i$ == “均” or “都”}
 		\STATE k = i + 1
 		\STATE break
@@ -655,42 +655,43 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 \subsubsection{特征的影响}
 我们一共提出了18个上下文特征用于最大熵模型的训练和预测，在第\ref{featuresection}小节中做过详细介绍。本节我们不改变训练数据中两类数据的比例，直接将原始数据集中的所有选项含逗号的试题文本按9：1划分成训练集和测试集。
 
-\begin{center}
-\begin{table}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{c|c|c|c|c|c}
-\hline {添加特征} & {y\_precision} & {n\_precision} & {y\_recall} & {n\_recall} & {total\_precision}  \\
-\hline +wordNumDiff & 89.6\% & 74.5\% & 90.3\% & 69.2\% & 84.8\% \\
-\hline +charNumDiff & 89.3\% & 71.8\% & 89.5\% & 68.5\% & 84.0\% \\
-\hline +postagEditDistance & 89.8\% & 73.2\% & 89.2\% & \textbf{70.0}\% & \textbf{84.2}\% \\
-\hline +lastPosComb & 90.4\% & 69.0\% & 86.8\% & \textbf{72.3}\% & 83.0\% \\
-\hline +lastPosEqual & 90.4\% & 69.0\% & 86.8\% & 72.3\% & 83.0\% \\
-\hline +firstPosComb & 90.0\% & 62.1\% & 82.0\% & \textbf{73.1}\% & 79.6\% \\
-\hline +firstPosEqual & 89.9\% & 62.1\% & 81.9\% & 73.1\% &79.6\% \\
-\hline +lastWordInTimian & 90.3\% & 61.2\% & 80.8\% & \textbf{74.2}\% & 79.2\% \\
-\hline +lastTwoWordsInTimian & 91.3\% & 56.7\% & 78.4\% & \textbf{78.5}\% & 78.4\% \\
-\hline +lastPostagInTimian & 91.3\% & 58.1\% & 79.5\% & 78.5\% & \textbf{79.2}\% \\
-\hline +timeCombination & 91.2\% & 59.1\% & 80.5\% & 77.7\% & \textbf{79.8}\% \\
-\hline +firstWordInSecondPart & 91.1\% & 61.4\% & 82.2\% & 76.9\% & \textbf{80.8}\% \\
-\hline +firstPostagInSecondPart & 91.0\% & 60.7\% & 81.6\% & 76.9\% & 80.4\% \\
-\hline +lastWordInFirstPart & 90.1\% & 61.3\% & 81.9\% & 76.2\% & 80.4\% \\
-\hline +lastCharInFirstPart & 91.0\% & 63.9\% & 83.8\% & 76.2\% & \textbf{81.8}\% \\
-\hline +containCuewordsComb & 90.8\% & 64.6\% & 84.1\% & 75.4\% & 81.8\% \\
-\hline +containCuewordsMain & 90.6\% & 65.3\% & 84.9\% & 74.6\% & \textbf{82.2}\% \\
-\hline +bothContainLonLat & 90.6\% & 65.3\% & 84.9\% & 74.6\% & 82.2\% \\
-\hline
-\end{tabular}}
-\caption{\label{features} 增加特征对性能的影响}
-\end{table}
-\end{center}
-
 我们依次添加每一个特征，观察实验结果的变化情况。实验结果如表\ref{features}所示。可以看出，加了更多的特征之后总体的准确率反而出现了降低的趋势，同时我们比较关注的n\_recall指标出现了先上升后下降的趋势。实际上，n\_recall和total\_precision是一对此消彼长的特征，因为在测试数据中，可拆分类型的数据也远多于不可拆分类型的数据，如果对占多数的可拆分数据识别正确，则更可能会使总体准确率提升，此时不可拆分类型数据的召回率就更低。
+
+\begin{center}
+	\begin{table}[!htbp]
+		\resizebox{\textwidth}{!}{
+			\begin{tabular}{c|c|c|c|c|c}
+				\hline {添加特征} & {y\_precision} & {n\_precision} & {y\_recall} & {n\_recall} & {total\_precision}  \\
+				\hline +wordNumDiff & 89.6\% & 74.5\% & 90.3\% & 69.2\% & 84.8\% \\
+				\hline +charNumDiff & 89.3\% & 71.8\% & 89.5\% & 68.5\% & 84.0\% \\
+				\hline +postagEditDistance & 89.8\% & 73.2\% & 89.2\% & \textbf{70.0}\% & \textbf{84.2}\% \\
+				\hline +lastPosComb & 90.4\% & 69.0\% & 86.8\% & \textbf{72.3}\% & 83.0\% \\
+				\hline +lastPosEqual & 90.4\% & 69.0\% & 86.8\% & 72.3\% & 83.0\% \\
+				\hline +firstPosComb & 90.0\% & 62.1\% & 82.0\% & \textbf{73.1}\% & 79.6\% \\
+				\hline +firstPosEqual & 89.9\% & 62.1\% & 81.9\% & 73.1\% &79.6\% \\
+				\hline +lastWordInTimian & 90.3\% & 61.2\% & 80.8\% & \textbf{74.2}\% & 79.2\% \\
+				\hline +lastTwoWordsInTimian & 91.3\% & 56.7\% & 78.4\% & \textbf{78.5}\% & 78.4\% \\
+				\hline +lastPostagInTimian & 91.3\% & 58.1\% & 79.5\% & 78.5\% & \textbf{79.2}\% \\
+				\hline +timeCombination & 91.2\% & 59.1\% & 80.5\% & 77.7\% & \textbf{79.8}\% \\
+				\hline +firstWordInSecondPart & 91.1\% & 61.4\% & 82.2\% & 76.9\% & \textbf{80.8}\% \\
+				\hline +firstPostagInSecondPart & 91.0\% & 60.7\% & 81.6\% & 76.9\% & 80.4\% \\
+				\hline +lastWordInFirstPart & 90.1\% & 61.3\% & 81.9\% & 76.2\% & 80.4\% \\
+				\hline +lastCharInFirstPart & 91.0\% & 63.9\% & 83.8\% & 76.2\% & \textbf{81.8}\% \\
+				\hline +containCuewordsComb & 90.8\% & 64.6\% & 84.1\% & 75.4\% & 81.8\% \\
+				\hline +containCuewordsMain & 90.6\% & 65.3\% & 84.9\% & 74.6\% & \textbf{82.2}\% \\
+				\hline +bothContainLonLat & 90.6\% & 65.3\% & 84.9\% & 74.6\% & 82.2\% \\
+				\hline
+		\end{tabular}}
+		\caption{\label{features} 增加特征对性能的影响}
+	\end{table}
+\end{center}
 
 这种趋势的出现，一方面可能因为训练数据量比较小，每种特征都能提高某一类试题文本的辨识度，但是这些类的文本数量还比较小，受稀疏性影响比较大，容易产生过拟合，对预测产生了一定的干扰；另一方面则可能是新特征在不可拆分数据上比较敏感，导致这类数据的召回率提高，相应地可拆分数据的准确率就变低了。
 
 但不可拆分类的识别召回率比总体准确率更加重要，因此我们选出所有能使n\_recall升高的特征（wordNumDiff、postagEditDistance、lastPosComb、firstPosComb、lastWordInTimian、lastTwoWordsInTimian），或者没有使n\_recall发生变化但是不损失total\_precision的特征（lastPosEqual、firstPosEqual、lastPostagInTimian、lastCharInFirstPart），重新做一次实验，得到性能如表\ref{highnrecall}所示。
 
-\begin{table}
+
+\begin{table}[!htbp]
 \begin{center}
 \begin{tabular}{c|c|c|c|c}
 \hline {y\_precision} & {n\_precision} & {y\_recall} & {n\_recall} & {total\_precision}  \\
@@ -708,34 +709,34 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 
 在每次实验调整训练集的数据比例之前，还是先按9：1的比例划分训练集和测试集；如果我们想让训练集中的可拆分数据的比例超过71.7\%，则随机从中抽取一个可拆分的数据，复制该样本再加入训练集，直至比例达到所需。如果想让训练集中的可拆分数据的比例低于71.7\%，则重复从其中不可拆分的数据中随机抽取后复制放回。表\ref{yprop}中显示了不同的训练集可拆分数据比例y\_proportion下的各项性能。
 
-\begin{center}
-\begin{table}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{c|c|c|c|c|c}
-\hline {y\_proportion} & {y\_precision} & {n\_precision} & {y\_recall} & {n\_recall} & {total\_precision}  \\
-\hline 10\% & 96.1\% & 38.3\% & 44.6\% & 94.6\% & 57.6\% \\
-\hline 20\% & 96.0\% & 42.0\% & 53.2\% & 93.1\% & 63.6\% \\
-\hline 30\% & 95.7\% & 46.7\% & 62.2\% & 91.5\% & 69.8\% \\
-\hline 40\% & 95.2\% & 50.1\% & 67.3\% & 89.2\% & 73.0\% \\
-\hline 50\% & 93.5\% & 51.7\% & 70.8\% & 85.4\% & 74.6\% \\
-\hline 60\% & 92.4\% & 52.5\% & 73.0\% & 82.3\% & 75.4\% \\
-\hline 70\% & 91.3\% & 53.7\% & 75.4\% & 79.2\% & 76.4\% \\
-\hline 原始比例 & 91.3\% & 58.1\% & 79.5\% & 78.5\% & 79.2\% \\
-\hline 80\% & 90.2\% & 59.0\% & 81.4\% & 74.6\% & 79.6\% \\
-\hline 90\% & 89.2\% & 69.5\% & 88.1\% & 69.2\% & 83.2\% \\
-\hline 
-\end{tabular}}
-\caption{\label{yprop} 不同的训练集中可拆分数据比例下的性能}
-\end{table}
-\end{center}
-
 该实验的出发点是在高考地理题理解的实际应用中需要n\_recall尽可能高，即尽量不要将不可拆分的数据误识别为可拆分，同时total\_precision也越高越好。但前文已经说过这两个指标是负相关的。从表\ref{yprop}中的结果来看，我们选择可拆分数据在训练集中的比例为40\%应用在实际使用中，这个比例下，n\_recall接近90\%，比原始比例提高了10.7\%，total\_precision比原始比例降低了6.2\%。
+
+\begin{center}
+	\begin{table}[!htbp]
+		\resizebox{\textwidth}{!}{
+			\begin{tabular}{c|c|c|c|c|c}
+				\hline {y\_proportion} & {y\_precision} & {n\_precision} & {y\_recall} & {n\_recall} & {total\_precision}  \\
+				\hline 10\% & 96.1\% & 38.3\% & 44.6\% & 94.6\% & 57.6\% \\
+				\hline 20\% & 96.0\% & 42.0\% & 53.2\% & 93.1\% & 63.6\% \\
+				\hline 30\% & 95.7\% & 46.7\% & 62.2\% & 91.5\% & 69.8\% \\
+				\hline 40\% & 95.2\% & 50.1\% & 67.3\% & 89.2\% & 73.0\% \\
+				\hline 50\% & 93.5\% & 51.7\% & 70.8\% & 85.4\% & 74.6\% \\
+				\hline 60\% & 92.4\% & 52.5\% & 73.0\% & 82.3\% & 75.4\% \\
+				\hline 70\% & 91.3\% & 53.7\% & 75.4\% & 79.2\% & 76.4\% \\
+				\hline 原始比例 & 91.3\% & 58.1\% & 79.5\% & 78.5\% & 79.2\% \\
+				\hline 80\% & 90.2\% & 59.0\% & 81.4\% & 74.6\% & 79.6\% \\
+				\hline 90\% & 89.2\% & 69.5\% & 88.1\% & 69.2\% & 83.2\% \\
+				\hline 
+		\end{tabular}}
+		\caption{\label{yprop} 不同的训练集中可拆分数据比例下的性能}
+	\end{table}
+\end{center}
 
 \subsubsection{后处理的影响}
 基于前两个实验，本实验对可拆分数据在训练集中的比例为原始比例和40\%两种情况，给出使用后处理和不使用后处理的性能比较，如表\ref{postprocess}所示，“正确纠正”指将应该是不可拆分的数据由原本预测为可拆分纠正为不可拆分的次数，“错误纠正”指将应该是可拆分的数据由原本预测为可拆分纠正为不可拆分的次数。
 
 \begin{center}
-\begin{table}
+\begin{table}[!htbp]
 \resizebox{\textwidth}{!}{
 \begin{tabular}{c|c|c|c|c|c|c|c|c}
 \hline {可拆分数据比例} & {实验类型} & {y\_precision} & {n\_precision} & {y\_recall} & {n\_recall} & {total\_precision} & {正确纠正} & {错误纠正}  \\
@@ -756,19 +757,18 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 所以，这两种后处理中出现的主要错误都是可以接受的，不认为会对使用性能产生明显负面影响。
 
 \subsection{公共部分右边界识别实验}
-\begin{table}
-\begin{center}
-\begin{tabular}{c|c|c|c}
-\hline {边界类型} & {正确的个数} & {总数} & {正确率}  \\
-\hline 与题面选项边界相同（A类） & 267 & 303 & 88.1\% \\
-\hline 在选项第一部分中（B类） & 71 & 88 & 80.7\% \\
-\hline 所有数据	& 338 & 391 & 86.4\% \\
-\hline
-\end{tabular}
-\end{center}
-\caption{\label{boundary} 后处理的影响}
+\begin{table}[!htbp]
+	\begin{center}
+		\begin{tabular}{c|c|c|c}
+			\hline {边界类型} & {正确的个数} & {总数} & {正确率}  \\
+			\hline 与题面选项边界相同（A类） & 267 & 303 & 88.1\% \\
+			\hline 在选项第一部分中（B类） & 71 & 88 & 80.7\% \\
+			\hline 所有数据	& 338 & 391 & 86.4\% \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{\label{boundary} 后处理的影响}
 \end{table}
-
 本节使用第\ref{boundary_rec}节中介绍的基于规则的方法，对数据集中所有可以拆分的数据进行公共部分右边界的识别。实验结果如表\ref{boundary}所示。实验结果表明该方法是可行的。对识别错误的样本给出如下分析：
 \begin{enumerate}
 	\item 第二部分开头的术语是第一部分开头术语的一个属性，将公共部分右边界错误识别为题面选项边界：例如“图示两区域@河流/以雨水补给为主，流量稳定”，“流量”是“河流”的属性，而不是与其地位相同的另一个术语。这类错误共有6例。
@@ -803,10 +803,10 @@ AMR是一种有向的、简单的、类似树结构的（树出现环变成图�
 	\centering
 	\includegraphics[width=0.5\linewidth]{{graph_amr}.png}
 	\caption{AMR图表示}
-	\label{graphformat}
+	\label{amrgraph}
 \end{figure}
 
-AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如图\ref{graphformat}。在图表示方法中，没有入边的节点就是根节点，在该图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，即节点对应的概念。根节点是“want-01”，后缀“-01”指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，例如arg0和arg1这两个论元。
+AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如图\ref{amrgraph}。在图表示方法中，没有入边的节点就是根节点，在该图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，即节点对应的概念。根节点是“want-01”，后缀“-01”指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，例如arg0和arg1这两个论元。
 
 这句话中有一个“want”动作，它的arg0（谁在want）是“boy”，它的arg1（want的是什么）是一个“believe”的动作；“believe”动作的arg0（谁在believe）是“girl”，它的arg1（believe什么）是“boy”。所以在这里“boy”有两个作用，一是作为“want-01”的arg0，一是作为“belive-01”的arg1，这个节点有两条入边，因此AMR图上出现了一个环，这在AMR中也叫做“重入”（reentrancy）。也正是因为“重入”现象的存在，使得AMR是一种图表示方法，而不是树表示方法。
 
@@ -875,7 +875,7 @@ AMR是一种有向图表示，其中图的边和节点的关系应满足一些�
 通过上文的介绍可知，AMR主要有两个部分组成：概念（节点）、概念间的关系（边）。下面将从这两个方面介绍AMR的标注体系。
 
 \subsubsection{概念（concept）}
-AMR的concept主要有三种来源：句中词语（例如\ref{graphformat}中的“boy”）、propbank中的语义框架（例如\label{graphformat}中的“want-01”）、抽象的关键字。
+AMR的concept主要有三种来源：句中词语（例如\ref{amrgraph}中的“boy”）、propbank中的语义框架（例如\ref{amrgraph}中的“want-01”）、抽象的关键字。
 
 从之前的例子可以看出，AMR试图对不同的表达方式甚至是相同语义的不同词语做出统一的标注方式。因此英文AMR对常见的concept制定了一个实体类型的标准列表，首先需要从这些实体名称中找出和想要描述的实体最相近的一个（例如有人会说“person”，有人会说“woman”，则可以通过这个列表统一起来）:
 \begin{enumerate}
@@ -951,7 +951,7 @@ AMR在英文标注中大约有100种关系，比较常见的可以大致分成�
 \label{subsection:aligndata}
 AMR的语料对齐，即是将原句中的词语、词组与AMR图中的一个概念节点或者一个概念节点子图（例如一个时间概念子图，包括一个date-entity概念及其指向的表示年、月、日等信息的节点）进行对齐，对齐结果对于自动解析算法有着重要的作用，例如在概念识别等阶段。图\ref{amr_align}给出了一个AMR节点与句子词语之间的对齐示意图。
 
-\begin {figure}
+\begin {figure}[!htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{{align}.jpeg}
 	\caption{AMR对齐}
@@ -1049,7 +1049,7 @@ Chuan Wang等人\cite{Wang2015}提出了一种基于转换的AMR解析算法。�
 	\label{twoamr}
 \end{figure}
 
-在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\label{twoamr}中左边的AMR，可以表示成：\\
+在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\ref{twoamr}中左边的AMR，可以表示成：\\
 instance(a, want-01) \^ \\
 instance(b, boy) \^ \\
 instance(c, go-01) \^ \\
@@ -1059,7 +1059,7 @@ ARG0(c, b)
 
 三元组有两种形式，一种是relation(variable, concept)，另一种是relation(variable1, variable2)，例如上述前三行是第一种三元组，后三行是第二种三元组。
 
-对于图\label{twoamr}中右边的AMR，可以表示成：\\
+对于图\ref{twoamr}中右边的AMR，可以表示成：\\
 instance(x, want-01) \^ \\
 instance(y, boy) \^ \\
 instance(z, football) \^ \\
@@ -1068,7 +1068,7 @@ ARG1(x, z)
 
 smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回率和F值（通过将两个AMR中的变量名映射起来，然后计算两组三元组之间的相同的个数，再根据总的三元组个数计算准确率和召回率）。困难在于两个AMR所使用的变量名并不相同，所以两个AMR之间基于不同的变量映射方式，可以计算得到多种重合结果。smatch则定义为：将两个AMR之间的节点一一对应起来，所能得到的最大的F值。例如针对上面的例子，有六种变量匹配的方式，如表\ref{smatch_table}。
 
-\begin{table}
+\begin{table}[!htbp]
 \begin{center}
 \begin{tabular}{c|c|c|c|c}
 \hline {映射方式} & {M} & {P} & {R} & {F} \\
@@ -1170,7 +1170,7 @@ JAMR会得到下面这样的对齐信息：\\
 \subsection{实验数据简介}
 对于英文测试，我们会使用Flanigan等人\cite{Flanigan2014}在发表JAMR的论文中使用的数据、小王子语料；对于中文测试，我们会使用小王子语料、CTB语料、地理数据语料。具体数据集情况如表\ref{amrdatas}所示。其中，LDC2013E117是一个新闻语料，CTB中文语料则是来源于论坛、博客。
 
-\begin{table}
+\begin{table}[!htbp]
 \begin{center}
 \begin{tabular}{c|c|c|c|c}
 \hline {数据集} & {总句数} & {训练集} & {开发集} & {测试集} \\
@@ -1186,24 +1186,24 @@ JAMR会得到下面这样的对齐信息：\\
 \end{table}
 
 \subsection{封闭测试}
-\begin{center}
-\begin{table}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
-\hline {数据集} & \multicolumn{3}{c|}{Smatch（两阶段）}  & \multicolumn{3}{c|}{Smatch（gold概念）}  & \multicolumn{3}{c}{Span识别} \\
-\hline  & P & R & F-score & P & R & F-score & P & R & F-score \\
-\hline LDC2013E117（英文）& 81.5\% & 82.2\% & 81.8\% & 95.9\% & 87.9\% & 91.7\% & 82.1\% & 90.2\% & 85.9\% \\ 
-\hline 小王子（英文）& 74.9\% & 71.2\% & 73.0\% & 92.3\% & 76.0\% & 83.4\% & 79.5\% & 94.1\% & 86.2\% \\
-\hline 小王子（中文）& 56.3\% & 43.8\% & 49.2\% & 66.4\% & 45.6\% & 54.0\% & 83.5\% & 92.4\% & 87.8\% \\
-\hline CTB（中文） & 57.8\% & 39.7\% & 47.1\% & 68.4\% & 49.8\% & 57.6\% & 85.4\% & 80.2\% & 82.7\% \\
-\hline 地理选择题（中文） & 70.1\% & 58.7\% & 63.9\% & 74.3\% & 62.6\% & 67.9\% & 94.5\% & 94.0\% & 94.3\% \\
-\hline
-\end{tabular}}
-\caption{\label{closetest} AMR中英文封闭测试性能}
-\end{table}
-\end{center}
-
 我们对表\ref{amrdatas}提到的五个中英文数据集都做了封闭测试，将表格中说明的测试集和训练集的数据合并起来，作为封闭测试的训练和测试数据，开发集保持不变。实验结果如表\ref{closetest}所示。该测试对于中文，是使用JAMR自带的自动对齐算法做概念的对齐。JAMR的概念对齐对于时间使用了只适用于英文的一套正则表达式，并不能直接在中文中使用。但是在语料中，时间所占的比例还是非常小的，所以暂时可以忽略这个原因给性能带来的影响。
+
+\begin{center}
+	\begin{table}[!htbp]
+		\resizebox{\textwidth}{!}{
+			\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
+				\hline {数据集} & \multicolumn{3}{c|}{Smatch（两阶段）}  & \multicolumn{3}{c|}{Smatch（gold概念）}  & \multicolumn{3}{c}{Span识别} \\
+				\hline  & P & R & F-score & P & R & F-score & P & R & F-score \\
+				\hline LDC2013E117（英文）& 81.5\% & 82.2\% & 81.8\% & 95.9\% & 87.9\% & 91.7\% & 82.1\% & 90.2\% & 85.9\% \\ 
+				\hline 小王子（英文）& 74.9\% & 71.2\% & 73.0\% & 92.3\% & 76.0\% & 83.4\% & 79.5\% & 94.1\% & 86.2\% \\
+				\hline 小王子（中文）& 56.3\% & 43.8\% & 49.2\% & 66.4\% & 45.6\% & 54.0\% & 83.5\% & 92.4\% & 87.8\% \\
+				\hline CTB（中文） & 57.8\% & 39.7\% & 47.1\% & 68.4\% & 49.8\% & 57.6\% & 85.4\% & 80.2\% & 82.7\% \\
+				\hline 地理选择题（中文） & 70.1\% & 58.7\% & 63.9\% & 74.3\% & 62.6\% & 67.9\% & 94.5\% & 94.0\% & 94.3\% \\
+				\hline
+		\end{tabular}}
+		\caption{\label{closetest} AMR中英文封闭测试性能}
+	\end{table}
+\end{center}
 
 这里我们主要对比中英文小王子语料的实验结果，因为这两个语料是平行语料，可以排除句子长度、句子类型（口语化还是正式）、语料规模带来的影响。从实验结果来看，对于英文的AMR解析，仅使用小王子1500句的语料，JAMR的两阶段测试总体F值可以达到73.0\%，可以说明该模型对于AMR的结构具有一定的处理能力；如果直接使用标注AMR对齐出的概念作为概念识别的结果，只进行第二阶段的预测，F值可以达到84.4\%。而对中文AMR的解析，两阶段测试的F值只有49.2\%，比英文低23.8\%；仅预测第二阶段的F值为54.0\%，比英文低29.6\%。
 
@@ -1217,7 +1217,7 @@ smatch（gold）概念指标可以反映第二阶段预测的情况，Span识别
 
 \subsection{开放测试}
 \begin{center}
-\begin{table}
+\begin{table}[!htbp]
 \resizebox{\textwidth}{!}{
 \begin{tabular}{c|c|c|c|c|c|c|c|c|c}
 \hline {数据集} & \multicolumn{3}{c|}{Smatch（两阶段）}  & \multicolumn{3}{c|}{Smatch（gold概念）}  & \multicolumn{3}{c}{Span识别} \\
@@ -1233,29 +1233,29 @@ smatch（gold）概念指标可以反映第二阶段预测的情况，Span识别
 \end{table}
 \end{center}
 
+\begin{center}
+	\begin{table}[!htbp]
+		\resizebox{\textwidth}{!}{
+			\begin{tabular}{c|c|c|c|c|c}
+				\hline 句子长度范围	& len<10 & 10<=len<20 & 20<=len<30 & 30<=len<40 & len>=40 \\
+				\hline CTB（中文） & 10.0\% & 37.8\% & 31.6\% & 12.5\% & 7.2\% \\
+				\hline 小王子（中文） & 42.3\% & 42.1\% & 10.9\% & 2.8\% & 2.0\% \\
+				\hline 地理选择题（中文） & 32.0\% & 57.6\% & 9.9\% & 0.5\% & 0.0\% \\
+				\hline
+		\end{tabular}}
+		\caption{\label{sentencelength} 中文语料句长分布统计}
+	\end{table}
+\end{center}
+
 该测试对于中文，也是使用JAMR自带的自动对齐算法去做概念的对齐。值得注意的是，三个中文语料的两阶段测试F值都在30\%至40\%之间，而他们的语料规模有明显差异。如表\ref{amrdatas}所示，CTB语料共有5003句，小王子语料有1562句，地理题语料有729句。我们猜测这样的结果是由于三个语料的句子长度差异导致的，句长统计结果如表\ref{sentencelength}所示。
 
 CTB语料的平均句长为21.8，小王子的平均句长为12.9，地理试题的平均句长为12.4。统计结果为之前的猜测提供了一些证据。我们可以初步得到一个结论，平均句长较大的语料，AMR的解析会更难做。
-
-\begin{center}
-\begin{table}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{c|c|c|c|c|c}
-\hline 句子长度范围	& len<10 & 10<=len<20 & 20<=len<30 & 30<=len<40 & len>=40 \\
-\hline CTB（中文） & 10.0\% & 37.8\% & 31.6\% & 12.5\% & 7.2\% \\
-\hline 小王子（中文） & 42.3\% & 42.1\% & 10.9\% & 2.8\% & 2.0\% \\
-\hline 地理选择题（中文） & 32.0\% & 57.6\% & 9.9\% & 0.5\% & 0.0\% \\
-\hline
-\end{tabular}}
-\caption{\label{sentencelength} 中文语料句长分布统计}
-\end{table}
-\end{center}
 
 \subsection{在中文上使用人工对齐数据}
 对齐信息是新旧AMR标注之间最主要的区别，因此我们想验证一下目前这种对齐标注的有效性。在本实验中我们对比了三个中文数据集使用自动对齐和人工对齐的实验结果，如表\ref{align_exp}所示。
 
 \begin{center}
-\begin{table}
+\begin{table}[!htbp]
 \resizebox{\textwidth}{!}{
 \begin{tabular}{c|c|c|c|c|c|c|c|c|c}
 \hline {数据集} & \multicolumn{3}{c|}{Smatch（两阶段）}  & \multicolumn{3}{c|}{Smatch（gold概念）}  & \multicolumn{3}{c}{Span识别} \\
@@ -1303,7 +1303,7 @@ AMR是一种新型的语义表示方法，目前在英文上开展了一些研�
 \section{系统架构}
 该系统采用了B/S架构，使用python的django框架进行WEB环境的搭建，在后台使用了mongodb数据库来存储数据。系统架构如图\ref{django}所示。
 
-\begin {figure}
+\begin {figure}[!htbp]
 	\centering
 	\includegraphics[width=0.4\linewidth]{{django}.png}
 	\caption{试题标注系统基于django的架构}
@@ -1314,14 +1314,15 @@ AMR是一种新型的语义表示方法，目前在英文上开展了一些研�
 
 在试题标注中，由于各项标注内容之间存在相互依赖关系，系统中为了这种依赖关系，要求在标注某一项数据之前，需要完成其依赖的标注内容在该试题上的标注。选择题和主观题的标注流程如图\ref{tagdep}所示。
 
-\begin {figure}
-	\centering
-	\includegraphics[width=\linewidth]{{tagdep}.png}
-	\caption{标注流程示意图}
-	\label{tagdep}
+首先是试题导入，试题为特定格式的txt文件，选择题和主观题分别在通过不同的文件上传。系统会判断txt文件内部格式是否正确，例如题目的层次、选项的个数等等，经过解析的试题数据会以层次化的结构，以一个document的形式存储起来。对于选择题，会特别进行选项并列拆分的标注，为第\ref{chapter:split}章中的地理选择题选项拆分任务提供标注数据。
+
+\begin {figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{{tagdep}.png}
+\caption{标注流程示意图}
+\label{tagdep}
 \end{figure}
 
-首先是试题导入，试题为特定格式的txt文件，选择题和主观题分别在通过不同的文件上传。系统会判断txt文件内部格式是否正确，例如题目的层次、选项的个数等等，经过解析的试题数据会以层次化的结构，以一个document的形式存储起来。对于选择题，会特别进行选项并列拆分的标注，为第\ref{chapter:split}章中的地理选择题选项拆分任务提供标注数据。
 
 图中标注任务之间的有向箭头表示数据之间的依赖关系，只有完成某一项任务的标注后，从该项任务指出的箭头所指向的任务才可以进行标注。具体来说，试卷会首先进行分词标注，完成后可进行试题语义模板（图中简称“模板”）、实体和术语的标注；完成实体和术语的标注后可以进行词性标注；完成词性标注后可以进行成分句法分析的标注。此外还有一些解题相关任务的数据标注未在该图中体现，例如套话、上下文、题干核心成分分类、选项类别、题干前导部分分类等，这些标注仅依赖分词标注。
 
@@ -1332,18 +1333,18 @@ AMR是一种新型的语义表示方法，目前在英文上开展了一些研�
 \section{功能说明及使用方法}
 系统提供的标注是基于试卷的，通过试卷名找到对应试卷，然后开始标注。支持两种标注方式，一种是按照标注内容一项一项对整套试卷进行标注，另一种是对某一道题进行所有标注。通常在使用过程中，由于标注人员各有分工，基本上是采用按内容标注的方式，在系统中我们称之为“单项标注”，词性的单项标注如图\ref{tagpos}所示。以题目为单位的标注通常用于标注完成后对某道题的标注进行修改，我们称之为“单句标注”，如图\ref{tag_single}所示。
 
+\begin {figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{{tagpos}.png}
+\caption{词性单项标注页面}
+\label{tagpos}
+\end{figure}
+
 可以以试卷为单位整体标注的数据字段仅有分词、时间地点（即实体，实际上还包括数量词的标注）、词性、术语、套话/上下文标注这5项内容。因为这些标注对于每一个试题文本来说都很简短，两行文本或者几个填空就可以完成，并且同一道选择题的四个（或以上）试题文本之间常常互有关联，例如对于分词来说，多个选项之间的题面分词结果是一致的。所以系统提供了在同一个页面中对该试卷所有试题文本进行某项数据的标注功能。
 
 对于不方便进行整体标注的数据，我们为每个试题文本单独显示一个标注页面，例如后面介绍的试题文本拆分标注、AMR标注都是每次标注一个试题文本。
 
-\begin {figure}
-	\centering
-	\includegraphics[width=\linewidth]{{tagpos}.png}
-	\caption{词性单项标注页面}
-	\label{tagpos}
-\end{figure}
-
-\begin {figure}
+\begin {figure}[!htbp]
 	\centering
 	\includegraphics[width=\linewidth]{{tag_single}.png}
 	\caption{单句标注页面}
@@ -1370,14 +1371,14 @@ AMR是一种新型的语义表示方法，目前在英文上开展了一些研�
 \end{figure}
 
 \subsection{试题文本拆分标注}
-系统会对所有选项中含有逗号的试题文本提供一个标注界面，并忽略不含逗号的试题文本，如图\ref{split_tag}所示。我们需要通过图\ref{browse}中试卷所在行的最后一类中的“标注拆分”超链接进入这个界面，这个超链接只会在还未完成标注拆分或已完成标注拆分但没有提交分词结果（提交分词结果后不能再进入标注拆分）的试卷中显示，所以该图中没有这种试卷也就没有这个超链接。
-
-\begin {figure}
-	\centering
-	\includegraphics[width=0.7\linewidth]{{split_tag}.jpeg}
-	\caption{拆分标注页面}
-	\label{split_tag}
+\begin {figure}[!htbp]
+\centering
+\includegraphics[width=0.7\linewidth]{{split_tag}.jpeg}
+\caption{拆分标注页面}
+\label{split_tag}
 \end{figure}
+
+系统会对所有选项中含有逗号的试题文本提供一个标注界面，并忽略不含逗号的试题文本，如图\ref{split_tag}所示。我们需要通过图\ref{browse}中试卷所在行的最后一类中的“标注拆分”超链接进入这个界面，这个超链接只会在还未完成标注拆分或已完成标注拆分但没有提交分词结果（提交分词结果后不能再进入标注拆分）的试卷中显示，所以该图中没有这种试卷也就没有这个超链接。
 
 首先我们可以选择该试题文本是否可拆分，如果选择“是”，则会显示下面的拆分后的几个部分。如果公共部分右边界位于选项中而不是题面和选项的边界处，则第二个部分及后面的部分，需要在最前面补上缺失的公共部分。例如在例图中，选项文本的拆分情况为“下列关于太阳方向的叙述，不正确的为@冬至日某地/太阳升起的方位是东偏南，落下的方位是西偏南”，原本两个逗号隔开的部分是“冬至日某地太阳升起的方位是东偏南”及“落下的方位是西偏南”，但是由于公共部分右边界位于“冬至日某地”后面，所以会将‘@’和‘/’之间的部分补全到第二部分的最前面，这样得到的每一个部分和题面进行拼接，就得到了拆分后的多个句子。如果选择“否”，则不会显示拆分后的部分。这样就标注了是否可拆分，以及可拆分的情况下公共部分右边界的位置。
 
@@ -1387,10 +1388,10 @@ AMR是一种新型的语义表示方法，目前在英文上开展了一些研�
 系统为AMR标注提供了基本的功能，提供了一个简单的输入框，可以将使用专业工具标注得到的结果添加进来保存入系统，同时这个标注结果是随时可以修改的。标注界面如图\ref{tagamr}所示。
 
 \begin {figure}
-	\centering
-	\includegraphics[width=0.9\linewidth]{{tagamr}.jpg}
-	\caption{AMR标注页面}
-	\label{tagamr}
+\centering
+\includegraphics[width=0.9\linewidth]{{tagamr}.jpg}
+\caption{AMR标注页面}
+\label{tagamr}
 \end{figure}
 
 \subsection{标注数据导出}
