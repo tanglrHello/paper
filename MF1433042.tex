@@ -311,30 +311,9 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 \subsection{篇章关系类别体系}
 
-
-
-\section{语义理解}
-
-\section{本章小结}
-本章主要介绍了基于短语的统计机器翻译系统的各部分重点内容。首先介绍了短语机器翻译的整体框架与流程。在此基础上，分别介绍了短语机器翻译的建模方法，参数训练方法，解码方法等内容。
-
-短语翻译系统通过最小错误率训练进行对数线性模型的参数调节，在开发集上，直接对翻译评价指标进行参数调节，每次调节一维参数，经过多轮迭代获得最优参数。统计机器翻译最常用的自动评价指标为BLEU。
-
-短语翻译系统采用了对数线性模型进行建模，可以自然地使用各种特征。短语翻译系统主要使用了翻译概率、词汇化调序概率、语言模型概率、词计数、短语计数等特征。为了减少搜索空间，降低搜索复杂度，短语翻译系统采用了一种启发式搜索算法：柱搜索解码算法。柱搜索算法通过源端词数维护搜索栈，即翻译了相同源端词数的假设置于同一个栈中。柱搜索算法的核心是假设扩展和假设剪枝。翻译系统通过将翻译选项的目标端连接到局部假设之后，并同时更新假设的各项特征值来进行假设扩展。翻译系统通过局部假设的特征值得分和未来代价估计相加进行局部假设的得分估计，并使用该得分估计进行剪枝，提高了局部假设之间的可比较性，从而降低了搜索错误。在假设扩展过程中，为了进一步减少搜索空间，翻译系统通过假设重组，丢弃无效假设。
-
-本文中提出的交互式机器翻译相关内容均建立在短语翻译系统的基础上，特别是短语翻译系统的短语表、解码方法、模型参数训练等内容上。对短语机器翻译系统中的关键部分的理解有助于对本文的理解。
-
-\chapter{地理选择题选项拆分}
-\label{chapter:split}
-\section{引言}
-中文长句通常是一个复句，《现代汉语》对复句的定义为：复句是由两个或几个意义上紧密相关、结构上互不包含的分句构成的句子\cite{zhou2008}。这样的几个分句之间往往是由逗号分隔开的。根据上述定义，我们可以利用逗号在复句中的作用，将句子拆解成一些更简短的句子，从而降低句法分析、机器翻译、语义理解等等任务的难度。逗号除了可以分隔从句或是分句，在中文中也可以用来分隔并列的词语等等。
-
-在地理试题中，尤其是选择题中，我们观察到一个现象：选择题的一个选项中（不考虑题面）经常包含一个或一个以上的逗号，而这个逗号常常隔开了两个或以上可以独立判断正误的陈述，但也有一些逗号隔开的是具有因果、递进等关系的子句篇章。如果我们可以判断出哪些逗号隔开的是相对独立的两件事情，哪些逗号不能用来作为分割点隔开长句中两个句法上并列的部分，则可以在合适的场景下，将较长的陈述句拆解成多个更简短的句子，从而减小例如句法分析及语义理解的分析难度。
-
-为了更好地处理选择题中选项包含了逗号的长句，我们根据逗号分开的两个句子部分的上下文特征，判断该逗号隔开的是否是句法上可以视作并列的两个部分，再用启发式的规则方法寻找公共部分右边界，进而将一些长句转换为几个短句。我们使用了最大熵模型进行分类，本章将介绍整个实验的方法及结果。
-
-\section{相关工作}
-在前期调研中，我们发现没有已发表的研究十分类似于本章所提到的工作，一方面是因为逗号的处理在英文中的重要性要低于中文，因此对于逗号在句子分析和理解中的被重视程度并不是很高，另一方面是因为本文所提出的方法是针对高考地理试题中的选择题这种特殊文本所提出的，并不十分适用于通用的中文文本。所以我们需要为我们研究的问题寻找一些理论基础，在本节中，我们根据Yang Y.Q.等人\cite{Yang2012Chinese}的研究工作，介绍他们在研究中文篇章关系时整理出的逗号在句子中的功能分类，这个分类与我们对逗号功能的判断和应用比较吻合。
+\subsection{逗号分类体系}
+\label{commaclssify}
+在前期调研中，我们发现没有已发表的研究十分类似于我们对试题进行拆分的工作，一方面是因为逗号的处理在英文中的重要性要低于中文，因此对于逗号在句子分析和理解中的被重视程度并不是很高，另一方面是因为本文所提出的方法是针对高考地理试题中的选择题这种特殊文本所提出的，并不十分适用于通用的中文文本。而Yang Y.Q.等人\cite{Yang2012Chinese}的研究工作，介绍他们在研究中文篇章关系时整理出的逗号在句子中的功能分类，这个分类与我们对逗号功能的判断和应用比较吻合。
 
 上述工作将逗号的使用方法划分为7类，首先把逗号的使用方法在总体上分为两大类：一类是逗号连接的两个句子片段之间存在关系，即逗号是子句边界；另一类是两个句子片段之间不存在关系，不能视作是子句或者是篇章的边界。两个子句之间存在的关系又可以分为并列关系和从属关系：并列关系可以分为三种类型（SB、IP\_COORD、VP\_COORD），从属关系也分为三种类型（ADJ、COMP、SBJ），图\ref{comma_types}展示了这个分类体系。
 
@@ -383,6 +362,302 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 7）OTHER：其他用法，在分类体系中对应逗号前后两个部分不存在关系的情况。
 
 在\ref{section:split_method}中，我们会详细介绍地理试题文本中的逗号使用情况，并描述地理试题的分类的标准与上述的逗号分类体系之间的关联。
+
+\section{语义理解}
+\subsection{}
+
+\subsection{AMR语义表示体系}
+\label{subsection:amrback}
+AMR是一种有向的、简单的、类似树结构的（树出现环变成图的比例比较小）、边和节点有标记的图\cite{Banarescu2013Abstract}，可以将句子中的语义概念和概念之间的语义关系以节点和边的形式表现出来。
+
+\begin {figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{{graph_amr}.png}
+	\caption{AMR图表示}
+	\label{amrgraph}
+\end{figure}
+
+AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如图\ref{amrgraph}。在图表示方法中，没有入边的节点就是根节点，在该图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，即节点对应的概念。根节点是“want-01”，后缀“-01”指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，例如arg0和arg1这两个论元。
+
+这句话中有一个“want”动作，它的arg0（谁在want）是“boy”，它的arg1（want的是什么）是一个“believe”的动作；“believe”动作的arg0（谁在believe）是“girl”，它的arg1（believe什么）是“boy”。所以在这里“boy”有两个作用，一是作为“want-01”的arg0，一是作为“belive-01”的arg1，这个节点有两条入边，因此AMR图上出现了一个环，这在AMR中也叫做“重入”（reentrancy）。也正是因为“重入”现象的存在，使得AMR是一种图表示方法，而不是树表示方法。
+
+上图这样的表示方法看起来稍有点复杂，AMR还可以以一种文本方式表达出来：
+\begin{lstlisting}[language=C]
+ (w / want-01 
+	:ARG0 (b / boy)
+	:ARG1 (b2 / believe-01
+		:ARG0 (g / girl)
+		:ARG1 b))
+\end{lstlisting}
+ 
+
+第一行即AMR的根节点，冒号后面的标签表示节点之间边的标签，也就是节点之间的关系。每个节点由变量名（斜杠前的部分）和概念（斜杠后的部分）组成（除了多次出现的同一个节点），如果一个节点出现多次，则通过让该节点的变量名多次出现来表示，如该例中的节点b。概念里的斜杠也可以看做是图表示方法中instance的简化表示。
+
+AMR也可以用逻辑三元组的来表示，上面的例子可以表示成：
+\begin{lstlisting}[language=C]
+instance(w, want-01) \^      /* w 是want的实例 */ 
+instance(b, boy) \^          /* b 是boy的实例 */ 
+instance(b2, believe-01) \^  /* b2 是believing的实例 */ 
+instance(g, girl) \^         /* g 是girl的实例 */ 
+ARG0(w, b) \^                /* b 是want的发起者 */ 
+ARG1(w, b2) \^               /* b2 是被want的东西 */ 
+ARG0(b2, g) \^               /* g 是believe的人 */ 
+ARG1(b2, b)                 /* b 是被believe的人 */
+\end{lstlisting}
+
+上面例子中的这句话在英文中还可以有很多种不同的表示方法，例如：
+\begin{enumerate}
+  \item The boy wants to be believed by the girl.
+  \item The boy has a desire to be believed by the girl.
+  \item The boy’s desire is for the girl to believe him.
+  \item The boy is desirous of the girl believing him.
+\end{enumerate}
+
+概念want-01可以在句子中用动词want、名词desire或者形容词desirous来表达。
+
+再比如下面这个AMR表示：
+\begin{lstlisting}[language=C]
+(p / permit-01
+	:ARG1 (g / go-02
+		:ARG0 (b / boy))
+	:polarity ))
+\end{lstlisting}
+
+也有很多种英文表达方式：
+\begin{enumerate}
+  \item The boy may not go.
+  \item The boy is not permitted to go.
+  \item It is not permissible for the boy to go.
+  \item The boy does not have permission to go.
+\end{enumerate}
+
+由此可以看出，AMR更加强调句子表达的逻辑语义，并将表层的语法表达方式抽象出去。
+
+AMR是一种有向图表示，其中图的边和节点的关系应满足一些限制条件\cite{Flanigan2014}：
+\begin{enumerate}
+  \item 简单性：应该是一个简单图，即任意两个概念节点之间最多有一条边
+  \item 连通性：应该是弱连通图
+  \item 确定性：对于某个节点，不能有标签相同的两条出边
+  \item 无环性：图中没有环（有向边形成的首尾相连的环）
+\end{enumerate}
+
+
+\subsubsection{标注体系}
+通过上文的介绍可知，AMR主要有两个部分组成：概念（节点）、概念间的关系（边）。下面将从这两个方面介绍AMR的标注体系。
+
+\subsubsubsection{概念（concept）}
+AMR的concept主要有三种来源：句中词语（例如\ref{amrgraph}中的“boy”）、propbank中的语义框架（例如\ref{amrgraph}中的“want-01”）、抽象的关键字。
+
+从之前的例子可以看出，AMR试图对不同的表达方式甚至是相同语义的不同词语做出统一的标注方式。因此英文AMR对常见的concept制定了一个实体类型的标准列表，首先需要从这些实体名称中找出和想要描述的实体最相近的一个（例如有人会说“person”，有人会说“woman”，则可以通过这个列表统一起来）:
+\begin{enumerate}
+  \item person, family, animal, language, nationality, ethnic-group, regional-group, religious-group
+  \item organization, company, government-organization, military, criminal-organization, political-party, school, university, research institute, team, league
+  \item location, city, city-district, county, local-region, state, province, country, country-region, world-region, continent, ocean, sea, lake, river, gulf, bay, strait, canal, peninsula, mountain, volcano, valley, canyon, island, desert, forest, moon, planet, star, constellation
+  \item facility, airport, station, port, tunnel, bridge, road, railway-line, canal, building, theater, museum, palace, hotel, worship-place, market, sports-facility, park, zoo, amusement-park
+  \item event, incident, natural-disaster, earthquake, war, conference, game, festival
+  \item product, vehicle, ship, aircraft, aircraft-type, spaceship, car-make, work-of-art, picture, music, show, broadcast-program
+  \item publication, book, newspaper, magazine, journal
+  \item natural-object
+  \item law, treaty, award, food-dish, disease
+\end{enumerate}
+
+有时候句子中也会有单词指示该实体的类型，如果这个词比上述方式选择的类型更具体，则使用这个词代替，例如对于“the poet William Shakespeare”，可以用：
+\begin{lstlisting}[language=C]
+(p / poet
+	:name (n / name :op1 "William" :op2 "Shakespeare"))
+\end{lstlisting}
+
+如果上述列表中所有实体名都没有合适的，句子中也没有明确指明实体的类型名称，就可以用“thing”来表示这个实体。例如对于“Words are the source of misunderstandings”，AMR中对“understanding”这个添加了“thing”这个concept：
+\begin{lstlisting}[language=C]
+(s / source-01
+	:ARG1 (t / thing
+		:ARG0-of (m / misunderstand-01))
+	:ARG2 (w / word))
+\end{lstlisting}
+
+如果一个实体有多个类型，例如“著名诗人、画家XXX”，则可以使用:mod关系来修饰，例如对于“the poet Dr. Seuss”：
+\begin{lstlisting}[language=C]
+(d / doctor
+	:name (n / name
+		:op1 "Seuss")
+	:mod (p / poet))
+\end{lstlisting}
+
+还有一类概念用来表示数量：monetary-quantity , distance-quantity , area-quantity , volume-quantity , temporal-quantity , frequency-quantity , speed-quantity , acceleration-quantity , mass-quantity , force-quantity , pressure-quantity , energy-quantity , power-quantity , voltage-quantity (zap!-, charge-quantity , potential-quantity , resistance-quantity , inductance-quantity , magnetic-field-quantity , magnetic-flux-quantity , radiation-quantity , concentration-quantity , temperature-quantity ,score-quantity ,fuel-consumption-quantity , seismic-quantity。通常这类概念后面都会有一个quant关系指向表示具体数值的节点。
+
+此外还有一些常见的concept列举如下：
+\begin{enumerate}
+	\item relative-position（相对位置）
+	\item product-of和sum-of（数学运算）
+	\item date-entity（时间）
+	\item date-interval（时间区间）
+	\item percentage-entity（百分比）
+	\item phone-number-entity（电话号码）
+	\item email-address-entity（电子邮箱）
+	\item url-entity（url）
+\end{enumerate}
+
+对于特殊疑问句，AMR还对被提问的部分设计了一个amr-unknown概念。例如“What did the girl find?”:
+\begin{lstlisting}[language=C]
+(f / find-01
+	:arg0 (g / girl)
+	:arg1 (a / amr-unknown))
+\end{lstlisting}
+
+\subsubsubsection{关系（relation）}
+AMR在英文标注中大约有100种关系，比较常见的可以大致分成以下5个类型：
+\begin{enumerate}
+	\item 框架论元 :arg0,:arg1,:arg2,:arg3,:arg4,:arg5.
+	\item 通用语义关系 :accompanier, :age, :bene ciary, :cause, :compared-to, :concession, :condition, :consist-of, :degree, :destination, :direction, :domain, :duration,:employed-by, :example, :extent, :frequency, :instrument, :li, :location, :manner, :medium, :mod, :mode, :name, :part, :path, :polarity, :poss, :purpose, :source, :subevent, :subset, :time, :topic, :value.
+	\item 数量相关的关系 :quant, :unit, :scale
+	\item 时间实体相关的关系 :day, :month, :year, :weekday, :time, :timezone, :quarter, :dayperiod, :season, :year2, :decade, :century, :calendar, :era.
+	\item 列举关系 :op1, :op2, :op3, :op4, :op5, :op6, :op7, :op8, :op9,
+:op10.
+\end{enumerate}
+
+对于所有的关系，AMR还允许这些关系的反转形式也作为关系标签，例如:arg0的反转形式为:arg0-of，:location的反转形式为:location-of。
+除了上面列举的，还有一些其他的关系标签，不再一一列举。
+
+\subsubsection{语料对齐与自动对齐}
+\label{subsubsection:aligndata}
+AMR的语料对齐，即是将原句中的词语、词组与AMR图中的一个概念节点或者一个概念节点子图（例如一个时间概念子图，包括一个date-entity概念及其指向的表示年、月、日等信息的节点）进行对齐，对齐结果对于自动解析算法有着重要的作用，例如在概念识别等阶段。图\ref{amr_align}给出了一个AMR节点与句子词语之间的对齐示意图。
+
+\begin {figure}[!htbp]
+	\centering
+	\includegraphics[width=1.0\linewidth]{{align}.jpeg}
+	\caption{AMR对齐}
+	\label{amr_align}
+\end{figure}
+
+在语料建设工作中，不同的语料可能存在一个差异，即是否有对齐信息。目前英文的语料都是不含有对齐信息的，上文的例子都是这一类标注；中文已公布的1500句小王子语料也是不含有对齐信息的，但是即将公开的一些中文数据将对齐信息考虑了进去，嵌入了AMR的标注中。本文的AMR部分工作是与含有对齐信息的语料标注团队合作，所以在我们的实验中也使用到了这一部分数据。
+
+下面给出同一个中文句子的有对齐标注和无对齐标注两个版本，来说明对齐信息是如何标注的。这个例子是对来自《小王子》语料中的一句话的两种标注，这句话分词的结果是“画 的 是 一 条 蟒蛇 正在 吞食 一 只 大 野兽 。”：
+
+\begin{lstlisting}[language=C]
+无对齐标注：
+(x12 / 吞食-01
+	:arg0  (x14 / 蟒蛇
+		:quant  (x15 / 1)
+		:cunit  (x5 / 条))
+	:arg1  (x16 / 野兽
+		:mod  (x17 / 大-01)
+		:quant  (x18 / 1)
+		:cunit  (x10 / 只))
+	:domain  (x19 / thing
+		:arg1-of  (x20 / 画-01))
+	:time  (x21 / 正在))
+\end{lstlisting}
+
+\begin{lstlisting}[language=C]
+有对齐标注：
+(x8 / 吞食-01
+	:arg0  (x6 / 蟒蛇
+		:quant  (x4 / 1)
+		:cunit  (x5 / 条))
+	:arg1  (x12 / 野兽
+		:mod  (x11 / 大)
+		:quant  (x9 / 1)
+		:cunit  (x10 / 只))
+	:domain  (x24 / thing
+		:arg1-of  (x1 / 画-01))
+	:aspect  (x7 / 正在))
+\end{lstlisting}
+
+可以看到，在AMR的整体结构上两者基本一致，差异在于变量（variable）名的选取。
+
+对于无对齐信息的标注版本，在英文语料中，变量名通常是概念的首字母，如果出现了重复的首字母，则在后面添加一个数字来区分，例如“b2”等等。在中文语料中则通常是一个字母“x”加上一个数字，这个数字没有特别含义，只要能够将不同的概念区分开来即可。
+
+对于有对齐信息的标注版本，每个变量名中的数字都是有含义的。如果概念对应原文的某个词或者短语，那么变量名的数字后缀就是对应词语的下标；如果概念是新增的抽象概念，例如对于时间实体加了“date-entity”概念节点或者上面增加的“thing”这个概念，他们的数字下标是任意一个超过句子长度的数字，表示该概念不直接对应于句子中的词语，以免混淆。
+
+在中文的对齐标注中，根据概念与句子分词结果中的对齐方式分类，有这几种情况：
+\begin{enumerate}
+	\item 对应一个词语：例如上面的“(x11 / 大)”，表示“大”这个概念对齐到句子的第11个词
+	\item 对应多个词语：例如“ 那么 刺 有 什么 用 呢 ？ ”的AMR标注中有一个概念“x4\_x6 / 有用-01”，表示“有用-01”这个概念对齐到句子的第4和第6个词上。对于连续的词，也需要逐个写出对应的区间内的每一个词的下标，以免和上面这种跳词现象混淆。
+	\item 对应某个词语中的某几个字：例如“我 把 锤子 、 螺钉 、 饥渴 、 死亡 ， 全都 抛在 脑后 。”的AMR标注中有一个概念“x12\_1 / 抛-01”，表示“抛-01”这个概念对齐到句子的第12个词的第一个字上（如果是多个字则依次写出每个字在词中的下标，例如“x5\_1\_2\_3”）。
+\end{enumerate}
+
+关于自动对齐，Flanigan等人\cite{Flanigan2014}在提出JAMR解析算法的同时，为了训练概念节点的识别，提出了一种自动对齐的算法，主要是根据一系列的规则，用贪心算法来进行对齐，达到了92\%的准确率、89\%的召回率和90\%的F值，但是这种对齐方式只支持对概念节点和词语之间进行对齐，而没有考虑到边的label可能会来源于某个词语，也存在对齐关系。Nima Pourdamghani等人\cite{Pourdamghani2014}提出了另一种自动对齐方式，该方法主要分为预处理、训练、后处理三步，在预处理阶段将AMR转换成一个字符串（保留关系的标签），然后进行小写化、去除停用词、去除词缀、去除等预处理，然后利用IBM的对齐模型进行训练，在后处理再重建出对齐好的AMR图。在对齐过程中，这种方式包含了边的标签信息，所以可以对边也进行对齐。
+
+\subsubsection{自动解析算法}
+Flanigan等人\cite{Flanigan2014}在2014年提出了一种两阶段的图算法JAMR，这是第一个公开的AMR自动解析算法，为后面的研究提供了一个较强的baseline。在2015年Wang Chuan\cite{Wang2015}等人观察到AMR表示与句法分析结果之间的相似性，提出了一种基于转换的AMR解析算法。Pust等人\cite{Pust2015}也在同年提出了一种使用基于语法的机器翻译的方法进行AMR的解析。Lucy Vanderwende等人\cite{Vanderwende2015}还提出了一种基于逻辑形式（Logical Form）到AMR的转换规则的解析方法，来处理没有大规模AMR标注语料的语言的AMR解析问题。本节重点介绍本文实验基于的JAMR图算法。
+
+Flanigan等人\cite{Flanigan2014}将AMR解析分成两个阶段：第一个阶段是从句子中识别出概念节点；第二个阶段是预测这些节点之间的边，也就是概念之间的关系。
+
+在概念识别阶段，句子将会被切分成多个连续的片段（span），可通过序列标注算法来实现，并将每一个片段对应于一个概念子图（AMR的一个片段，可能包含多个概念节点，例如一个时间实体包括一个date-entity概念和具体的年月日概念等等），这些概念子图都来自于训练语料中这些片段曾经对齐到的概念子图，或者是一个空图（即放弃这个片段到AMR的对应）。通过对一系列连续的句子子串\textbf{b}和一系列的概念图片段\textbf{c}进行打分（两者的个数均为k），使用公式\ref{concept_iden}进行优化，其中\textbf{$f$}是句子子串（span）和它可以对应的一个概念子图片段在上下文中的特征向量表示，包括词、长度、命名实体等等这些特征，k为句子被切分成的片段数。
+
+\begin{equation}
+	\label{concept_iden}
+	score(\textbf{b}, \textbf{c}; \textbf{$\theta$})=\sum_{i=1}^{k}\textbf{$\theta$}^\mathrm{T}f(\textbf{w}_{b_i-1\:b_i}, b_{i-1}, b_i, c_i)
+\end{equation}
+
+在关系识别阶段，基于第一个阶段识别出来的概念子图片段，在子图之间添加关系得到最终的AMR结果。这个结果需要满足五个条件，其中四个是在本章开头介绍过的AMR的有向图需要满足的四个条件：连通性、简单性、确定性、无环性，另一个就是保持性，即在第一阶段识别出所有概念子图片段应该是最终的AMR结果的子图。该阶段中，首先会对训练语料中的边训练一个线性参数的函数，特征为这条边的一些上下文，在解码的时候根据训练出的参数和函数对候选边进行打分。算法描述如下：边的候选集合为所有概念节点之间两两连接的有向边（两个方向，所有可能的边类型）；首先对于第一阶段识别出来的概念子图中已经存在的边，相应的节点对之间的其它边都不再作为候选边，这些存在的边成为AMR最终结果的组成部分；再根据训练出的边打分函数，对未确定关系的节点对之间的所有候选边打分，保留分数最高的一条边，其他的不再作为候选；将所有得分大于0的边选出作为AMR最终结果的组成部分；对剩余的候选边，根据得分从高到底依次判断每条边是否进入最终结果，如果这条边可以将之前未相连的两个子图连接起来，则保留这条边；直至所有的节点之间形成一个弱连通图。
+
+\subsubsection{自动评价}
+目前，AMR最常用的评价方式是计算自动生成的AMR和测试集中的参考AMR的smatch得分\cite{Flanigan2014}\cite{Cai2013Smatch}。
+
+\begin {figure}
+	\centering
+	\includegraphics[width=\linewidth]{{two_amr}.jpeg}
+	\caption{两个待比较的AMR结果}
+	\label{twoamr}
+\end{figure}
+
+在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\ref{twoamr}中左边的AMR，可以表示成：\\
+instance(a, want-01) \^ \\
+instance(b, boy) \^ \\
+instance(c, go-01) \^ \\
+ARG0(a, b) \^ \\
+ARG1(a, c) \^ \\
+ARG0(c, b)
+
+三元组有两种形式，一种是relation(variable, concept)，另一种是relation(variable1, variable2)，例如上述前三行是第一种三元组，后三行是第二种三元组。
+
+对于图\ref{twoamr}中右边的AMR，可以表示成：\\
+instance(x, want-01) \^ \\
+instance(y, boy) \^ \\
+instance(z, football) \^ \\
+ARG0(x, y)\^ \\
+ARG1(x, z)
+
+smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回率和F值（通过将两个AMR中的变量名映射起来，然后计算两组三元组之间的相同的个数，再根据总的三元组个数计算准确率和召回率）。困难在于两个AMR所使用的变量名并不相同，所以两个AMR之间基于不同的变量映射方式，可以计算得到多种重合结果。smatch则定义为：将两个AMR之间的节点一一对应起来，所能得到的最大的F值。例如针对上面的例子，有六种变量匹配的方式，如表\ref{smatch_table}。
+
+\begin{table}[!htbp]
+\begin{center}
+\begin{tabular}{c|c|c|c|c}
+\hline {映射方式} & {M} & {P} & {R} & {F} \\
+\hline x=a, y=b, z=c & 4 & 4/5 & 4/6 & 0.73 \\
+\hline x=a, y=c, z=b & 1 & 1/5 & 1/6 & 0.18 \\
+\hline x=b, y=a, z=c & 0 & 0/5 & 0/6 & 0.00 \\
+\hline x=b, y=c, z=a & 0 & 0/5 & 0/6 & 0.00 \\
+\hline x=c, y=a, z=b & 0 & 0/5 & 0/6 & 0.00 \\
+\hline x=c, y=b, z=a & 2 & 2/5 & 2/6 & 0.36 \\
+\hline smatch score & \multicolumn{4}{r}{0.73}\\
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{smatch_table} 不同变量映射方式}
+\end{table}
+
+所以这个例子的smatch得分就是所有映射方式中所能得到的最大的F值0.73。虽然smatch的概念很简单明了，但是计算起来实际上没有这么简单，对于包含大量节点的AMR，枚举所有的可能的映射方式的时间复杂度很高，所以有一些高效的算法被用于计算近似的smatch值，例如爬山法等等，这超过了本文的介绍范围，所以不再展开。
+
+
+\section{本章小结}
+本章主要介绍了基于短语的统计机器翻译系统的各部分重点内容。首先介绍了短语机器翻译的整体框架与流程。在此基础上，分别介绍了短语机器翻译的建模方法，参数训练方法，解码方法等内容。
+
+短语翻译系统通过最小错误率训练进行对数线性模型的参数调节，在开发集上，直接对翻译评价指标进行参数调节，每次调节一维参数，经过多轮迭代获得最优参数。统计机器翻译最常用的自动评价指标为BLEU。
+
+短语翻译系统采用了对数线性模型进行建模，可以自然地使用各种特征。短语翻译系统主要使用了翻译概率、词汇化调序概率、语言模型概率、词计数、短语计数等特征。为了减少搜索空间，降低搜索复杂度，短语翻译系统采用了一种启发式搜索算法：柱搜索解码算法。柱搜索算法通过源端词数维护搜索栈，即翻译了相同源端词数的假设置于同一个栈中。柱搜索算法的核心是假设扩展和假设剪枝。翻译系统通过将翻译选项的目标端连接到局部假设之后，并同时更新假设的各项特征值来进行假设扩展。翻译系统通过局部假设的特征值得分和未来代价估计相加进行局部假设的得分估计，并使用该得分估计进行剪枝，提高了局部假设之间的可比较性，从而降低了搜索错误。在假设扩展过程中，为了进一步减少搜索空间，翻译系统通过假设重组，丢弃无效假设。
+
+本文中提出的交互式机器翻译相关内容均建立在短语翻译系统的基础上，特别是短语翻译系统的短语表、解码方法、模型参数训练等内容上。对短语机器翻译系统中的关键部分的理解有助于对本文的理解。
+
+\chapter{地理选择题选项拆分}
+\label{chapter:split}
+\section{引言}
+中文长句通常是一个复句，《现代汉语》对复句的定义为：复句是由两个或几个意义上紧密相关、结构上互不包含的分句构成的句子\cite{zhou2008}。这样的几个分句之间往往是由逗号分隔开的。根据上述定义，我们可以利用逗号在复句中的作用，将句子拆解成一些更简短的句子，从而降低句法分析、机器翻译、语义理解等等任务的难度。逗号除了可以分隔从句或是分句，在中文中也可以用来分隔并列的词语等等。
+
+在地理试题中，尤其是选择题中，我们观察到一个现象：选择题的一个选项中（不考虑题面）经常包含一个或一个以上的逗号，而这个逗号常常隔开了两个或以上可以独立判断正误的陈述，但也有一些逗号隔开的是具有因果、递进等关系的子句篇章。如果我们可以判断出哪些逗号隔开的是相对独立的两件事情，哪些逗号不能用来作为分割点隔开长句中两个句法上并列的部分，则可以在合适的场景下，将较长的陈述句拆解成多个更简短的句子，从而减小例如句法分析及语义理解的分析难度。
+
+为了更好地处理选择题中选项包含了逗号的长句，我们根据逗号分开的两个句子部分的上下文特征，判断该逗号隔开的是否是句法上可以视作并列的两个部分，再用启发式的规则方法寻找公共部分右边界，进而将一些长句转换为几个短句。我们使用了最大熵模型进行分类，本章将介绍整个实验的方法及结果。
 
 \section{选项拆分方法}
 \label{section:split_method}
@@ -455,7 +730,7 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 
 此外，在问题描述中，我们提及拆分后得到的句子应该能够表达原试题文本的语义，但是有一种情况例外，即试题文本的选项中，逗号隔开的两个部分之间，存在潜在的因果关系，即没有明确的关系连词，但从逻辑上来说存在一定因果相关性。例如“2000年到2012年，崇明县城镇化水平不断提高的主要原因是@/第一产业效率提高，农村出现剩余劳力”这句话中，实际上“第一产业效率提高”是“农村出现剩余劳力”的一个原因，这里有篇章上的隐式因果关系\cite{liyancui2015}。这里如果拆开成两个句子，则两者之间的隐式因果关系就不能体现出来。但我们仍然认为这样的试题文本是可拆分的，原因有二：一是前文中提到，做选择题拆分的目的是为了简化后续句法分析、语义理解的难度，尤其为试题模板换提供更加简短的输入，而在模板化中，原本就不会体现这种隐式的因果关系，而是将前后两个部分作为两个独立的事实来考虑；二是从自然语言处理的角度来说，这样的因果关系几乎不能从语法层面获知，只有基于一定的背景知识和具备一定的推理能力的前提下，才能发现这层隐式因果关系，所以识别难度很大，因此不做识别。
 
-基于以上描述，我们结合Yang Y.Q.等人\cite{Yang2012Chinese}对中文中逗号的功能分类，给出判断逗号所在试题文本是否可拆分的标准：
+基于以上描述，我们结合在第\ref{commaclssify}中介绍的Yang Y.Q.等人\cite{Yang2012Chinese}对中文中逗号的功能分类，给出判断逗号所在试题文本是否可拆分的标准：
 \begin{enumerate}
   \item SB：地理题选项中几乎没有此类逗号，不考虑。
   \item IP\_COORD：所在选项可拆分，逗号之前的IP的左边界为公共部分右边界，如“图中@\textcircled{1}地/风向偏北，风力逐渐减弱”。
@@ -795,304 +1070,12 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 
 AMR作为一种新型的语义表示方法，目前看来是一种比较强大的、有潜力的语义表示，可以给自然语言理解带来一种新的研究方向，并对一些相关领域的研究或者工程性的工作带来结果上的提升\cite{kai2015improving}\cite{Pan2015}。因此，本文针对高考地理问答系统中的地理试题的理解，考虑了AMR这种新方法，但由于AMR在中文的处理上暂时还是空白，可使用的工具和语料还很有限，目前还未进入实际应用阶段。我们有幸和中文AMR语料标注小组合作，得到了更多可用的中文语料。本文针对AMR的主要工作是对比现有算法在不同语言（中英文）、不同语料类型、人工对齐与否等方面的性能，并在少量的地理试题AMR标注数据上进行了一些实验，展示AMR在中文上应用的现状和存在的问题，为将来在试题理解任务上的应用打下基础。
 
-\section{相关工作}
-\label{section:amrback}
-AMR是一种有向的、简单的、类似树结构的（树出现环变成图的比例比较小）、边和节点有标记的图\cite{Banarescu2013Abstract}，可以将句子中的语义概念和概念之间的语义关系以节点和边的形式表现出来。
-
-\begin {figure}
-	\centering
-	\includegraphics[width=0.5\linewidth]{{graph_amr}.png}
-	\caption{AMR图表示}
-	\label{amrgraph}
-\end{figure}
-
-AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如图\ref{amrgraph}。在图表示方法中，没有入边的节点就是根节点，在该图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，即节点对应的概念。根节点是“want-01”，后缀“-01”指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，例如arg0和arg1这两个论元。
-
-这句话中有一个“want”动作，它的arg0（谁在want）是“boy”，它的arg1（want的是什么）是一个“believe”的动作；“believe”动作的arg0（谁在believe）是“girl”，它的arg1（believe什么）是“boy”。所以在这里“boy”有两个作用，一是作为“want-01”的arg0，一是作为“belive-01”的arg1，这个节点有两条入边，因此AMR图上出现了一个环，这在AMR中也叫做“重入”（reentrancy）。也正是因为“重入”现象的存在，使得AMR是一种图表示方法，而不是树表示方法。
-
-上图这样的表示方法看起来稍有点复杂，AMR还可以以一种文本方式表达出来：
-\begin{lstlisting}[language=C]
- (w / want-01 
-	:ARG0 (b / boy)
-	:ARG1 (b2 / believe-01
-		:ARG0 (g / girl)
-		:ARG1 b))
-\end{lstlisting}
- 
-
-第一行即AMR的根节点，冒号后面的标签表示节点之间边的标签，也就是节点之间的关系。每个节点由变量名（斜杠前的部分）和概念（斜杠后的部分）组成（除了多次出现的同一个节点），如果一个节点出现多次，则通过让该节点的变量名多次出现来表示，如该例中的节点b。概念里的斜杠也可以看做是图表示方法中instance的简化表示。
-
-AMR也可以用逻辑三元组的来表示，上面的例子可以表示成：
-\begin{lstlisting}[language=C]
-instance(w, want-01) \^      /* w 是want的实例 */ 
-instance(b, boy) \^          /* b 是boy的实例 */ 
-instance(b2, believe-01) \^  /* b2 是believing的实例 */ 
-instance(g, girl) \^         /* g 是girl的实例 */ 
-ARG0(w, b) \^                /* b 是want的发起者 */ 
-ARG1(w, b2) \^               /* b2 是被want的东西 */ 
-ARG0(b2, g) \^               /* g 是believe的人 */ 
-ARG1(b2, b)                 /* b 是被believe的人 */
-\end{lstlisting}
-
-上面例子中的这句话在英文中还可以有很多种不同的表示方法，例如：
-\begin{enumerate}
-  \item The boy wants to be believed by the girl.
-  \item The boy has a desire to be believed by the girl.
-  \item The boy’s desire is for the girl to believe him.
-  \item The boy is desirous of the girl believing him.
-\end{enumerate}
-
-概念want-01可以在句子中用动词want、名词desire或者形容词desirous来表达。
-
-再比如下面这个AMR表示：
-\begin{lstlisting}[language=C]
-(p / permit-01
-	:ARG1 (g / go-02
-		:ARG0 (b / boy))
-	:polarity ))
-\end{lstlisting}
-
-也有很多种英文表达方式：
-\begin{enumerate}
-  \item The boy may not go.
-  \item The boy is not permitted to go.
-  \item It is not permissible for the boy to go.
-  \item The boy does not have permission to go.
-\end{enumerate}
-
-由此可以看出，AMR更加强调句子表达的逻辑语义，并将表层的语法表达方式抽象出去。
-
-AMR是一种有向图表示，其中图的边和节点的关系应满足一些限制条件\cite{Flanigan2014}：
-\begin{enumerate}
-  \item 简单性：应该是一个简单图，即任意两个概念节点之间最多有一条边
-  \item 连通性：应该是弱连通图
-  \item 确定性：对于某个节点，不能有标签相同的两条出边
-  \item 无环性：图中没有环（有向边形成的首尾相连的环）
-\end{enumerate}
-
-
-\subsection{标注体系}
-通过上文的介绍可知，AMR主要有两个部分组成：概念（节点）、概念间的关系（边）。下面将从这两个方面介绍AMR的标注体系。
-
-\subsubsection{概念（concept）}
-AMR的concept主要有三种来源：句中词语（例如\ref{amrgraph}中的“boy”）、propbank中的语义框架（例如\ref{amrgraph}中的“want-01”）、抽象的关键字。
-
-从之前的例子可以看出，AMR试图对不同的表达方式甚至是相同语义的不同词语做出统一的标注方式。因此英文AMR对常见的concept制定了一个实体类型的标准列表，首先需要从这些实体名称中找出和想要描述的实体最相近的一个（例如有人会说“person”，有人会说“woman”，则可以通过这个列表统一起来）:
-\begin{enumerate}
-  \item person, family, animal, language, nationality, ethnic-group, regional-group, religious-group
-  \item organization, company, government-organization, military, criminal-organization, political-party, school, university, research institute, team, league
-  \item location, city, city-district, county, local-region, state, province, country, country-region, world-region, continent, ocean, sea, lake, river, gulf, bay, strait, canal, peninsula, mountain, volcano, valley, canyon, island, desert, forest, moon, planet, star, constellation
-  \item facility, airport, station, port, tunnel, bridge, road, railway-line, canal, building, theater, museum, palace, hotel, worship-place, market, sports-facility, park, zoo, amusement-park
-  \item event, incident, natural-disaster, earthquake, war, conference, game, festival
-  \item product, vehicle, ship, aircraft, aircraft-type, spaceship, car-make, work-of-art, picture, music, show, broadcast-program
-  \item publication, book, newspaper, magazine, journal
-  \item natural-object
-  \item law, treaty, award, food-dish, disease
-\end{enumerate}
-
-有时候句子中也会有单词指示该实体的类型，如果这个词比上述方式选择的类型更具体，则使用这个词代替，例如对于“the poet William Shakespeare”，可以用：
-\begin{lstlisting}[language=C]
-(p / poet
-	:name (n / name :op1 "William" :op2 "Shakespeare"))
-\end{lstlisting}
-
-如果上述列表中所有实体名都没有合适的，句子中也没有明确指明实体的类型名称，就可以用“thing”来表示这个实体。例如对于“Words are the source of misunderstandings”，AMR中对“understanding”这个添加了“thing”这个concept：
-\begin{lstlisting}[language=C]
-(s / source-01
-	:ARG1 (t / thing
-		:ARG0-of (m / misunderstand-01))
-	:ARG2 (w / word))
-\end{lstlisting}
-
-如果一个实体有多个类型，例如“著名诗人、画家XXX”，则可以使用:mod关系来修饰，例如对于“the poet Dr. Seuss”：
-\begin{lstlisting}[language=C]
-(d / doctor
-	:name (n / name
-		:op1 "Seuss")
-	:mod (p / poet))
-\end{lstlisting}
-
-还有一类概念用来表示数量：monetary-quantity , distance-quantity , area-quantity , volume-quantity , temporal-quantity , frequency-quantity , speed-quantity , acceleration-quantity , mass-quantity , force-quantity , pressure-quantity , energy-quantity , power-quantity , voltage-quantity (zap!-, charge-quantity , potential-quantity , resistance-quantity , inductance-quantity , magnetic-field-quantity , magnetic-flux-quantity , radiation-quantity , concentration-quantity , temperature-quantity ,score-quantity ,fuel-consumption-quantity , seismic-quantity。通常这类概念后面都会有一个quant关系指向表示具体数值的节点。
-
-此外还有一些常见的concept列举如下：
-\begin{enumerate}
-	\item relative-position（相对位置）
-	\item product-of和sum-of（数学运算）
-	\item date-entity（时间）
-	\item date-interval（时间区间）
-	\item percentage-entity（百分比）
-	\item phone-number-entity（电话号码）
-	\item email-address-entity（电子邮箱）
-	\item url-entity（url）
-\end{enumerate}
-
-对于特殊疑问句，AMR还对被提问的部分设计了一个amr-unknown概念。例如“What did the girl find?”:
-\begin{lstlisting}[language=C]
-(f / find-01
-	:arg0 (g / girl)
-	:arg1 (a / amr-unknown))
-\end{lstlisting}
-
-\subsubsection{关系（relation）}
-AMR在英文标注中大约有100种关系，比较常见的可以大致分成以下5个类型：
-\begin{enumerate}
-	\item 框架论元 :arg0,:arg1,:arg2,:arg3,:arg4,:arg5.
-	\item 通用语义关系 :accompanier, :age, :bene ciary, :cause, :compared-to, :concession, :condition, :consist-of, :degree, :destination, :direction, :domain, :duration,:employed-by, :example, :extent, :frequency, :instrument, :li, :location, :manner, :medium, :mod, :mode, :name, :part, :path, :polarity, :poss, :purpose, :source, :subevent, :subset, :time, :topic, :value.
-	\item 数量相关的关系 :quant, :unit, :scale
-	\item 时间实体相关的关系 :day, :month, :year, :weekday, :time, :timezone, :quarter, :dayperiod, :season, :year2, :decade, :century, :calendar, :era.
-	\item 列举关系 :op1, :op2, :op3, :op4, :op5, :op6, :op7, :op8, :op9,
-:op10.
-\end{enumerate}
-
-对于所有的关系，AMR还允许这些关系的反转形式也作为关系标签，例如:arg0的反转形式为:arg0-of，:location的反转形式为:location-of。
-除了上面列举的，还有一些其他的关系标签，不再一一列举。
-
-\subsection{语料对齐与自动对齐}
-\label{subsection:aligndata}
-AMR的语料对齐，即是将原句中的词语、词组与AMR图中的一个概念节点或者一个概念节点子图（例如一个时间概念子图，包括一个date-entity概念及其指向的表示年、月、日等信息的节点）进行对齐，对齐结果对于自动解析算法有着重要的作用，例如在概念识别等阶段。图\ref{amr_align}给出了一个AMR节点与句子词语之间的对齐示意图。
-
-\begin {figure}[!htbp]
-	\centering
-	\includegraphics[width=1.0\linewidth]{{align}.jpeg}
-	\caption{AMR对齐}
-	\label{amr_align}
-\end{figure}
-
-在语料建设工作中，不同的语料可能存在一个差异，即是否有对齐信息。目前英文的语料都是不含有对齐信息的，上文的例子都是这一类标注；中文已公布的1500句小王子语料也是不含有对齐信息的，但是即将公开的一些中文数据将对齐信息考虑了进去，嵌入了AMR的标注中。本文的AMR部分工作是与含有对齐信息的语料标注团队合作，所以在我们的实验中也使用到了这一部分数据。
-
-下面给出同一个中文句子的有对齐标注和无对齐标注两个版本，来说明对齐信息是如何标注的。这个例子是对来自《小王子》语料中的一句话的两种标注，这句话分词的结果是“画 的 是 一 条 蟒蛇 正在 吞食 一 只 大 野兽 。”：
-
-\begin{lstlisting}[language=C]
-无对齐标注：
-(x12 / 吞食-01
-	:arg0  (x14 / 蟒蛇
-		:quant  (x15 / 1)
-		:cunit  (x5 / 条))
-	:arg1  (x16 / 野兽
-		:mod  (x17 / 大-01)
-		:quant  (x18 / 1)
-		:cunit  (x10 / 只))
-	:domain  (x19 / thing
-		:arg1-of  (x20 / 画-01))
-	:time  (x21 / 正在))
-\end{lstlisting}
-
-\begin{lstlisting}[language=C]
-有对齐标注：
-(x8 / 吞食-01
-	:arg0  (x6 / 蟒蛇
-		:quant  (x4 / 1)
-		:cunit  (x5 / 条))
-	:arg1  (x12 / 野兽
-		:mod  (x11 / 大)
-		:quant  (x9 / 1)
-		:cunit  (x10 / 只))
-	:domain  (x24 / thing
-		:arg1-of  (x1 / 画-01))
-	:aspect  (x7 / 正在))
-\end{lstlisting}
-
-可以看到，在AMR的整体结构上两者基本一致，差异在于变量（variable）名的选取。
-
-对于无对齐信息的标注版本，在英文语料中，变量名通常是概念的首字母，如果出现了重复的首字母，则在后面添加一个数字来区分，例如“b2”等等。在中文语料中则通常是一个字母“x”加上一个数字，这个数字没有特别含义，只要能够将不同的概念区分开来即可。
-
-对于有对齐信息的标注版本，每个变量名中的数字都是有含义的。如果概念对应原文的某个词或者短语，那么变量名的数字后缀就是对应词语的下标；如果概念是新增的抽象概念，例如对于时间实体加了“date-entity”概念节点或者上面增加的“thing”这个概念，他们的数字下标是任意一个超过句子长度的数字，表示该概念不直接对应于句子中的词语，以免混淆。
-
-在中文的对齐标注中，根据概念与句子分词结果中的对齐方式分类，有这几种情况：
-\begin{enumerate}
-	\item 对应一个词语：例如上面的“(x11 / 大)”，表示“大”这个概念对齐到句子的第11个词
-	\item 对应多个词语：例如“ 那么 刺 有 什么 用 呢 ？ ”的AMR标注中有一个概念“x4\_x6 / 有用-01”，表示“有用-01”这个概念对齐到句子的第4和第6个词上。对于连续的词，也需要逐个写出对应的区间内的每一个词的下标，以免和上面这种跳词现象混淆。
-	\item 对应某个词语中的某几个字：例如“我 把 锤子 、 螺钉 、 饥渴 、 死亡 ， 全都 抛在 脑后 。”的AMR标注中有一个概念“x12\_1 / 抛-01”，表示“抛-01”这个概念对齐到句子的第12个词的第一个字上（如果是多个字则依次写出每个字在词中的下标，例如“x5\_1\_2\_3”）。
-\end{enumerate}
-
-关于自动对齐，Flanigan等人\cite{Flanigan2014}在提出JAMR解析算法的同时，为了训练概念节点的识别，提出了一种自动对齐的算法，主要是根据一系列的规则，用贪心算法来进行对齐，达到了92\%的准确率、89\%的召回率和90\%的F值，但是这种对齐方式只支持对概念节点和词语之间进行对齐，而没有考虑到边的label可能会来源于某个词语，也存在对齐关系。Nima Pourdamghani等人\cite{Pourdamghani2014}提出了另一种自动对齐方式，该方法主要分为预处理、训练、后处理三步，在预处理阶段将AMR转换成一个字符串（保留关系的标签），然后进行小写化、去除停用词、去除词缀、去除等预处理，然后利用IBM的对齐模型进行训练，在后处理再重建出对齐好的AMR图。在对齐过程中，这种方式包含了边的标签信息，所以可以对边也进行对齐。
-
-\subsection{自动解析算法}
-Flanigan等人\cite{Flanigan2014}在2014年提出了一种两阶段的图算法JAMR，这是第一个公开的AMR自动解析算法，为后面的研究提供了一个较强的baseline。在2015年Wang Chuan\cite{Wang2015}等人观察到AMR表示与句法分析结果之间的相似性，提出了一种基于转换的AMR解析算法。Pust等人\cite{Pust2015}也在同年提出了一种使用基于语法的机器翻译的方法进行AMR的解析。Lucy Vanderwende等人\cite{Vanderwende2015}还提出了一种基于逻辑形式（Logical Form）到AMR的转换规则的解析方法，来处理没有大规模AMR标注语料的语言的AMR解析问题。本节重点介绍本文实验基于的JAMR图算法以及基于转换的AMR解析算法。
-
-\subsubsection{基于图的算法}
-Flanigan等人\cite{Flanigan2014}将AMR解析分成两个阶段：第一个阶段是从句子中识别出概念节点；第二个阶段是预测这些节点之间的边，也就是概念之间的关系。
-
-在概念识别阶段，句子将会被切分成多个连续的片段（span），可通过序列标注算法来实现，并将每一个片段对应于一个概念子图（AMR的一个片段，可能包含多个概念节点，例如一个时间实体包括一个date-entity概念和具体的年月日概念等等），这些概念子图都来自于训练语料中这些片段曾经对齐到的概念子图，或者是一个空图（即放弃这个片段到AMR的对应）。通过对一系列连续的句子子串\textbf{b}和一系列的概念图片段\textbf{c}进行打分（两者的个数均为k），使用公式\ref{concept_iden}进行优化，其中\textbf{$f$}是句子子串（span）和它可以对应的一个概念子图片段在上下文中的特征向量表示，包括词、长度、命名实体等等这些特征，k为句子被切分成的片段数。
-
-\begin{equation}
-	\label{concept_iden}
-	score(\textbf{b}, \textbf{c}; \textbf{$\theta$})=\sum_{i=1}^{k}\textbf{$\theta$}^\mathrm{T}f(\textbf{w}_{b_i-1\:b_i}, b_{i-1}, b_i, c_i)
-\end{equation}
-
-在关系识别阶段，基于第一个阶段识别出来的概念子图片段，在子图之间添加关系得到最终的AMR结果。这个结果需要满足五个条件，其中四个是在本章开头介绍过的AMR的有向图需要满足的四个条件：连通性、简单性、确定性、无环性，另一个就是保持性，即在第一阶段识别出所有概念子图片段应该是最终的AMR结果的子图。该阶段中，首先会对训练语料中的边训练一个线性参数的函数，特征为这条边的一些上下文，在解码的时候根据训练出的参数和函数对候选边进行打分。算法描述如下：边的候选集合为所有概念节点之间两两连接的有向边（两个方向，所有可能的边类型）；首先对于第一阶段识别出来的概念子图中已经存在的边，相应的节点对之间的其它边都不再作为候选边，这些存在的边成为AMR最终结果的组成部分；再根据训练出的边打分函数，对未确定关系的节点对之间的所有候选边打分，保留分数最高的一条边，其他的不再作为候选；将所有得分大于0的边选出作为AMR最终结果的组成部分；对剩余的候选边，根据得分从高到底依次判断每条边是否进入最终结果，如果这条边可以将之前未相连的两个子图连接起来，则保留这条边；直至所有的节点之间形成一个弱连通图。
-
-\subsubsection{基于转换的算法}
-Chuan Wang等人\cite{Wang2015}提出了一种基于转换的AMR解析算法。这个算法也是两阶段算法：第一步先使用依存句法分析器得到句子的依存句法结果；第二步则是将依存句法结果一步步转换到AMR图。从语言学的角度来看，在一个句子的AMR和依存结构之间存在很多相似点：两者都有有向的节点间关系；AMR的概念和关系虽然是从句中的词语中抽象出来的，但是通常存在一些有规律的映射关系；句中的实词通常会保留在AMR结果中，虚词则常被忽略。从这些现象中可以感觉出，可以使用有限次转换动作，将一个依存句法树转换为AMR结果。
-
-为了完成从句法分析到AMR的转换，作者设计了一系列转换的动作，并训练一个模型去决定在每次转换中采取哪个动作。包括如下这些动作：
-\begin{enumerate}
-	\item NEXT-EDGE-$l_r$：赋予一条边一个标签
-	\item SWAP-$l_r$：将两个节点之间的边的方向反转，并给这条边赋予一个标签。这条边的新的head取代原head节点的位置，成为别的节点指向的节点。这个动作用于解决AMR和依存句法树对head的选择的差异。
-	\item REATTACK\_k-$l_r$：为一个节点A重新选择一个head节点，即去除该节点原有的一条入边，将其与另一个节点建立一条新的边，这条新边仍是A的入边，同时给这个新边赋予一个标签。这个动作的出发点是，当反转了边之后，有些关联到旧的head节点上的节点应该重新关联到新的head节点上。
-	\item REPLACE-HEAD：将某个节点A删除，然后让A指向的节点B取代被A的位置，也就是使A的head节点成为B的head节点。这个动作用于删除一些AMR中不包含但是依存句法树中包含的节点，例如介词等虚词节点。
-	\item REENTRANCE\_k-$l_r$：	添加重入边，给某个节点和任意一个可能的其他节点之间添加一条新的边，在AMR结果中形成一个环。
-	\item MERGE：将两个节点合并为同一个节点，让新节点继承旧的节点的所有出边和入边。这个动作通常用于为句子中连续的一个词语序列生成一个节点，通常可能对应一个命名实体，比如将名字中的两个单词合并起来。
-	\item NEXT-NODE-$l_c$：给某个节点赋予一个概念标签，然后将该节点从待处理节点队列中移除，开始考虑在下一个节点上采取什么动作。
-	\item DELETE-NODE：删除一个节点及与其相关的所有边，这个动作只用于删除没有出边的节点，作用是删除一些功能词节点。
-\end{enumerate}
-
-该转换算法的状态是一个三元组($\sigma$, $\beta$, $G$)。$\sigma$存储所有待处理的节点，初始化成依存句法树中的所有节点。$\beta$存储$\sigma$中第一个节点的所有出边指向的节点。$G$存储当前的解析结果，初始化为依存句法树，算法结束后为得到的AMR结果。算法会训练一个在某个状态下对所有动作进行打分的函数，在每次转换前，找出所有动作中得分最高的那个，应用到当前的解析结果$G$上进行一次转换。打分函数的训练特征包括节点特征、节点对特征、路径特征、动作相关特征四类，涉及到词语、命名实体标签、依存句法等等句法和词法特征。
-
-\subsection{自动评价}
-目前，AMR最常用的评价方式是计算自动生成的AMR和测试集中的参考AMR的smatch得分\cite{Flanigan2014}\cite{Cai2013Smatch}。
-
-\begin {figure}
-	\centering
-	\includegraphics[width=\linewidth]{{two_amr}.jpeg}
-	\caption{两个待比较的AMR结果}
-	\label{twoamr}
-\end{figure}
-
-在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\ref{twoamr}中左边的AMR，可以表示成：\\
-instance(a, want-01) \^ \\
-instance(b, boy) \^ \\
-instance(c, go-01) \^ \\
-ARG0(a, b) \^ \\
-ARG1(a, c) \^ \\
-ARG0(c, b)
-
-三元组有两种形式，一种是relation(variable, concept)，另一种是relation(variable1, variable2)，例如上述前三行是第一种三元组，后三行是第二种三元组。
-
-对于图\ref{twoamr}中右边的AMR，可以表示成：\\
-instance(x, want-01) \^ \\
-instance(y, boy) \^ \\
-instance(z, football) \^ \\
-ARG0(x, y)\^ \\
-ARG1(x, z)
-
-smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回率和F值（通过将两个AMR中的变量名映射起来，然后计算两组三元组之间的相同的个数，再根据总的三元组个数计算准确率和召回率）。困难在于两个AMR所使用的变量名并不相同，所以两个AMR之间基于不同的变量映射方式，可以计算得到多种重合结果。smatch则定义为：将两个AMR之间的节点一一对应起来，所能得到的最大的F值。例如针对上面的例子，有六种变量匹配的方式，如表\ref{smatch_table}。
-
-\begin{table}[!htbp]
-\begin{center}
-\begin{tabular}{c|c|c|c|c}
-\hline {映射方式} & {M} & {P} & {R} & {F} \\
-\hline x=a, y=b, z=c & 4 & 4/5 & 4/6 & 0.73 \\
-\hline x=a, y=c, z=b & 1 & 1/5 & 1/6 & 0.18 \\
-\hline x=b, y=a, z=c & 0 & 0/5 & 0/6 & 0.00 \\
-\hline x=b, y=c, z=a & 0 & 0/5 & 0/6 & 0.00 \\
-\hline x=c, y=a, z=b & 0 & 0/5 & 0/6 & 0.00 \\
-\hline x=c, y=b, z=a & 2 & 2/5 & 2/6 & 0.36 \\
-\hline smatch score & \multicolumn{4}{r}{0.73}\\
-\hline
-\end{tabular}
-\end{center}
-\caption{\label{smatch_table} 不同变量映射方式}
-\end{table}
-
-所以这个例子的smatch得分就是所有映射方式中所能得到的最大的F值0.73。虽然smatch的概念很简单明了，但是计算起来实际上没有这么简单，对于包含大量节点的AMR，枚举所有的可能的映射方式的时间复杂度很高，所以有一些高效的算法被用于计算近似的smatch值，例如爬山法等等，这超过了本文的介绍范围，所以不再展开。
-
 \section{AMR在中文上的应用}
-关于AMR在中文上的研究现状，我们在第\ref{section:amrback}节中已经介绍过。目前，在中文上已发表的AMR语料，已知的只有1500句左右的小王子无对齐标注语料\cite{Li2016Annotating}；据我们所知，目前还没有针对AMR中文语料进行自动解析的算法及实验结果。
+关于AMR在中文上的研究现状，我们在第\ref{subsection:amrback}节中已经介绍过。目前，在中文上已发表的AMR语料，已知的只有1500句左右的小王子无对齐标注语料\cite{Li2016Annotating}；据我们所知，目前还没有针对AMR中文语料进行自动解析的算法及实验结果。
 
 有幸与李斌老师带领的中文AMR标注小组合作，我们获得了有对齐标注的小王子语料、有对齐标注的基于CTB语料的AMR标注，以及729地理选择题试题文本（题面+一个选项组成的完整句子）的AMR标注数据。
 
-在本节中我们将介绍如何将AMR自动解析算法应用到中文数据上。我们的工作是基于Flanigan等人\cite{Flanigan2014}提出的两阶段的图算法JAMR，对中文处理部分替换一些模块，以及对第\ref{subsection:aligndata}小节中提到的对齐语料进行对齐信息的提取，以满足JAMR的需求。
+在本节中我们将介绍如何将AMR自动解析算法应用到中文数据上。我们的工作是基于Flanigan等人\cite{Flanigan2014}提出的两阶段的图算法JAMR，对中文处理部分替换一些模块，以及对第\ref{subsubsection:aligndata}小节中提到的对齐语料进行对齐信息的提取，以满足JAMR的需求。
 
 用JAMR训练以及分析新句子时，首先需要进行预处理，一是调用一些自然语言处理基础任务的工具包对语料进行分析，包括得到语料的分词（英文不需要分词）、命名实体识别结果、依存句法分析结果等，二是使用基于规则的算法来对齐AMR标注图中的concept和原句中的字符串，用于概念识别。我们没有改动JAMR的主体算法，只对这两种预处理针对中文做了一些调整，以使后续的工作可以在中文数据上奏效。在下面两个小节中，我们详细介绍这些工作内容。
 
@@ -1107,7 +1090,7 @@ smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回�
 
 \subsection{语料对齐}
 \label{subsection:dataalign}
-在第\label{subsection:aligndata}小节，我们详细介绍了对齐的含义，以及有对齐的标注语料是如何标注这个信息的。对齐信息将会用于AMR解析的第一步，即concept识别阶段；此外，实际上这个对齐信息就是JAMR算法第一阶段想要得到的结果，也可以直接将这个对齐结果作为第二阶段预测的输入，以此来单独观察算法在两个阶段的性能表现。
+在第\label{subsubsection:aligndata}小节，我们详细介绍了对齐的含义，以及有对齐的标注语料是如何标注这个信息的。对齐信息将会用于AMR解析的第一步，即concept识别阶段；此外，实际上这个对齐信息就是JAMR算法第一阶段想要得到的结果，也可以直接将这个对齐结果作为第二阶段预测的输入，以此来单独观察算法在两个阶段的性能表现。
 
 英文语料中没有标注对齐，JAMR中使用了一种基于规则的自动对齐方法来对齐，可以达到约90\%的F值\cite{Flanigan2014}。例如对于这样一个AMR标注：
 
