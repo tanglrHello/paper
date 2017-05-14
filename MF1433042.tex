@@ -321,7 +321,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 \begin {figure}
 	\centering
-	\includegraphics[width=0.5\linewidth]{{comma}.jpeg}
+	\includegraphics[width=0.7\linewidth]{{comma}.jpeg}
 	\caption{Yang的逗号分类体系}
 	\label{comma_types}
 \end{figure}
@@ -332,7 +332,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 \begin {figure}
 	\centering
-	\includegraphics[width=0.5\linewidth]{{sb_comma}.jpeg}
+	\includegraphics[width=0.9\linewidth]{{sb_comma}.jpeg}
 	\caption{SB类型的逗号}
 	\label{sb_comma}
 \end{figure}
@@ -341,7 +341,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 \begin {figure}
 	\centering
-	\includegraphics[width=0.5\linewidth]{{ip_coord}.jpeg}
+	\includegraphics[width=0.9\linewidth]{{ip_coord}.jpeg}
 	\caption{IP\_COORD类型的逗号}
 	\label{ip_coord}
 \end{figure}
@@ -350,7 +350,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 \begin {figure}
 	\centering
-	\includegraphics[width=0.5\linewidth]{{vp_coord}.jpeg}
+	\includegraphics[width=0.9\linewidth]{{vp_coord}.jpeg}
 	\caption{VP\_COORD类型的逗号}
 	\label{vp_coord}
 \end{figure}
@@ -373,7 +373,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 一般情况下，一个连接词表示一种篇章关系，但也存在个别连接词有歧义或者多义的情况。例如“于是”可以表示顺承关系或者因果关系。
 
 \subsection{篇章关系分类体系}
-篇章关系的类别实际上就是连接篇章的连接词的类型（包括添加的隐式连接词），主要可以分为四大类：因果类、转折类、并列类、解说类。每一类又可以细分为不同的类型，总共有17个小类，每个类型都包含若干连接词，有的连接词可以术语不同关系类型。关系分类体系结构如图\ref{relationtype}所示。
+篇章关系的类别实际上就是连接篇章的连接词的类型（包括添加的隐式连接词），主要可以分为四大类：因果类、转折类、并列类、解说类。每一类又可以细分为不同的类型，总共有17个小类，每个类型都包含若干连接词，有的连接词可以术语不同关系类型。关系分类体系结构如图\ref{relationtypes}所示。
 
 \begin {figure}
 	\centering
@@ -382,6 +382,8 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 	\label{relationtypes}
 \end{figure}
 
+本文工作主要涉及并列篇章关系的识别，并列关系的并列项是叙述相关的几件事情或同一事物的几个方面，相关是在意义上并存、平行或对立。并列项可以是词、短语，也可以是句子。并列项可以互换位置，并列项逻辑上不互相依赖。
+
 \section{语义理解}
 \subsection{}
 
@@ -389,7 +391,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 \label{subsection:amrback}
 AMR是一种有向的、简单的、类似树结构的（树出现环变成图的比例比较小）、边和节点有标记的图\cite{Banarescu2013Abstract}，可以将句子中的语义概念和概念之间的语义关系以节点和边的形式表现出来。
 
-\begin {figure}
+\begin {figure}[!htbp]
 	\centering
 	\includegraphics[width=0.5\linewidth]{{graph_amr}.png}
 	\caption{AMR图表示}
@@ -673,6 +675,8 @@ smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回�
 中文长句通常是一个复句，《现代汉语》对复句的定义为：复句是由两个或几个意义上紧密相关、结构上互不包含的分句构成的句子\cite{zhou2008}。这样的几个分句之间往往是由逗号分隔开的。根据上述定义，我们可以利用逗号在复句中的作用，将句子拆解成一些更简短的句子，从而降低句法分析、机器翻译、语义理解等等任务的难度。逗号除了可以分隔从句或是分句，在中文中也可以用来分隔并列的词语等等。
 
 在地理试题中，尤其是选择题中，我们观察到一个现象：选择题的一个选项中（不考虑题面）经常包含一个或一个以上的逗号，而这个逗号常常隔开了两个或以上可以独立判断正误的陈述，但也有一些逗号隔开的是具有因果、递进等关系的子句篇章。如果我们可以判断出哪些逗号隔开的是相对独立的两件事情，哪些逗号不能用来作为分割点隔开长句中两个句法上并列的部分，则可以在合适的场景下，将较长的陈述句拆解成多个更简短的句子，从而减小例如句法分析及语义理解的分析难度。
+
+在篇章关系分类中，这种可拆解的关系可以被视为是并列篇章关系。我们放宽了并列篇章关系的定义，不要求并列项在逻辑上完全不互相依赖，除非存在显式的连接词。在地理选择题中，选项中逗号隔开的两部分经常会有隐式的因果关系，因为后续的工作不要求对隐式因果关系做识别，实际上这种关系的识别也非常困难。在第\ref{section:split_method}节中，会详细举例说明这种情况。
 
 为了更好地处理选择题中选项包含了逗号的长句，我们根据逗号分开的两个句子部分的上下文特征，判断该逗号隔开的是否是句法上可以视作并列的两个部分，再用启发式的规则方法寻找公共部分右边界，进而将一些长句转换为几个短句。我们使用了最大熵模型进行分类，本章将介绍整个实验的方法及结果。
 
