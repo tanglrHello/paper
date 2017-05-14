@@ -100,13 +100,13 @@
 % 设置论文的英文封面
 
 % 论文的英文标题，不可换行
-\englishtitle{Sentence Comprehension in Geographical Examination Question Answering System}
+\englishtitle{Sentence Comprehension in Geography Question Answering}
 % 论文作者姓名的拼音
 %\englishauthor{}
 \englishauthor{Lianrui Tang}
 % 导师姓名职称的英文
 %\englishsupervisor{}
-\englishsupervisor{Vice Professor Xinyu Dai}
+\englishsupervisor{Associate Professor Xinyu Dai}
 % 论文作者学科与专业的英文名
 \englishmajor{Computer Technology}
 %\englishmajor{Computer Technology}
@@ -160,15 +160,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的中文摘要
 \begin{abstract}
-人工智能技术正在飞速改变这个世界。在自然语言领域，围绕着自动问答系统(QA)也开展了越来越多的研究。高效、智能的问答系统，致力于为使用者直接提供更直接和更优质的答案，可以自动从大量的知识储备中进行检索、推理，从而将使用者从海量信息的搜索、筛选、抽取答案的过程中解放出来。2011年，IBM的Watson问答机器人参加问答类综艺节目“Jeopardy!”，并战胜了人类顶尖选手赢得冠军，自动问答系统再一次吸引了世人的眼光。
+人工智能技术正在飞速改变这个世界。在自然语言领域，围绕着自动问答系统(Question Answering, QA)也开展了越来越多的研究。高效、智能的问答系统，致力于为使用者提供更直接更优质的答案，可以自动从大量的知识储备中进行检索、推理，从而将使用者从海量信息的搜索、筛选、抽取答案的过程中解放出来。2011年，IBM的Watson问答机器人参加问答类综艺节目“Jeopardy!”，并战胜了人类顶尖选手赢得冠军，自动问答系统再一次吸引了世人的眼光。
 
 从某种程度上来说，高考作为中国大多数中学生最重要的考试，可以看做高水平的问答过程。本文的项目背景是面向中国高考地理试题的问答系统，并侧重于对选择题的解答。在解决高考自动问答的过程中，我们面临很多与传统问答系统不同的挑战：首先高考题的问答形式与传统自动问答系统的问题存在明显区别；其次，高考题的灵活性远高于传统问答系统中的问题，这意味着我们很难从现成的文本中直接匹配、抽取得到答案。
 
-作为自动问答的第一步，问题理解的作用举足轻重。本文将选择题题面和一个选项拼接成的完整句子作为分析的对象，从两个方面来研究对于地理试题的理解问题：一方面是句子拆分的浅层处理，另一方面是尝试使用AMR对试题文本进行深层语义分析。前者可以可以将一些相对较长的复杂句子拆分转化成两个或多个较短的简单句；后者则希望能够从句子中提取概念的语义关系，完整描述句子中涉及的语义关系和表达逻辑。
+作为自动问答的第一步，问题理解的作用举足轻重。本文将选择题题面和一个选项拼接成的完整句子作为分析的对象，从两个方面来研究对于地理试题的理解问题：一方面是句子拆分的浅层处理，另一方面是尝试使用AMR（Abstract Meaning Representation）对试题文本进行深层语义分析。
 
-对于句子拆分，我们针对地理选择题的特点，提出了利用逗号对选择题的选项进行可能的拆分，将较长的原句转换成语义等价的多个简单句，从而简化后续的处理步骤的输入，提高后续步骤的处理能力。在这项工作中，我们使用了最大熵分类器和基于规则的启发式方法，通过两个步骤来实现句子拆分：首先识别选项中的逗号是否可以作为一个分割点，然后在识别句子的从句或并列结构的公共前缀边界。
+本文中的句子拆分工作，是针对地理选择题的特点，提出了利用逗号对选择题的选项进行可能的拆分，将较长的原句转换成语义等价的多个简单句，从而简化后续处理步骤的输入，提高后续步骤的处理能力。在这项工作中，我们使用了最大熵分类器和基于规则的启发式方法，通过两个步骤来实现句子拆分：首先识别选项中的逗号是否可以作为一个分割点，然后再识别句子的从句或并列结构的公共前缀边界。
 
-AMR（Abstract Meaning Representation）是一种具有较为强大的表达能力的的新型语义表示方法，它可以将一句话的语义用单根的、有向的连通图表示出来，更强调句子的抽象语义，而非具象的语法表达方式。但是由于围绕AMR的研究才刚刚起步，目前已有的AMR自动分析效果仍然还有很大待提升的空间。中文AMR的标注语料仍未达到一定规模，尚在进展中，所以关于AMR的中文应用研究几乎还是空白。本文在AMR方面工作主要是对现有AMR分析算法进行一些实验分析，并首次验证AMR标注体系及自动解析算法在中文上的性能。针对地理试题，我们标注了一个小样本的AMR语料，并用现有算法来验证AMR在特定领域文本上的处理能力。
+AMR在中文及地理试题上应用。AMR是一种具有较为强大表达能力的新型语义表示方法，它可以将一句话的语义用单根的、有向的连通图表示出来，更强调句子的抽象语义，而非具象的语法表达方式。但是由于围绕AMR的研究才刚刚起步，目前已有的AMR自动分析效果仍然还有很大待提升的空间。中文AMR的标注语料仍未达到一定规模，关于AMR的中文应用研究几乎还是空白。本文在AMR方面的工作主要是对现有AMR分析算法进行一些实验分析，并首次验证AMR标注体系及自动解析算法在中文上的性能。针对地理试题，我们标注了一个小样本的AMR语料，并用现有算法来验证AMR在特定领域文本上的处理能力。
 
 为了支撑上述两项问题理解的研究工作，我们还构建了一个地理试题标注工具，并通过这个工具建立一个高质量的地理试题语料库。除了可以标注句子分割和AMR这两种信息，该工具同时支持标注分词、词性、命名实体、地理术语、试题模板表示、成分句法等各项数据。
 
@@ -178,11 +178,11 @@ AMR（Abstract Meaning Representation）是一种具有较为强大的表达能�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的英文摘要
 \begin{englishabstract}
-Artificial intelligence is changing the world rapidly. In the field of natural language process, more and more research on automatic question-answering has been carried out. Highly efficient and intelligent QA system aim to provide more direct and precise answers to users. They can retrieve information from large-scale knowledge base and make deductions automatically. Therefore, it free users from searching, filtering texts from the large quantity of information, as well as finally extracting the answers by users. In 2011, the QA robot Watson from IBM took part in a quiz show named Jeopardy!, beat the top human players and became the champion. Once again, QA system attracted the attention of the world.
+Artificial intelligence is changing the world rapidly. In the field of natural language process, more and more research on automatic question-answering has been carried out. Highly efficient and intelligent QA(Question Answering) system aim to provide more direct and precise answers to users. They can retrieve information from large-scale knowledge base and make deductions automatically. Therefore, it free users from searching, filtering texts from the large quantity of information, as well as finally extracting the answers by users. In 2011, the QA robot Watson from IBM took part in a quiz show named Jeopardy!, beat the top human players and became the champion. Once again, QA system attracted the attention of the world.
 
 To some extent, the college entrance examination is the most important examination for the majority of Chinese middle school student, which can be seemed as a high-level question answering scenario. The background of this paper is a question answering system focused on the geography part of the Chinese college entrance examination. And we paid more attention to answering the choice questions. In the process of developing this QA system, we are faced with many different challenges from those of traditional QA systems. Firstly, the question form is obviously different. Secondly, the questions are much more flexible, which means we can hardly match the question to the original texts in the knowledge base directly.
 
-As the first stage of automatic question-answering, question comprehension plays a key role for the whole system. We put the question and every of its choice together to get a complete sentence, which will be used as a basic analysis subject. Then we focus on two main aspects to help the question comprehension of choice questions. One is about splitting long sentences, and another is about using AMR to do deep semantic parsing of the sentence. The first work can help to tranform longer and more complicated sentences into two or more shorter and simple sentences. The second work is aimed to extracting the semantic relations of the sentence, and describe all the related semantic logics.
+As the first stage of automatic question-answering, question comprehension plays a key role for the whole system. We put the question and every of its choice together to get a complete sentence, which will be used as a basic analysis subject. Then we focus on two main aspects to help the question comprehension of choice questions. One is about splitting long sentences, and another is about using AMR to do deep semantic parsing of the sentence. 
 
 For splitting sentence, we propose a method of splitting by the commas in the choice, according to the feature of choice questions. Then we may transform long original sentences into several semantically equivalent shorter sentences. Thus promote the performance of the following processing stages. In this work, we use MaxEntropy classifier and a rule-based heuristic method in two stages. First, we recognize whether the comma in the choice could be seems as a splitter. Second, find the right border of the common prefix for the structure of coordination in the sentence.
 
@@ -297,25 +297,27 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 %对于逗号相关的中文长句处理，我们主要介绍中文中逗号的功能分类体系；对于AMR，我们将从AMR表示体系的定义、标注体系、语料建设、自动对齐、自动解析算法、自动评价等方面详细介绍。通过对以上内容的分析介绍，可以对本文的工作有更清晰的认识，也为我们的工作打下了基础。
 
-由于本文工作一方面是利用中文文本中的逗号对句子的类型进行分类，进而进行可能的分割，而逗号在中文中是一种重要的篇章分割符号。这项工作实际上也是判断选项中的逗号是否可以作为篇章分割点，以及逗号隔开的两个部分是否是可以拆分后独立理解的篇章类型。因此本章会介绍一些中文篇章分析的背景知识。
-
-而AMR的工作则是一种语义理解，在AMR出现之前，在语义理解领域也有很多的研究。本章还会对语义理解在中文上的发展做一些相关工作的介绍。
+对于自然语言理解，有两大块研究方向，一是句子之间的篇章关系理解，一是句子内部的语义理解。篇章关系指出了子句之间的语义关系，语义理解则指出了句子里词语之间的语义关系。本文的两项主要工作中，第一项是根据逗号对句子进行可能的切分，实际上是对逗号类型的识别，也是对逗号两侧是否构成两个子句、两个子句之间是否为特定的篇章关系的识别；第二项工作则属于一种语义理解的新方法。因此本章背景知识将从篇章分析和语义理解两个角度来介绍。
 
 \section{篇章分析}
-李艳翠等人\cite{liyancui2015}在中文篇章结构体系表示和资源建设上做出了代表性的工作，这里做简要介绍。
+汉语篇章分析的起步较晚，目前的研究较少，相关的语料也不多。目前比较有代表性的、完整的研究是李艳翠等人\cite{liyancui2015}对中文篇章结构体系表示和资源建设上的工作。该工作中，从子句的定义的判定、篇章连接词、篇章结构的关系、篇章主次判定等四个方面，完整地对汉语篇章进行了分析。其中，子句判断及相关的逗号分类体系、篇章关系类别体系与我们的工作比较相关，本节主要从这些方面来介绍。
 
 \subsection{子句判定}
-对于篇章分析中的篇章基本单位如何定义，有许多不同的观点。在李艳翠的工作中，则作如下定义：结构上，子句至少包含一个谓语成分
+对于篇章分析中的篇章基本单位如何定义，有许多不同的观点。在李艳翠的工作中，则作如下定义：结构上，子句至少包含一个谓语成分，至少表达一个命题；功能上，子句对外不作为其它子句结构的语法成分，子句和子句间发生命题关系；形式上，子句间一定有标点（通常是逗号、分号、句号等）分割。
 
-\subsection{连接词与隐式连接词的添加}
+所以，子句通常有两种情况：子句是一个单句，单句能够表达一个相对完整的意思，全句主干只有一个结构中心，每个结构中心只能有一个主谓结构或非主谓结构；子句是复句中的分句，复句之间一般以标点符号来停顿，通常有逗号、分号或冒号。
 
-\subsection{篇章关系类别体系}
+例如，“a古老的京杭大运河如今不仅在贯通南北运输方面发挥重要作用，|b而且带动起一条欣欣向荣的工业走廊，||c形成了大运河经济带。”这个例子中有三个子句，b和c之间是因果关系，连接词是隐含的；a和bc的组合之间是递进关系，连接词是“不仅……而且……”。
+
+再比如，“浦东开发开放是一项振兴上海，建设现代化经济、贸易、金融中心的跨世纪工程”，这里虽然有一个逗号，但它只能作为一个子句，而不是两个子句。
+
+汉语书面语中，标点符号分为标号（如引号）和点号（如句号）两类。可以用作子句边界的是点号，其中句号、问好、叹号、分号一定表示子句边界；顿号一定不是子句边界；逗号和冒号可能是，也可能不是子句边界。在所有子句边界标点统计中，冒号仅占1.5\%，而逗号占了61.1\%，所以对逗号类型的判断十分重要。
 
 \subsection{逗号分类体系}
 \label{commaclssify}
-在前期调研中，我们发现没有已发表的研究十分类似于我们对试题进行拆分的工作，一方面是因为逗号的处理在英文中的重要性要低于中文，因此对于逗号在句子分析和理解中的被重视程度并不是很高，另一方面是因为本文所提出的方法是针对高考地理试题中的选择题这种特殊文本所提出的，并不十分适用于通用的中文文本。而Yang Y.Q.等人\cite{Yang2012Chinese}的研究工作，介绍他们在研究中文篇章关系时整理出的逗号在句子中的功能分类，这个分类与我们对逗号功能的判断和应用比较吻合。
+李艳翠对逗号的分类参考了Yang Y.Q.\cite{Yang2012Chinese}的研究工作，介绍他们在研究中文篇章关系时整理出的逗号在句子中的功能分类，这个分类与我们对逗号功能的判断和应用比较吻合。在第\ref{section:split_method}节中，我们会详细介绍地理试题文本中的逗号使用情况，并描述地理试题的分类的标准与上述的逗号分类体系之间的关联。
 
-上述工作将逗号的使用方法划分为7类，首先把逗号的使用方法在总体上分为两大类：一类是逗号连接的两个句子片段之间存在关系，即逗号是子句边界；另一类是两个句子片段之间不存在关系，不能视作是子句或者是篇章的边界。两个子句之间存在的关系又可以分为并列关系和从属关系：并列关系可以分为三种类型（SB、IP\_COORD、VP\_COORD），从属关系也分为三种类型（ADJ、COMP、SBJ），图\ref{comma_types}展示了这个分类体系。
+该工作将逗号的使用方法划分为7类，首先把逗号的使用方法在总体上分为两大类：一类是逗号连接的两个句子片段之间存在关系，即逗号是子句边界；另一类是两个句子片段之间不存在关系，不能视作是子句或者是篇章的边界。两个子句之间存在的关系又可以分为并列关系和从属关系：并列关系可以分为三种类型（SB、IP\_COORD、VP\_COORD），从属关系也分为三种类型（ADJ、COMP、SBJ），图\ref{comma_types}展示了这个分类体系。
 
 \begin {figure}
 	\centering
@@ -361,7 +363,24 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 
 7）OTHER：其他用法，在分类体系中对应逗号前后两个部分不存在关系的情况。
 
-在\ref{section:split_method}中，我们会详细介绍地理试题文本中的逗号使用情况，并描述地理试题的分类的标准与上述的逗号分类体系之间的关联。
+\subsection{连接词}
+连接词是指将篇章单位连接起来，并能表示这种连接关系语义的词语。判断连接词的标准是看其联系的成分是否为子句，以及这个词能不能提示所联系篇章单位间的语义关系。例如“不仅……而且……”、“因此”等都可以作为连接词。
+
+连接词的形式可以分为独用连接词、关联词、合用连接词和其他类型。独用连接词是一个单独的词语作为连接词，例如“并且”、“所以”；关联词指成对出现的连接词，如“既……又……”、“不但……而且……”；合用连接词是指几个词组成短语，例如“同时还”。
+
+有时候，子句篇章之间会有显式的连接词，表明他们之间的篇章关系，但还有很多情况下，子句之间没有显式的连接词，但可以根据语义来判断两个子句之间的关系类别，然后为其添加显式连接词。
+
+一般情况下，一个连接词表示一种篇章关系，但也存在个别连接词有歧义或者多义的情况。例如“于是”可以表示顺承关系或者因果关系。
+
+\subsection{篇章关系分类体系}
+篇章关系的类别实际上就是连接篇章的连接词的类型（包括添加的隐式连接词），主要可以分为四大类：因果类、转折类、并列类、解说类。每一类又可以细分为不同的类型，总共有17个小类，每个类型都包含若干连接词，有的连接词可以术语不同关系类型。关系分类体系结构如图\ref{relationtype}所示。
+
+\begin {figure}
+	\centering
+	\includegraphics[width=\linewidth]{{relationtypes}.jpeg}
+	\caption{基于连接词的关系分类}
+	\label{relationtypes}
+\end{figure}
 
 \section{语义理解}
 \subsection{}
