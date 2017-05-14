@@ -445,8 +445,7 @@ AMR是一种有向图表示，其中图的边和节点的关系应满足一些�
 \subsubsection{标注体系}
 通过上文的介绍可知，AMR主要有两个部分组成：概念（节点）、概念间的关系（边）。下面将从这两个方面介绍AMR的标注体系。
 
-\subsubsubsection{概念（concept）}
-AMR的concept主要有三种来源：句中词语（例如\ref{amrgraph}中的“boy”）、propbank中的语义框架（例如\ref{amrgraph}中的“want-01”）、抽象的关键字。
+AMR图中的“概念”主要有三种来源：句中词语（例如\ref{amrgraph}中的“boy”）、propbank中的语义框架（例如\ref{amrgraph}中的“want-01”）、抽象的关键字。
 
 从之前的例子可以看出，AMR试图对不同的表达方式甚至是相同语义的不同词语做出统一的标注方式。因此英文AMR对常见的concept制定了一个实体类型的标准列表，首先需要从这些实体名称中找出和想要描述的实体最相近的一个（例如有人会说“person”，有人会说“woman”，则可以通过这个列表统一起来）:
 \begin{enumerate}
@@ -504,7 +503,6 @@ AMR的concept主要有三种来源：句中词语（例如\ref{amrgraph}中的�
 	:arg1 (a / amr-unknown))
 \end{lstlisting}
 
-\subsubsubsection{关系（relation）}
 AMR在英文标注中大约有100种关系，比较常见的可以大致分成以下5个类型：
 \begin{enumerate}
 	\item 框架论元 :arg0,:arg1,:arg2,:arg3,:arg4,:arg5.
