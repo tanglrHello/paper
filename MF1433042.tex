@@ -100,7 +100,7 @@
 % 设置论文的英文封面
 
 % 论文的英文标题，不可换行
-\englishtitle{Sentence Comprehension in Geography Question Answering}
+\englishtitle{Sentence Comprehension in NCEE Geography Question Answering}
 % 论文作者姓名的拼音
 %\englishauthor{}
 \englishauthor{Lianrui Tang}
@@ -135,10 +135,10 @@
 
 % 设置英文摘要页面的论文标题及副标题的第一行。
 % 此属性可选，其默认值为使用|\englishtitle|命令所设置的论文标题
-\englishabstracttitlea{Sentence Comprehension in Geography Question Answering System}
+\englishabstracttitlea{Sentence Comprehension in NCEE Geography}
 % 设置英文摘要页面的论文标题及副标题的第二行。
 % 此属性可选，其默认值为空白
-\englishabstracttitleb{}
+\englishabstracttitleb{ Question Answering System}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -427,9 +427,10 @@ AMR有多种表现形式，根据定义可以以一个图的方式呈现出来�
 这句话中有一个“want”动作，它的arg0（谁在want）是“boy”，它的arg1（want的是什么）是一个“believe”的动作；“believe”动作的arg0（谁在believe）是“girl”，它的arg1（believe什么）是“boy”。所以在这里“boy”有两个作用，一是作为“want-01”的arg0，一是作为“belive-01”的arg1，这个节点有两条入边，因此AMR图上出现了一个环，这在AMR中也叫做“重入”（reentrancy）。也正是因为“重入”现象的存在，使得AMR是一种图表示方法，而不是树表示方法。
 
 上图这样的表示方法看起来稍有点复杂，AMR还可以以一种文本方式表达出来：
+
 \begin{lstlisting}[language=C]
- (w / want-01 
-	:ARG0 (b / boy)
+(w / want-01 
+   	:ARG0 (b / boy)
 	:ARG1 (b2 / believe-01
 		:ARG0 (g / girl)
 		:ARG1 b))
@@ -440,41 +441,41 @@ AMR有多种表现形式，根据定义可以以一个图的方式呈现出来�
 
 AMR也可以用逻辑三元组的来表示，上面的例子可以表示成：
 \begin{lstlisting}[language=C]
-instance(w, want-01) \^      /* w 是want的实例 */ 
-instance(b, boy) \^          /* b 是boy的实例 */ 
-instance(b2, believe-01) \^  /* b2 是believing的实例 */ 
-instance(g, girl) \^         /* g 是girl的实例 */ 
-ARG0(w, b) \^                /* b 是want的发起者 */ 
-ARG1(w, b2) \^               /* b2 是被want的东西 */ 
-ARG0(b2, g) \^               /* g 是believe的人 */ 
-ARG1(b2, b)                 /* b 是被believe的人 */
+   instance(w, want-01) \^      /* w 是want的实例 */ 
+   instance(b, boy) \^          /* b 是boy的实例 */ 
+   instance(b2, believe-01) \^  /* b2 是believing的实例 */ 
+   instance(g, girl) \^         /* g 是girl的实例 */ 
+   ARG0(w, b) \^                /* b 是want的发起者 */ 
+   ARG1(w, b2) \^               /* b2 是被want的东西 */ 
+   ARG0(b2, g) \^               /* g 是believe的人 */ 
+   ARG1(b2, b)                 /* b 是被believe的人 */
 \end{lstlisting}
 
 上面例子中的这句话在英文中还可以有很多种不同的表示方法，例如：
-\begin{enumerate}
-  \item The boy wants to be believed by the girl.
-  \item The boy has a desire to be believed by the girl.
-  \item The boy’s desire is for the girl to believe him.
-  \item The boy is desirous of the girl believing him.
-\end{enumerate}
+\begin{lstlisting}[language=C]
+   - The boy wants to be believed by the girl.
+   - The boy has a desire to be believed by the girl.
+   - The boy’s desire is for the girl to believe him.
+   - The boy is desirous of the girl believing him.
+\end{lstlisting}
 
 概念want-01可以在句子中用动词want、名词desire或者形容词desirous来表达。
 
 再比如下面这个AMR表示：
 \begin{lstlisting}[language=C]
-(p / permit-01
-	:ARG1 (g / go-02
-		:ARG0 (b / boy))
-	:polarity ))
+   (p / permit-01
+       :ARG1 (g / go-02
+           :ARG0 (b / boy))
+       :polarity ))
 \end{lstlisting}
 
 也有很多种英文表达方式：
-\begin{enumerate}
-  \item The boy may not go.
-  \item The boy is not permitted to go.
-  \item It is not permissible for the boy to go.
-  \item The boy does not have permission to go.
-\end{enumerate}
+\begin{lstlisting}[language=C]
+   - The boy may not go.
+   - The boy is not permitted to go.
+   - It is not permissible for the boy to go.
+   - The boy does not have permission to go.
+\end{lstlisting}
 
 由此可以看出，AMR更加强调句子表达的逻辑语义，并将表层的语法表达方式抽象出去。
 
@@ -507,24 +508,24 @@ AMR图中的“概念”主要有三种来源：句中词语（例如\ref{amrgra
 
 有时候句子中也会有单词指示该实体的类型，如果这个词比上述方式选择的类型更具体，则使用这个词代替，例如对于“the poet William Shakespeare”，可以用：
 \begin{lstlisting}[language=C]
-(p / poet
-	:name (n / name :op1 "William" :op2 "Shakespeare"))
+   (p / poet
+       :name (n / name :op1 "William" :op2 "Shakespeare"))
 \end{lstlisting}
 
 如果上述列表中所有实体名都没有合适的，句子中也没有明确指明实体的类型名称，就可以用“thing”来表示这个实体。例如对于“Words are the source of misunderstandings”，AMR中对“understanding”这个添加了“thing”这个concept：
 \begin{lstlisting}[language=C]
-(s / source-01
-	:ARG1 (t / thing
-		:ARG0-of (m / misunderstand-01))
-	:ARG2 (w / word))
+   (s / source-01
+       :ARG1 (t / thing
+           :ARG0-of (m / misunderstand-01))
+       :ARG2 (w / word))
 \end{lstlisting}
 
 如果一个实体有多个类型，例如“著名诗人、画家XXX”，则可以使用:mod关系来修饰，例如对于“the poet Dr. Seuss”：
 \begin{lstlisting}[language=C]
-(d / doctor
-	:name (n / name
-		:op1 "Seuss")
-	:mod (p / poet))
+   (d / doctor
+       :name (n / name
+           :op1 "Seuss")
+       :mod (p / poet))
 \end{lstlisting}
 
 还有一类概念用来表示数量：monetary-quantity , distance-quantity , area-quantity , volume-quantity , temporal-quantity , frequency-quantity , speed-quantity , acceleration-quantity , mass-quantity , force-quantity , pressure-quantity , energy-quantity , power-quantity , voltage-quantity (zap!-, charge-quantity , potential-quantity , resistance-quantity , inductance-quantity , magnetic-field-quantity , magnetic-flux-quantity , radiation-quantity , concentration-quantity , temperature-quantity ,score-quantity ,fuel-consumption-quantity , seismic-quantity。通常这类概念后面都会有一个quant关系指向表示具体数值的节点。
@@ -543,9 +544,9 @@ AMR图中的“概念”主要有三种来源：句中词语（例如\ref{amrgra
 
 对于特殊疑问句，AMR还对被提问的部分设计了一个amr-unknown概念。例如“What did the girl find?”:
 \begin{lstlisting}[language=C]
-(f / find-01
-	:arg0 (g / girl)
-	:arg1 (a / amr-unknown))
+   (f / find-01
+       :arg0 (g / girl)
+       :arg1 (a / amr-unknown))
 \end{lstlisting}
 
 AMR在英文标注中大约有100种关系，比较常见的可以大致分成以下5个类型：
@@ -578,32 +579,32 @@ AMR的语料对齐，即是将原句中的词语、词组与AMR图中的一个�
 
 \begin{lstlisting}[language=C]
 无对齐标注：
-(x12 / 吞食-01
-	:arg0  (x14 / 蟒蛇
-		:quant  (x15 / 1)
-		:cunit  (x5 / 条))
-	:arg1  (x16 / 野兽
-		:mod  (x17 / 大-01)
-		:quant  (x18 / 1)
-		:cunit  (x10 / 只))
-	:domain  (x19 / thing
-		:arg1-of  (x20 / 画-01))
-	:time  (x21 / 正在))
+   (x12 / 吞食-01
+       :arg0  (x14 / 蟒蛇
+           :quant  (x15 / 1)
+           :cunit  (x5 / 条))
+       :arg1  (x16 / 野兽
+           :mod  (x17 / 大-01)
+           :quant  (x18 / 1)
+           :cunit  (x10 / 只))
+       :domain  (x19 / thing
+           :arg1-of  (x20 / 画-01))
+       :time  (x21 / 正在))
 \end{lstlisting}
 
 \begin{lstlisting}[language=C]
 有对齐标注：
-(x8 / 吞食-01
-	:arg0  (x6 / 蟒蛇
-		:quant  (x4 / 1)
-		:cunit  (x5 / 条))
-	:arg1  (x12 / 野兽
-		:mod  (x11 / 大)
-		:quant  (x9 / 1)
-		:cunit  (x10 / 只))
-	:domain  (x24 / thing
-		:arg1-of  (x1 / 画-01))
-	:aspect  (x7 / 正在))
+   (x8 / 吞食-01
+       :arg0  (x6 / 蟒蛇
+           :quant  (x4 / 1)
+           :cunit  (x5 / 条))
+       :arg1  (x12 / 野兽
+           :mod  (x11 / 大)
+           :quant  (x9 / 1)
+           :cunit  (x10 / 只))
+       :domain  (x24 / thing
+           :arg1-of  (x1 / 画-01))
+       :aspect  (x7 / 正在))
 \end{lstlisting}
 
 可以看到，在AMR的整体结构上两者基本一致，差异在于变量（variable）名的选取。
@@ -645,22 +646,26 @@ Flanigan等人\cite{Flanigan2014}将AMR解析分成两个阶段：第一个阶�
 	\label{twoamr}
 \end{figure}
 
-在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\ref{twoamr}中左边的AMR，可以表示成：\\
-instance(a, want-01) \^ \\
-instance(b, boy) \^ \\
-instance(c, go-01) \^ \\
-ARG0(a, b) \^ \\
-ARG1(a, c) \^ \\
-ARG0(c, b)
+在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\ref{twoamr}中左边的AMR，可以表示成：
+\begin{lstlisting}[language=C]
+   instance(a, want-01) \^ 
+   instance(b, boy) \^ 
+   instance(c, go-01) \^ 
+   ARG0(a, b) \^ 
+   ARG1(a, c) \^ 
+   ARG0(c, b)
+\end{lstlisting}
 
 三元组有两种形式，一种是relation(variable, concept)，另一种是relation(variable1, variable2)，例如上述前三行是第一种三元组，后三行是第二种三元组。
 
-对于图\ref{twoamr}中右边的AMR，可以表示成：\\
-instance(x, want-01) \^ \\
-instance(y, boy) \^ \\
-instance(z, football) \^ \\
-ARG0(x, y)\^ \\
-ARG1(x, z)
+对于图\ref{twoamr}中右边的AMR，可以表示成：
+\begin{lstlisting}[language=C]
+   instance(x, want-01) \^
+   instance(y, boy) \^ 
+   instance(z, football) \^
+   ARG0(x, y)\^
+   ARG1(x, z)
+\end{lstlisting}
 
 smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回率和F值（通过将两个AMR中的变量名映射起来，然后计算两组三元组之间的相同的个数，再根据总的三元组个数计算准确率和召回率）。困难在于两个AMR所使用的变量名并不相同，所以两个AMR之间基于不同的变量映射方式，可以计算得到多种重合结果。smatch则定义为：将两个AMR之间的节点一一对应起来，所能得到的最大的F值。例如针对上面的例子，有六种变量匹配的方式，如表\ref{smatch_table}。
 
@@ -710,47 +715,48 @@ smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回�
 
 一道选择题通常由四个选项组成，每个选项可能是一句文字描述，也可能是一些小选项的组合（例如“\textcircled{1}\textcircled{2}\textcircled{3}”，小选项则属于题面的一部分）。由于我们重点是要理解选择题文本所表述的内容是否正确，所以通常是以“题面+选项文本”组成的完整句子作为一个待理解的对象。对于选项为小选项组合的情况，我们将小选项的内容找出来，和题面的其他部分拼接起来，得到一个完整的句子。
 
-举个例子，一个不包含小选项的选择题如下:\\
-（题面）该船即将进入\\
-A 巴拿马运河   B 麦哲伦海峡\\
-C 德雷克海峡   D 直布罗陀海峡
+举个例子，一个不包含小选项的选择题如下:\par
+（题面）该船即将进入\par
+A 巴拿马运河   B 麦哲伦海峡\par
+C 德雷克海峡   D 直布罗陀海峡\\
 
-可以将题面与每一个选项拼接，得到四个完整的句子，然后判断这些句子的正误：\\
-该船即将进入巴拿马运河\\
-该船即将进入麦哲伦海峡\\
-该船即将进入德雷克海峡\\
+
+可以将题面与每一个选项拼接，得到四个完整的句子，然后判断这些句子的正误：\par
+该船即将进入巴拿马运河\par
+该船即将进入麦哲伦海峡\par
+该船即将进入德雷克海峡\par
 该船即将进入直布罗陀海峡\\
 
-一个包含小选项的选择题如下：\\
-（题面）岛内最大零售商业点位于甲村，主要形成原因是该村 \\
-\textcircled{1} 地形平坦，交通便利   \textcircled{2} 商业从业人口多\\
-\textcircled{3} 商业组织形式复杂     \textcircled{4} 人口数量大  \\
-A \textcircled{1}\textcircled{2}  B \textcircled{1}\textcircled{4}\\
+一个包含小选项的选择题如下：\par
+（题面）岛内最大零售商业点位于甲村，主要形成原因是该村 \par
+\textcircled{1} 地形平坦，交通便利   \textcircled{2} 商业从业人口多\par
+\textcircled{3} 商业组织形式复杂     \textcircled{4} 人口数量大  \par
+A \textcircled{1}\textcircled{2}  B \textcircled{1}\textcircled{4}\par
 C \textcircled{2}\textcircled{3}  D \textcircled{3}\textcircled{4}\\
 
-对于这类选择题，则不是将ABCD这些选项与原始句子直接拼接，而是将小选项内的文本与题面进行拼接，得到：\\
-岛内最大零售商业点位于甲村，主要形成原因是该村地形平坦，交通便利\\
-岛内最大零售商业点位于甲村，主要形成原因是该村商业从业人口多\\
-岛内最大零售商业点位于甲村，主要形成原因是该村商业组织形式复杂\\
-岛内最大零售商业点位于甲村，主要形成原因是该村人口数量大
+对于这类选择题，则不是将ABCD这些选项与原始句子直接拼接，而是将小选项内的文本与题面进行拼接，得到：\par
+岛内最大零售商业点位于甲村，主要形成原因是该村地形平坦，交通便利\par
+岛内最大零售商业点位于甲村，主要形成原因是该村商业从业人口多\par
+岛内最大零售商业点位于甲村，主要形成原因是该村商业组织形式复杂\par
+岛内最大零售商业点位于甲村，主要形成原因是该村人口数量大\\
 
 我们提出的对地理选择题选项进行拆分的方法，就是将这样拼接出来的完整的一句话作为分类对象，在本文中我们称之为“试题文本”。拆分方法的提出主要基于选项中一个常见的现象，即选项经常是包含了由逗号隔开的几个短语或者动宾结构等等组成的部分，我们可以将这些部分拆分开来，分别与逗号两侧的IP或者VP等结构之前的公共部分拼接起来，使一个选项或者一个小选项对应的句子，拆分为多个更加简短的句子，这样得到的句子我们称为“拆分后试题文本”。举个直观的例子如下：
 
-（题面）该海域沿岸 \\
-A 存在上升流，为热带雨林气候   B 有暖流经过，为热带草原气候\\
+（题面）该海域沿岸 \par
+A 存在上升流，为热带雨林气候   B 有暖流经过，为热带草原气候\par
 C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风气候\\
 
-这题原本可以组成四个句子：\\
-该海域沿岸存在上升流，为热带雨林气候\\
-该海域沿岸有暖流经过，为热带草原气候\\
-该海域沿岸有寒流经过，为热带沙漠气候\\
+这题原本可以组成四个句子：\par
+该海域沿岸存在上升流，为热带雨林气候\par
+该海域沿岸有暖流经过，为热带草原气候\par
+该海域沿岸有寒流经过，为热带沙漠气候\par
 该海域沿岸盛行东南风，为热带季风气候\\
 
-但是可以直观感觉出，每一句话实际上都可以分解成两句来单独判断正误：\\
-该海域沿岸存在上升流 \& 该海域沿岸为热带雨林气候\\
-该海域沿岸有暖流经过 \& 该海域沿岸为热带草原气候\\
-该海域沿岸有寒流经过 \& 该海域沿岸为热带沙漠气候\\
-该海域沿岸盛行东南风 \& 该海域沿岸为热带季风气候
+但是可以直观感觉出，每一句话实际上都可以分解成两句来单独判断正误：\par
+该海域沿岸存在上升流 \& 该海域沿岸为热带雨林气候\par
+该海域沿岸有暖流经过 \& 该海域沿岸为热带草原气候\par
+该海域沿岸有寒流经过 \& 该海域沿岸为热带沙漠气候\par
+该海域沿岸盛行东南风 \& 该海域沿岸为热带季风气候\\
 
 这样得到的每句话都更加简短，可以简化后续的句法分析、语义理解工作。在后续的地理试题理解中，我们的问答系统的项目为地理题制定了一套语义模板，需要在进行推理之前将自然语言表达的试题转换为模板表示。例如对于“该地区经济高速增长的根本原因是市场机制比较成熟”这个试题文本，对应的模板表示就是“原因(该地区经济高速增长,市场机制比较成熟)”。由于缺乏足够的标注数据，难以使用基于统计的机器学习方法来进行转换，为了提高转化的准确率和可信度，目前仍然是以基于规则的方法为主，这套规则考虑了词语、词性的特征，也考虑了句法分析结果中的特征。实验结果发现，这样的包含逗号的、含有句法并列成分的句子，是模板转换中错误率较高的一类。所以想办法将长的复杂句拆解成短的简单句，可以提高句法分析的性能，也可以提高基于句法结果的模板转换的准确率。
 
@@ -1137,30 +1143,28 @@ AMR作为一种新型的语义表示方法，目前看来是一种比较强大�
 \label{subsection:dataalign}
 在第\label{subsubsection:aligndata}小节，我们详细介绍了对齐的含义，以及有对齐的标注语料是如何标注这个信息的。对齐信息将会用于AMR解析的第一步，即concept识别阶段；此外，实际上这个对齐信息就是JAMR算法第一阶段想要得到的结果，也可以直接将这个对齐结果作为第二阶段预测的输入，以此来单独观察算法在两个阶段的性能表现。
 
-英文语料中没有标注对齐，JAMR中使用了一种基于规则的自动对齐方法来对齐，可以达到约90\%的F值\cite{Flanigan2014}。例如对于这样一个AMR标注：
-
+英文语料中没有标注对齐，JAMR中使用了一种基于规则的自动对齐方法来对齐，可以达到约90\%的F值\cite{Flanigan2014}。例如对于句子“Why should any one be frightened by a hat ? ”的AMR标注为：
 \begin{lstlisting}[language=C]
-# ::snt Why should any one be frightened by a hat ? "
-(f / frighten-01
-	:ARG0 (h / hat)
-	:ARG1 (o / one
-		:mod (a / any))
-	:ARG1-of (c / cause-01
-		:ARG0 (a2 / amr-unknown)))
+   (f / frighten-01
+       :ARG0 (h / hat)
+       :ARG1 (o / one
+           :mod (a / any))
+       :ARG1-of (c / cause-01
+           :ARG0 (a2 / amr-unknown)))
 \end{lstlisting}
 
-JAMR会得到下面这样的对齐信息：\\
-\# ::alignments 5-6|0 3-4|0.1 2-3|0.1.0 8-9|0.0 \\
-\# ::node	0.0	hat	8-9  \\
-\# ::node	0.1	one	3-4  \\
-\# ::node	0.1.0	any	2-3  \\
-\# ::node	0.2	cause-01	  \\
-\# ::node	0.2.0	amr-unknown  \\	
-\# ::root	0	frighten-01 \\
-\# ::edge	cause-01	ARG0	amr-unknown	0.2	0.2.0	\\
-\# ::edge	frighten-01	ARG0	hat	0	0.0	 \\
-\# ::edge	frighten-01	ARG1	one	0	0.1	 \\
-\# ::edge	frighten-01	ARG1-of	cause-01	0	0.2	 \\
+JAMR会得到下面这样的对齐信息：\par
+\# ::alignments 5-6|0 3-4|0.1 2-3|0.1.0 8-9|0.0 \par
+\# ::node	0.0	hat	8-9  \par
+\# ::node	0.1	one	3-4  \par
+\# ::node	0.1.0	any	2-3  \par
+\# ::node	0.2	cause-01	  \par
+\# ::node	0.2.0	amr-unknown  \par	
+\# ::root	0	frighten-01 \par
+\# ::edge	cause-01	ARG0	amr-unknown	0.2	0.2.0	\par
+\# ::edge	frighten-01	ARG0	hat	0	0.0	 \par
+\# ::edge	frighten-01	ARG1	one	0	0.1	 \par
+\# ::edge	frighten-01	ARG1-of	cause-01	0	0.2	 \par
 \# ::edge	one	mod	any	0.1	0.1.0	 \\
 
 对齐信息分成三类：（1）以“\# ::node”开头的几行：节点编号、该节点的concept、该concept在原句中对应的子串的下标范围（包括位置，不包括终止位置，下标从0开始，例如“5-6”表示句子下标为5的词，即“frightened”。这个范围称为“span”）；（2）以“\# ::edge”开头的几行：边的出发节点的concept、边的指向节点的concept、边的出发节点的编号、边的指向节点的编号；（3）以“\# ::alignments”开头的一行：所有在“node”行出现的span及其对应的节点的编号。
@@ -1169,13 +1173,13 @@ JAMR会得到下面这样的对齐信息：\\
 
 还有更特别的情况，例如“The flowers have been growing thorns for millions of years .”中的“years”，可以对应到AMR标注中的两个节点，即“t2 / temporal-quantity”和“y / year”，而“temporal-quantity”概念除了“year”这个子节点，还有别的子节点。该例的AMR标注为：
 \begin{lstlisting}[language=C]
-(g / grow-03
-	:ARG0 (f / flower)
-	:ARG1 (t / thorn)
-	:duration (m / multiple
-		:op1 (t2 / temporal-quantity
-			:quant 1000000
-			:unit (y / year))))
+   (g / grow-03
+       :ARG0 (f / flower)
+       :ARG1 (t / thorn)
+       :duration (m / multiple
+           :op1 (t2 / temporal-quantity
+               :quant 1000000
+               :unit (y / year))))
 \end{lstlisting}
                         
 对于一个span对应多个节点的情况，人工对齐的数据中只会标注出原词直接对应的概念与原词的对应信息（如“year”这样的节点），而对于抽象出的节点如“temporal-quantity”、“thing”等等，则没有对齐标注。例如原句有10个token，这样的抽象概念的变量名可能是“x15”，这样就不能对齐到原句的词语上，也就是无对齐标注。在我们从人工标注的对齐语料中转换对齐信息格式的时候，对这种情况也只对齐出有对齐标注的节点，对于抽象的节点则不产生对齐结果。这一点可能会对JAMR后续的性能产生负面的影响。
@@ -1282,6 +1286,8 @@ CTB语料的平均句长为21.8，小王子的平均句长为12.9，地理试题
 \subsection{在中文上使用人工对齐数据}
 对齐信息是新旧AMR标注之间最主要的区别，因此我们想验证一下目前这种对齐标注的有效性。在本实验中我们对比了三个中文数据集使用自动对齐和人工对齐的实验结果，如表\ref{align_exp}所示。
 
+从实验结果来看，使用人工对齐不一定能够提高实验结果，例如小王子语料的Span识别，和地理选择题的Span识别以及gold概念下的smatch得分，都有不同程度的下降。性能下降可能有这几方面因素：一是自动对齐本身就有90\%以上的准确率，二是人工对齐忽略了对新增抽象概念的对齐。另外还有一些在第\ref{subsection:dataalign}小节中提到的一些中文对齐的问题。
+
 \begin{center}
 \begin{table}[!htbp]
 \resizebox{\textwidth}{!}{
@@ -1299,8 +1305,6 @@ CTB语料的平均句长为21.8，小王子的平均句长为12.9，地理试题
 \caption{\label{align_exp} 中文AMR人工对齐数据的影响}
 \end{table}
 \end{center}
-
-从实验结果来看，使用人工对齐不一定能够提高实验结果，例如小王子语料的Span识别，和地理选择题的Span识别以及gold概念下的smatch得分，都有不同程度的下降。性能下降可能有这几方面因素：一是自动对齐本身就有90\%以上的准确率，二是人工对齐忽略了对新增抽象概念的对齐。另外还有一些在第\ref{subsection:dataalign}小节中提到的一些中文对齐的问题。
 
 \section{本章小结}
 AMR是一种新型的语义表示方法，目前在英文上开展了一些研究，包括语料标注、自动对齐、自动分析等等，但是在中文上仅有一个1500句左右的小王子语料是公开的，另外还有一些CTB语料、本文研究背景相关的地理选择题语料正在标注中。本章工作基于英文AMR的第一个公开的自动解析工具JAMR，将其中一些对英文处理的组件替换成中文，使其可以处理中文语料。
