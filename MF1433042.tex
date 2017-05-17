@@ -178,7 +178,7 @@ AMR在中文及地理试题上应用。AMR是一种具有较为强大表达能�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的英文摘要
 \begin{englishabstract}
-Artificial intelligence is changing the world rapidly. In the field of natural language process, more and more researches on automatic question-answering has been carried out. Highly efficient and intelligent QA(Question Answering) systems aim to provide more direct and precise answers to users. They can retrieve information from large-scale knowledge base and make deductions automatically. Therefore, they free users from searching and filtering texts from the large quantity of information, as well as finally extracting the answers. In 2011, the QA robot Watson from IBM took part in a quiz show named Jeopardy!, beat the top human players and became the champion. Once again, QA system attracted the attention of the world.
+Artificial intelligence is changing the world rapidly. In the field of natural language process, more and more researches on automatic question-answering have been carried out. Highly efficient and intelligent QA(Question Answering) systems aim to provide more direct and precise answers to users. They can retrieve information from large-scale knowledge base and make deductions automatically. Therefore, they free users from searching and filtering texts from the large quantity of information, as well as finally extracting the answers. In 2011, the QA robot Watson from IBM took part in a quiz show named Jeopardy!, beat the top human players and became the champion. Once again, QA system attracted the attention of the world.
 
 To some extent, the National College Entrance Examination(NCEE) is the most important test for the majority of Chinese high school students, which can be seemed as a high-level question-and-answer process. The background of this paper is a question answering system focused on the geography questions of the NCEE. And our work pays more attention to the multiple-choice questions. In the process of developing this QA system, we are faced with many challenges, unlike those we meet in traditional QA systems. Firstly, the style of questions is quite different. Secondly, the questions are much more flexible, which means we can hardly match the question with the original texts in the knowledge base directly.
 
@@ -441,13 +441,13 @@ AMR有多种表现形式，根据定义可以以一个图的方式呈现出来�
 
 AMR也可以用逻辑三元组的来表示，上面的例子可以表示成：
 \begin{lstlisting}[language=C]
-   instance(w, want-01) \^      /* w 是want的实例 */ 
-   instance(b, boy) \^          /* b 是boy的实例 */ 
-   instance(b2, believe-01) \^  /* b2 是believing的实例 */ 
-   instance(g, girl) \^         /* g 是girl的实例 */ 
-   ARG0(w, b) \^                /* b 是want的发起者 */ 
-   ARG1(w, b2) \^               /* b2 是被want的东西 */ 
-   ARG0(b2, g) \^               /* g 是believe的人 */ 
+   instance(w, want-01) ^      /* w 是want的实例 */ 
+   instance(b, boy) ^          /* b 是boy的实例 */ 
+   instance(b2, believe-01) ^  /* b2 是believing的实例 */ 
+   instance(g, girl) ^         /* g 是girl的实例 */ 
+   ARG0(w, b) ^                /* b 是want的发起者 */ 
+   ARG1(w, b2) ^               /* b2 是被want的东西 */ 
+   ARG0(b2, g) ^               /* g 是believe的人 */ 
    ARG1(b2, b)                 /* b 是被believe的人 */
 \end{lstlisting}
 
@@ -648,11 +648,11 @@ Flanigan等人\cite{Flanigan2014}将AMR解析分成两个阶段：第一个阶�
 
 在本章开头曾经介绍过，AMR可以以逻辑三元组集合的形式表示出来，例如对于图\ref{twoamr}中左边的AMR，可以表示成：
 \begin{lstlisting}[language=C]
-   instance(a, want-01) \^ 
-   instance(b, boy) \^ 
-   instance(c, go-01) \^ 
-   ARG0(a, b) \^ 
-   ARG1(a, c) \^ 
+   instance(a, want-01) ^ 
+   instance(b, boy) ^ 
+   instance(c, go-01) ^ 
+   ARG0(a, b) ^ 
+   ARG1(a, c) ^ 
    ARG0(c, b)
 \end{lstlisting}
 
@@ -776,7 +776,7 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 对于公共部分右边界的情况，根据定义也可以分成三种：与题面和选项的边界相同；位于题面内部；位于选项中逗号前的部分。但是位于题面内部这种情况在我们标注的数据中几乎没有出现过。所以这里给出一些试题文本的例子来说明另两种情况：
 \begin{enumerate}
   \item 位于题面选项边界：根据左图中等温线分布特点可知，例如“该海区@/在北半球，A处有暖流经过”。
-  \item 位于选项中逗号前：由08时到20时，例如“图中甲地/风向偏北，风力逐渐减弱”。
+  \item 位于选项中逗号前：由08时到20时，例如“图中@甲地/风向偏北，风力逐渐减弱”。
 \end{enumerate}
 
 此外，在问题描述中，我们提及拆分后得到的句子应该能够表达原试题文本的语义，但是有一种情况例外，即试题文本的选项中，逗号隔开的两个部分之间，存在潜在的因果关系，即没有明确的关系连词，但从逻辑上来说存在一定因果相关性。例如“2000年到2012年，崇明县城镇化水平不断提高的主要原因是@/第一产业效率提高，农村出现剩余劳力”这句话中，实际上“第一产业效率提高”是“农村出现剩余劳力”的一个原因，这里有篇章上的隐式因果关系\cite{liyancui2015}。这里如果拆开成两个句子，则两者之间的隐式因果关系就不能体现出来。但我们仍然认为这样的试题文本是可拆分的，原因有二：一是前文中提到，做选择题拆分的目的是为了简化后续句法分析、语义理解的难度，尤其为试题模板换提供更加简短的输入，而在模板化中，原本就不会体现这种隐式的因果关系，而是将前后两个部分作为两个独立的事实来考虑；二是从自然语言处理的角度来说，这样的因果关系几乎不能从语法层面获知，只有基于一定的背景知识和具备一定的推理能力的前提下，才能发现这层隐式因果关系，所以识别难度很大，因此不做识别。
