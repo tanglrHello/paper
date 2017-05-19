@@ -100,7 +100,7 @@
 % 设置论文的英文封面
 
 % 论文的英文标题，不可换行
-\englishtitle{Sentence Comprehension in NCEE Geography Question Answering}
+\englishtitle{Sentence Comprehension in NCEE Geography Question Answering System}
 % 论文作者姓名的拼音
 %\englishauthor{}
 \englishauthor{Lianrui Tang}
@@ -182,7 +182,7 @@ Artificial intelligence is changing the world rapidly. In the field of natural l
 
 To some extent, the National College Entrance Examination(NCEE) is the most important test for the majority of Chinese high school students, which can be seemed as a high-level question-and-answer process. The background of this paper is a question answering system focused on the geography questions of the NCEE. And our work pays more attention to the multiple-choice questions. In the process of developing this QA system, we are faced with many challenges, unlike those we meet in traditional QA systems. Firstly, the style of questions is quite different. Secondly, the questions are much more flexible, which means we can hardly match the question with the original texts in the knowledge base directly.
 
-As the first step of automatic question-answering, question understanding plays a key role for the whole system, which is the key point of this paper as well. Our strategy is as follows: for each choice, we join it with the question to get a complete sentence, which will be used as a basic subject for analysis. Then we work on improving the understanding of the sentences through the following two aspects: 1. Splitting long, complicated sentences to several short, simple ones; 2. Using AMR to do deep semantic parsing. 
+As the first step of automatic question-answering, question understanding plays a key role for the whole system, which is the key point of this paper as well. Our strategy is as follows: for each choice, we join it with the question to get a complete sentence, which will be used as a basic subject for analysis. There are two common types of comprehension for text: one is the discourse analysis between clauses, and another is deep semantic parsing for the sentences. Thus we work on improving the understanding of the sentences through the following two aspects: 1. Classify the relationship of the parts separated by comma in long and complicated sentences; 2. Using AMR to do deep semantic parsing. 
 
 For splitting sentence, we propose a method of splitting by the commas in the choices, according to the feature of multiple-choice questions. Then possibly we may transform long original sentences into several semantically equivalent shorter sentences, thus promote the performance of the following processing stages. In this part, we put forward a two-stage method, using MaxEntropy classifier and a rule-based method in each stage respectively. First, we recognize whether the comma in the choice could be seen as a splitter. Second, find out the right border of the common prefix for the coordinate structure in the sentence.
 
@@ -293,7 +293,7 @@ In order to support the two parts of work mentioned above, we developed a annota
 
 \subsection{逗号分类体系}
 \label{commaclssify}
-李艳翠对逗号的分类参考了Yang Y.Q.\cite{Yang2012Chinese}的研究工作，介绍他们在研究中文篇章关系时整理出的逗号在句子中的功能分类，这个分类与我们对逗号功能的判断和应用比较吻合。在第\ref{section:split_method}节中，我们会详细介绍地理试题文本中的逗号使用情况，并描述地理试题的分类的标准与上述的逗号分类体系之间的关联。
+李艳翠对逗号的分类参考了Yang Y.Q.\cite{Yang2012Chinese}的研究工作，介绍他们在研究中文篇章关系时整理出的逗号在句子中的功能分类，这个分类与我们对逗号功能的判断和应用比较吻合。在第\ref{section:geodatafeature}节中，我们会详细介绍地理试题文本中的逗号使用情况，并描述地理试题的分类的标准与上述的逗号分类体系之间的关联。
 
 该工作将逗号的使用方法划分为7类，首先把逗号的使用方法在总体上分为两大类：一类是逗号连接的两个句子片段之间存在关系，即逗号是子句边界；另一类是两个句子片段之间不存在关系，不能视作是子句或者是篇章的边界。两个子句之间存在的关系又可以分为并列关系和从属关系：并列关系可以分为三种类型（SB、IP\_COORD、VP\_COORD），从属关系也分为三种类型（ADJ、COMP、SBJ），图\ref{comma_types}展示了这个分类体系。
 
@@ -363,7 +363,7 @@ In order to support the two parts of work mentioned above, we developed a annota
 本文工作主要涉及并列篇章关系的识别，并列关系的并列项是叙述相关的几件事情或同一事物的几个方面，相关是在意义上并存、平行或对立。并列项可以是词、短语，也可以是句子。并列项可以互换位置，并列项逻辑上不互相依赖。
 
 \section{语义理解}
-语义理解分为浅层语义理解和深层语义理解两类。浅层语义理解的实现方式包括语义角色标注，深层的语义理解也有很多不同的做法，例如语义依存分析，AMR等。由于本文的一个工作重点是AMR，所以本节会简要介绍语义角色标注和语义依存分析这两项研究，详细介绍AMR的相关知识。
+语义理解分为浅层语义理解和深层语义理解两类。浅层语义理解的实现方式包括语义角色标注，深层的语义理解也有很多不同的做法，例如语义依存分析，AMR等。在本节中，会给出AMR的概念，关于AMR更详细的背景知识将在第\ref{amrback}节AMR背景知识中给出。
 
 \subsection{语义角色标注}
 语义角色标注（semantic role labeling, SRL）任务是找出句子中的所有谓词，并找出每个谓词在句中所有的论元，并标明论元的语义角色。一个谓词与其对应的论元集合形成一个命题，一个句子可能包含多个命题。例如“[委员会 Agent][明天 Tmp]将要[通过 V][此议案 Passive]”，其中“通过”是谓语动词，“委员会”、“此议案”、“明天”分别是其施事、受事和动作发生的时间\cite{LiuHJ2007}。
@@ -467,13 +467,13 @@ AMR是一种有向图表示，其中图的边和节点的关系应满足一些�
 \end{enumerate}
 
 \section{本章小结}
-本章主要介绍了基于短语的统计机器翻译系统的各部分重点内容。首先介绍了短语机器翻译的整体框架与流程。在此基础上，分别介绍了短语机器翻译的建模方法，参数训练方法，解码方法等内容。
+本章主要介绍了文本理解的两种主要的研究类型，即篇章分析和语义理解。
 
-短语翻译系统通过最小错误率训练进行对数线性模型的参数调节，在开发集上，直接对翻译评价指标进行参数调节，每次调节一维参数，经过多轮迭代获得最优参数。统计机器翻译最常用的自动评价指标为BLEU。
+篇章分析首先需要识别出大段文本中的基本篇章单位，可能是一个完整的句子，也可能是一个句子中的一个子句。子句通常可以由标点符号隔开，包括逗号、分号等等。其中，逗号的作用最为复杂，也是分割子句的标点中最常见的一种。本章介绍了在中文篇章分析中逗号功能的分类体系，将逗号分为前后句子成分有关和无关的两种；其中存在关系的一类逗号还分为并列关系、从属关系两种。在完成识别子句后，则需要根据句子中的连接词确定子句之间的篇章语义关系。
 
-短语翻译系统采用了对数线性模型进行建模，可以自然地使用各种特征。短语翻译系统主要使用了翻译概率、词汇化调序概率、语言模型概率、词计数、短语计数等特征。为了减少搜索空间，降低搜索复杂度，短语翻译系统采用了一种启发式搜索算法：柱搜索解码算法。柱搜索算法通过源端词数维护搜索栈，即翻译了相同源端词数的假设置于同一个栈中。柱搜索算法的核心是假设扩展和假设剪枝。翻译系统通过将翻译选项的目标端连接到局部假设之后，并同时更新假设的各项特征值来进行假设扩展。翻译系统通过局部假设的特征值得分和未来代价估计相加进行局部假设的得分估计，并使用该得分估计进行剪枝，提高了局部假设之间的可比较性，从而降低了搜索错误。在假设扩展过程中，为了进一步减少搜索空间，翻译系统通过假设重组，丢弃无效假设。
+语义识别则包括浅层语义识别和深层语义识别两种。浅层语义识别包括语义角色标注任务，该任务需要识别出句子中的所有谓词，以及每一个谓词拥有的所有论元，一个谓词及其所有论元即是一个命题。而深层语义识别不仅识别出句子中谓词及其论元的关系，对于非谓词的词语与其他词语的关系也要进行识别。
 
-本文中提出的交互式机器翻译相关内容均建立在短语翻译系统的基础上，特别是短语翻译系统的短语表、解码方法、模型参数训练等内容上。对短语机器翻译系统中的关键部分的理解有助于对本文的理解。
+本文所做的两项针对地理试题中选择题问句的理解工作，一项是基于选项中的逗号，对逗号隔开的成分之间的关系进行分类，将长句分割成可能的短句，简化后续句法分析及语义理解的输入；另一项是用AMR对选择题文本进行深层语义理解，试图找出其中有用的语义关系，帮助生成解题所需的语义模板。篇章分析和语义理解这两种文本理解研究是本文工作与通用文本理解工作之间的桥梁。
 
 \chapter{地理选择题选项拆分}
 \label{chapter:split}
@@ -482,7 +482,7 @@ AMR是一种有向图表示，其中图的边和节点的关系应满足一些�
 
 在地理试题中，尤其是选择题中，我们观察到一个现象：选择题的一个选项中（不考虑题面）经常包含一个或一个以上的逗号，而这个逗号常常隔开了两个或以上可以独立判断正误的陈述，但也有一些逗号隔开的是具有因果、递进等关系的子句篇章。如果我们可以判断出哪些逗号隔开的是相对独立的两件事情，哪些逗号不能用来作为分割点隔开长句中两个句法上并列的部分，则可以在合适的场景下，将较长的陈述句拆解成多个更简短的句子，从而减小例如句法分析及语义理解的分析难度。
 
-在篇章关系分类中，这种可拆解的关系可以被视为是并列篇章关系。我们放宽了并列篇章关系的定义，不要求并列项在逻辑上完全不互相依赖，除非存在显式的连接词。在地理选择题中，选项中逗号隔开的两部分经常会有隐式的因果关系，因为后续的工作不要求对隐式因果关系做识别，实际上这种关系的识别也非常困难。在第\ref{section:split_method}节中，会详细举例说明这种情况。
+在篇章关系分类中，这种可拆解的关系可以被视为是并列篇章关系。我们放宽了并列篇章关系的定义，不要求并列项在逻辑上完全不互相依赖，除非存在显式的连接词。在地理选择题中，选项中逗号隔开的两部分经常会有隐式的因果关系，因为后续的工作不要求对隐式因果关系做识别，实际上这种关系的识别也非常困难。在第\ref{geodatafeature}节中，会详细举例说明这种情况。
 
 为了更好地处理选择题中选项包含了逗号的长句，我们根据逗号分开的两个句子部分的上下文特征，判断该逗号隔开的是否是句法上可以视作并列的两个部分，再用启发式的规则方法寻找公共部分右边界，进而将一些长句转换为几个短句。我们使用了最大熵模型进行分类，本章将介绍整个实验的方法及结果。
 
@@ -502,6 +502,7 @@ Jinhui Li等人\cite{Li2008}提出了另一种可以处理中英文句子的层�
 总的来说，利用中文长句中的逗号进行句子切分，并没有一个十分明确的标准，有些研究是从句法树的角度出发，认为逗号是否能够切分句子，取决于人工标注的句法树是否将逗号前后两个部分表示成独立的子树；有些则是先在所有逗号处进行切分，再根据并列结构等的句法特点，识别出不应作为切分点的逗号并修正；还有些是从逗号在篇章切分中的作用出发，结合句法特点来对逗号进行分类。如何利用逗号来得到更简短的句子，要考虑到切分结果对某种应用场景（比如句法分析）的作用，也就是明确切分的目的是为了什么，并结合所处理的语料特点，选择合适的分类标准，从而用逗号将长句切分成短句。
 
 \section{地理试题文本特点}
+\label{geodatafeature}
 选择题是高考地理试题中的一种重要的题型，占了大约一半的比重，在工作中，我们首先考虑对选择题的理解。本节先介绍一下地理试题的基本特点，以及我们怎样将选择题处理成完整的句子。
 
 一道选择题通常由四个选项组成，每个选项可能是一句文字描述，也可能是一些小选项的组合（例如“\textcircled{1}\textcircled{2}\textcircled{3}”，小选项则属于题面的一部分）。由于我们重点是要理解选择题文本所表述的内容是否正确，所以通常是以“题面+选项文本”组成的完整句子作为一个待理解的对象。对于选项为小选项组合的情况，我们将小选项的内容找出来，和题面的其他部分拼接起来，得到一个完整的句子。
@@ -884,7 +885,7 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 			\hline
 		\end{tabular}
 	\end{center}
-	\caption{\label{boundary} 后处理的影响}
+	\caption{\label{boundary} 公共部分右边界识别算法性能}
 \end{table}
 本节使用第\ref{boundary_rec}节中介绍的基于规则的方法，对数据集中所有可以拆分的数据进行公共部分右边界的识别。实验结果如表\ref{boundary}所示。实验结果表明该方法是可行的。对识别错误的样本给出如下分析：
 \begin{enumerate}
@@ -919,7 +920,7 @@ AMR表示是一种图表示方法\cite{Banarescu2013Abstract}，对人来说，A
 
 L Banarescu等人\cite{banarescu2012abstract}在2012年提出了第一个版本的AMR标注规范，明确了AMR应该如何标注，并给出了大量的标注示例，说明了怎么选择根节点、节点的内容应该怎样确定、关系标签的类型、常见句式中如何添加新的抽象节点及标注关系标签、如何标注命名实体和数字时间及其它各类型实体等等。在这个标注规范的基础上，L Banarescu等人\cite{Banarescu2013Abstract}在2013年公布了一个英文的AMR标注图库，包含大约5000句标注文本。
 
-在中文方面，李斌等\cite{Li2016Annotating}在《小王子》语料上标注了一个AMR图库，总共包含1562个句子，并且一个5000句以上的基于CTB的AMR图库正在标注过程中，本文也用到了这个新的语料。中文的语法表达比英文更加随意，例如有时会出现一个谓词在句子中不是连续的字序列，而是被别的词语分割开来（例如“帮了很大的忙”中的谓词“帮忙”）。他们对一些中文AMR标注中特殊之处进行了详细说明，成为AMR应用于中文的一个开创性的工作。此外，在英文的AMR标注中，没有标注图中的概念节点与原句中的词语的对齐关系，通常借助自动对齐算法来进行对齐，因此可能会损失一定的准确性。在这项中文AMR标注工作中，还加入了对齐信息的标注，包括概念节点的对齐以及少部分边的对齐信息。
+在中文方面，李斌等\cite{Li2016Annotating}在《小王子》语料上标注了一个AMR图库，总共包含1562个句子，并且一个5000句以上的基于CTB的AMR图库正在标注中，本文也用到了这个新的语料。中文的语法表达比英文更加随意，例如有时会出现一个谓词在句子中不是连续的字序列，而是被别的词语分割开来（例如“帮了很大的忙”中的谓词“帮忙”）。他们对一些中文AMR标注中特殊之处进行了详细说明，成为AMR应用于中文的一个开创性的工作。此外，在英文的AMR标注中，没有标注图中的概念节点与原句中的词语的对齐关系，通常借助自动对齐算法来进行对齐，因此可能会损失一定的准确性。在这项中文AMR标注工作中，还加入了对齐信息的标注，包括概念节点的对齐以及少部分边的对齐信息。
 
 有了AMR语料库之后，陆续出现了一些AMR自动解析的算法。最早的公开工作是来自Flanigan等人\cite{Flanigan2014}在2014年提出的一种两阶段的图算法，将AMR解析分成概念节点识别和概念节点间的边预测两个步骤。对于边的预测，采用了一种类似最大生成树算法的方式，得到所有概念节点间相互连接形成的连通图。Angeli等人\cite{Angeli2014}对于AMR子图的生成提出了一种健壮性更强的方法。随后在2015年，Wang Chuan\cite{Wang2015}等人发现AMR的表示方法有一部分与句法分析的结果比较相似，受到基于转换的句法分析算法的启发，他们提出了一种基于转换的AMR解析算法，并设计了一套适用于AMR图生成的转换方法：在句子的依存句法分析结果的基础上，每次预测一种转换动作，一步步将句法分析的结果转换成AMR的表示。Pust等人\cite{Pust2015}于同年提出了使用基于语法的机器翻译的方法来做AMR的解析，这篇研究将英文句子到AMR表示的转换看成是一种string到tree的翻译过程，并设计了一种AMR表示下的语言模型。Lucy Vanderwende等人\cite{Vanderwende2015}的工作则支持对英文、法文、德文、西班牙文、日文的AMR解析，他们设计了一些逻辑形式（Logical Form）到AMR的转换规则，通过这样的方法来实现对上述语言的解析，这些语言还没有可用的AMR语料库，因此这篇文章对于AMR在其他语言中的扩展也有重要的借鉴意义。
 
@@ -928,6 +929,7 @@ AMR作为一种语义表示方法，被寄希望于提高多项nlp任务的性�
 目前已知的AMR英文语料规模达到了4万多句，中文的大规模语料库预计也将于不久之后公开。随着更多可用语料的出现，对AMR自动解析和将AMR应用于其他自然语言处理任务的研究会越来越多，因此AMR是一种具有潜力的语义表示方法。尽管目前在中英文上的AMR自动解析效果还不尽如人意，但是AMR的出现为语义分析和自然语言理解提供了一个全新的研究方向。
 
 \section{AMR背景知识}
+\label{amrback}
 \subsection{标注体系}
 AMR主要有两个部分组成：概念（节点）、概念间的关系（边）。下面将从这两个方面介绍AMR的标注体系。
 
@@ -1005,7 +1007,7 @@ AMR在英文标注中大约有100种关系，比较常见的可以大致分成�
 除了上面列举的，还有一些其他的关系标签，不再一一列举。
 
 \subsection{语料对齐}
-\label{subsubsection:aligndata}
+\label{aligndata}
 AMR的语料对齐，即是将原句中的词语、词组与AMR图中的一个概念节点或者一个概念节点子图（例如一个时间概念子图，包括一个date-entity概念及其指向的表示年、月、日等信息的节点）进行对齐，对齐结果对于自动解析算法有着重要的作用，例如在概念识别等阶段。图\ref{amr_align}给出了一个AMR节点与句子词语之间的对齐示意图。
 
 \begin {figure}[!htbp]
@@ -1132,14 +1134,14 @@ smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回�
 所以这个例子的smatch得分就是所有映射方式中所能得到的最大的F值0.73。虽然smatch的概念很简单明了，但是计算起来实际上没有这么简单，对于包含大量节点的AMR，枚举所有的可能的映射方式的时间复杂度很高，所以有一些高效的算法被用于计算近似的smatch值，例如爬山法等等，这超过了本文的介绍范围，所以不再展开。
 
 \section{中文AMR分析}
-据我们所知，目前还没有针对AMR中文语料进行自动解析的算法及实验结果。在本节中我们将介绍如何中文语料建设的现状，如何将AMR自动解析算法应用到中文数据上。我们的分析算法部分是基于Flanigan等人\cite{Flanigan2014}提出的两阶段的图算法JAMR，对中文处理部分替换一些模块，以及对第\ref{subsubsection:aligndata}小节中提到的对齐语料进行对齐信息的提取，以满足JAMR的需求。
+据我们所知，目前还没有针对AMR中文语料进行自动解析的算法及实验结果。在本节中我们将介绍如何中文语料建设的现状，如何将AMR自动解析算法应用到中文数据上。我们的分析算法部分是基于Flanigan等人\cite{Flanigan2014}提出的两阶段的图算法JAMR，对中文处理部分替换一些模块，以及对人工对齐语料进行对齐信息的提取，以满足JAMR的需求。
 
 \subsection{中文语料建设}
 目前，在中文上已发表的AMR语料，已知的只有1500句左右的小王子无对齐标注语料\cite{Li2016Annotating}；有幸与李斌老师带领的中文AMR标注小组合作，我们获得了有对齐标注的小王子语料、有对齐标注的基于CTB语料的AMR标注，以及729句地理选择题试题文本（题面+一个选项组成的完整句子）的AMR标注数据。
 
 \subsection{对齐标注的转换}
 \label{subsection:dataalign}
-在第\label{subsubsection:aligndata}小节，我们详细介绍了对齐的含义，以及有对齐的标注语料是如何标注这个信息的。对齐信息将会用于AMR解析的第一步，即concept识别阶段；此外，实际上这个对齐信息就是JAMR算法第一阶段想要得到的结果，也可以直接将这个对齐结果作为第二阶段预测的输入，以此来单独观察算法在两个阶段的性能表现。
+在第\ref{aligndata}小节，我们详细介绍了对齐的含义，以及有对齐的标注语料是如何标注这个信息的。对齐信息将会用于AMR解析的第一步，即concept识别阶段；此外，实际上这个对齐信息就是JAMR算法第一阶段想要得到的结果，也可以直接将这个对齐结果作为第二阶段预测的输入，以此来单独观察算法在两个阶段的性能表现。
 
 英文语料中没有标注对齐，JAMR中使用了一种基于规则的自动对齐方法来对齐，可以达到约90\%的F值\cite{Flanigan2014}。例如对于句子“Why should any one be frightened by a hat ? ”的AMR标注为：
 \begin{lstlisting}[language=C]
@@ -1231,6 +1233,10 @@ JAMR会得到下面这样的对齐信息：\par
 \subsection{封闭测试}
 我们对表\ref{amrdatas}提到的五个中英文数据集都做了封闭测试，将表格中说明的测试集和训练集的数据合并起来，作为封闭测试的训练和测试数据，开发集保持不变。实验结果如表\ref{closetest}所示。该测试对于中文，是使用JAMR自带的自动对齐算法做概念的对齐。
 
+这里我们主要对比中英文小王子语料的实验结果，因为这两个语料是平行语料，可以排除句子长度、句子类型（口语化还是正式）、语料规模带来的影响。从实验结果来看，对于英文的AMR解析，仅使用小王子1500句的语料，JAMR的两阶段测试总体F值可以达到73.0\%，可以说明该模型对于AMR的结构具有一定的处理能力；如果直接使用标注AMR对齐出的概念作为概念识别的结果，只进行第二阶段的预测，F值可以达到84.4\%。而对中文AMR的解析，两阶段测试的F值只有49.2\%，比英文低23.8\%；仅预测第二阶段的F值为54.0\%，比英文低29.6\%。
+
+smatch（gold）概念指标可以反映第二阶段预测的情况，Span识别则反映第一阶段识别的情况。从实验结果可以看出，中英文的第一阶段识别性能差不多，而第二阶段（关系）识别则拉开了很大的差距，第二阶段的识别与句子内部的结构关系紧密，与句法特征等等比较有关。
+
 \begin{center}
 	\begin{table}[!htbp]
 		\resizebox{\textwidth}{!}{
@@ -1247,10 +1253,6 @@ JAMR会得到下面这样的对齐信息：\par
 		\caption{\label{closetest} AMR中英文封闭测试性能}
 	\end{table}
 \end{center}
-
-这里我们主要对比中英文小王子语料的实验结果，因为这两个语料是平行语料，可以排除句子长度、句子类型（口语化还是正式）、语料规模带来的影响。从实验结果来看，对于英文的AMR解析，仅使用小王子1500句的语料，JAMR的两阶段测试总体F值可以达到73.0\%，可以说明该模型对于AMR的结构具有一定的处理能力；如果直接使用标注AMR对齐出的概念作为概念识别的结果，只进行第二阶段的预测，F值可以达到84.4\%。而对中文AMR的解析，两阶段测试的F值只有49.2\%，比英文低23.8\%；仅预测第二阶段的F值为54.0\%，比英文低29.6\%。
-
-smatch（gold）概念指标可以反映第二阶段预测的情况，Span识别则反映第一阶段识别的情况。从实验结果可以看出，中英文的第一阶段识别性能差不多，而第二阶段（关系）识别则拉开了很大的差距，第二阶段的识别与句子内部的结构关系紧密，与句法特征等等比较有关。
 
 在Levy等人的工作\cite{Levy2003Is}中，论述了对中英文进行句法分析的难度差异。在Durrett等人在2015年的工作\cite{Durrett2015Neural}中，对比了多种句法分析方法在英文句法分析上的性能，其中最高的F值可以达到92.4\%，是使用集成方法达到的。而在Zhang等人2011年的工作\cite{Zhang2011Syntactic}给出的多个方法的性能比较中，在CTB语料上进行句法分析的最好F值为80.4\%。中文句法分析在性能上与英文仍有明显的落后，而句法特征是AMR训练和预测使用的重要特征，因此句法分析上的错误是中文AMR解析性能明显差于英文的一个重要原因。
 
@@ -1313,7 +1315,7 @@ CTB语料的平均句长为21.8，小王子的平均句长为12.9，地理试题
 \hline 地理选择题（人工对齐） & 48.9\% & 26.6\% & \textbf{34.4}\% & 62.1\% & 50.1\% & 55.5\% & 72.5\% & 46.2\% & 56.4\% \\
 \hline
 \end{tabular}}
-\caption{\label{align_exp} 中文AMR人工对齐数据的影响}
+\caption{\label{align_exp} 中文AMR对齐方式的影响}
 \end{table}
 \end{center}
 
