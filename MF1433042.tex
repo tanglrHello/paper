@@ -66,7 +66,7 @@
 % 设置论文的中文封面
 
 % 论文标题，不可换行
-\title{高考地理问答系统中的句子理解研究}
+\title{面向高考自动问答的地理试题文本分析和数据标注研究}
 % 论文作者姓名
 \author{汤莲瑞}
 % 论文作者联系电话
@@ -135,10 +135,10 @@
 
 % 设置英文摘要页面的论文标题及副标题的第一行。
 % 此属性可选，其默认值为使用|\englishtitle|命令所设置的论文标题
-\englishabstracttitlea{Sentence Comprehension in NCEE Geography}
+\englishabstracttitlea{Study of Comprehension and Data Annotation For NCEE Geography Automatic Question-Answering}
 % 设置英文摘要页面的论文标题及副标题的第二行。
 % 此属性可选，其默认值为空白
-\englishabstracttitleb{ Question Answering System}
+\englishabstracttitleb{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -1137,7 +1137,22 @@ smatch就是计算两个AMR表示的三元组之间匹配的准确率、召回�
 据我们所知，目前还没有针对AMR中文语料进行自动解析的算法及实验结果。在本节中我们将介绍如何中文语料建设的现状，如何将AMR自动解析算法应用到中文数据上。我们的分析算法部分是基于Flanigan等人\cite{Flanigan2014}提出的两阶段的图算法JAMR，对中文处理部分替换一些模块，以及对人工对齐语料进行对齐信息的提取，以满足JAMR的需求。
 
 \subsection{中文语料建设}
-目前，在中文上已发表的AMR语料，已知的只有1500句左右的小王子无对齐标注语料\cite{Li2016Annotating}；有幸与李斌老师带领的中文AMR标注小组合作，我们获得了有对齐标注的小王子语料、有对齐标注的基于CTB语料的AMR标注，以及729句地理选择题试题文本（题面+一个选项组成的完整句子）的AMR标注数据。
+目前，在中文上已发表的AMR语料，已知的只有1500句左右的小王子无对齐标注语料\cite{Li2016Annotating}；有幸与李斌老师带领的中文AMR标注小组合作，我们获得了有对齐标注的小王子语料、有对齐标注的基于CTB语料的AMR标注。
+
+在地理试题上，我们也获得了一个729句地理选择题试题文本（题面+一个选项组成的完整句子）的AMR标注数据。地里试题是一类语义明确的文本，因此也比较适合标注语义表示。一个例子如下：
+\begin{lstlisting}[language=C]
+# ::id test_amr.50 ::2017-03-22 22:01:22
+# ::snt 中山站 到 南极点 的 直线 距离 约 为 2070 千米
+(x13 / distance-quantity
+      :quant  (x9 / 2070)
+      :unit  (x10 / 千米)
+      :domain  (x6 / 距离
+            :mod  (x5 / 直线)
+            :mod  (x2 / 到-01
+                  :arg0  (x1 / 中山站)
+                  :arg1  (x3 / 南极点)))
+      :mod  (x7 / 约))
+\end{lstlisting}
 
 \subsection{对齐标注的转换}
 \label{subsection:dataalign}
