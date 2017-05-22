@@ -1038,7 +1038,7 @@
     \cell{3.52cm}{1cm}{\njut@value@department}%
   }
   & {\njut@cap@license@grade}
-  & {2016} \\
+  & {2017} \\
   \hline
   \cell{2.2cm}{1.5cm}{\njut@cap@license@category}
   & \multicolumn{3}{c}{
