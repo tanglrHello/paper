@@ -90,11 +90,11 @@
 % 论文作者所在学校或机构的名称。此属性可选，默认值为``南京大学''。
 \institute{南京大学}
 % 论文的提交日期，需设置年、月、日。
-\submitdate{2017年5月20日}
+\submitdate{2017年5月22日}
 % 论文的答辩日期，需设置年、月、日。
-\defenddate{2017年5月30日}
+\defenddate{2017年5月25日}
 % 论文的定稿日期，需设置年、月、日。此属性可选，默认值为最后一次编译时的日期，精确到日。
-\date{2017年5月20日}
+\date{2017年5月22日}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 设置论文的英文封面
@@ -118,7 +118,7 @@
 % 格式，即``Month day, year''，其中``Month''为月份的英文名全称，首字母大写；``day''为
 % 该月中日期的阿拉伯数字表示；``year''为年份的四位阿拉伯数字表示。此属性可选，默认值为最后
 % 一次编译时的日期。
-\englishdate{May 20, 2017}
+\englishdate{May 22, 2017}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 设置论文的中文摘要
@@ -310,7 +310,7 @@ In order to support the two parts of work mentioned above, we developed a annota
 
 \begin {figure}
 	\centering
-	\includegraphics[width=0.9\linewidth]{{sb_comma}.jpeg}
+	\includegraphics[width=0.8\linewidth]{{sb_comma}.jpeg}
 	\caption{SB类型的逗号}
 	\label{sb_comma}
 \end{figure}
@@ -319,7 +319,7 @@ In order to support the two parts of work mentioned above, we developed a annota
 
 \begin {figure}
 	\centering
-	\includegraphics[width=0.9\linewidth]{{ip_coord}.jpeg}
+	\includegraphics[width=0.7\linewidth]{{ip_coord}.jpeg}
 	\caption{IP\_COORD类型的逗号}
 	\label{ip_coord}
 \end{figure}
@@ -328,7 +328,7 @@ In order to support the two parts of work mentioned above, we developed a annota
 
 \begin {figure}
 	\centering
-	\includegraphics[width=0.9\linewidth]{{vp_coord}.jpeg}
+	\includegraphics[width=0.6\linewidth]{{vp_coord}.jpeg}
 	\caption{VP\_COORD类型的逗号}
 	\label{vp_coord}
 \end{figure}
@@ -401,11 +401,11 @@ AMR是一种有向的、简单的、类似树结构的（树出现环变成图�
 	\label{amrgraph}
 \end{figure}
 
-AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如图\ref{amrgraph}。在图表示方法中，没有入边的节点就是根节点，在该图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。这里总共有四个节点，每个节点都对应一个instance，即节点对应的概念。根节点是“want-01”，后缀“-01”指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，例如arg0和arg1这两个论元。
+AMR有多种表现形式，根据定义可以以一个图的方式呈现出来，如图\ref{amrgraph}。在图表示方法中，没有入边的节点就是根节点，在该图中就是“want-01”对应的节点。这张图是对“The boy wants the girl to believe him”这句话的AMR表示。根节点“want-01”中的后缀“-01”指定了这句中want这个谓词在Propbank体系中对应的语义框架，在这个语义框架下谓词有相应的多个论元，例如arg0和arg1这两个论元。
 
 这句话中有一个“want”动作，它的arg0（谁在want）是“boy”，它的arg1（want的是什么）是一个“believe”的动作；“believe”动作的arg0（谁在believe）是“girl”，它的arg1（believe什么）是“boy”。所以在这里“boy”有两个作用，一是作为“want-01”的arg0，一是作为“belive-01”的arg1，这个节点有两条入边，因此AMR图上出现了一个环，这在AMR中也叫做“重入”（reentrancy）。也正是因为“重入”现象的存在，使得AMR是一种图表示方法，而不是树表示方法。
 
-上图这样的表示方法看起来稍有点复杂，AMR还可以以一种文本方式表达出来：
+AMR还可以以文本方式表达出来：
 
 \begin{lstlisting}[language=C]
 (w / want-01 
@@ -416,7 +416,7 @@ AMR有多种表现形式，根据定义可以以一个图的方式呈现出来�
 \end{lstlisting}
  
 
-第一行即AMR的根节点，冒号后面的标签表示节点之间边的标签，也就是节点之间的关系。每个节点由变量名（斜杠前的部分）和概念（斜杠后的部分）组成（除了多次出现的同一个节点），如果一个节点出现多次，则通过让该节点的变量名多次出现来表示，如该例中的节点b。概念里的斜杠也可以看做是图表示方法中instance的简化表示。
+第一行即AMR的根节点，冒号后面的标签表示节点之间边的标签，也就是节点之间的关系。每个节点由变量名（斜杠前的部分）和概念（斜杠后的部分）组成（除了多次出现的同一个节点），如果一个节点出现多次，则通过让该节点的变量名多次出现来表示，如该例中的节点b。
 
 AMR也可以用逻辑三元组的来表示，上面的例子可以表示成：
 \begin{lstlisting}[language=C]
@@ -853,6 +853,8 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 \subsubsection{后处理的影响}
 基于前两个实验，本实验对可拆分数据在训练集中的比例为原始比例和40\%两种情况，给出使用后处理和不使用后处理的性能比较，如表\ref{postprocess}所示，“正确纠正”指将应该是不可拆分的数据由原本预测为可拆分纠正为不可拆分的次数，“错误纠正”指将应该是可拆分的数据由原本预测为可拆分纠正为不可拆分的次数。
 
+实验结果表明后处理过程对n\_recall有明显提升作用。在训练集40\%的可拆分数据比例下，后处理过程能使n\_recall提升28.5\%，总体识别准确率提升4.4\%。不过需要说明的是，由于我们的不可拆分数据较少，后处理规则是根据数据的特点提出来的，所以可能存在过拟合的现象，在更多的未知数据中的提升不一定有这么明显。
+
 \begin{center}
 \begin{table}[!htbp]
 \resizebox{\textwidth}{!}{
@@ -867,8 +869,6 @@ C 有寒流经过，为热带沙漠气候   D 盛行东南风，为热带季风�
 \caption{\label{postprocess} 后处理的影响}
 \end{table}
 \end{center}
-
-实验结果表明后处理过程对n\_recall有明显提升作用。在训练集40\%的可拆分数据比例下，后处理过程能使n\_recall提升28.5\%，总体识别准确率提升4.4\%。不过需要说明的是，由于我们的不可拆分数据较少，后处理规则是根据数据的特点提出来的，所以可能存在过拟合的现象，在更多的未知数据中的提升不一定有这么明显。
 
 但该过程也同时会将很多可拆分的试题文本错误纠正为不可拆分的，我们观察了具体的结果后发现主要有两种情况：（1）由标注错误引起的错误，例如“图中河流的流向及河流与水渠的关系是@河流自南向北流，河流水补给水渠”被标注为可拆分，实际应该是不可拆分的，因为题面问的是两个问题，如果只和后面的一个部分拼接成句子，则题面中有一部分内容是无用的；（2）由于相似的句式在不同句子在标注时出现了偏差引起的错误，例如“由08时到20时，图中@\textcircled{2}地受高压脊控制，天气持续晴朗”被标注为可拆分，“大红门、动物园服装批发市场@受历史因素影响，形成于传统商业区”、“孟加拉国的降水特征对农业生产的影响是@旱季持续时间长，利于作物成熟”被标注为不可拆分。从我们对拆分的定义上，这些句子应该分类为可拆分（得到两个短句各自有意义且不改变原句意），但从直觉上来说又有一点模糊，前后两部分之间的因果关系较明显，所以对这类错误的纠正是可以接受的。实际上，在考虑模板化工作的需求，这些句子均应标注为不可拆分，所以也可以看成是标注错误。
 
